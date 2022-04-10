@@ -46,7 +46,7 @@ changes related to size and spacing, and not colors due to multiple themes.
 
 ### Global Functions/Helpers
 
-When needed, they will live in `bootstrap/app.php` in a section marked so.
+When needed, they will live in `bootstrap/helpers.php` in a section marked so.
 
 ## Code Conventions
 
