@@ -1,7 +1,9 @@
 <?php
 
-test('example', function () {
-    $response = $this->get('/');
+use App\Models\AsPurchased;
+use App\Models\Ingredient;
 
-    $response->assertStatus(200);
+it('has an as purchased relationship', function () {
+    $ingredient = Ingredient::factory()->has(AsPurchased::factory(), 'asPurchased')->create();
+    expect($ingredient->asPurchased)->toBeInstanceOf(AsPurchased::class);
 });
