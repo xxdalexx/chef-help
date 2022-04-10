@@ -2,7 +2,7 @@
 
 namespace App\Measurements;
 
-enum UsWeights implements MeasurementEnum
+enum UsWeight implements MeasurementEnum
 {
     case oz;
     case lb;

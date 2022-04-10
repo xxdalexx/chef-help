@@ -1,19 +1,19 @@
 <?php
 
 use App\Measurements\UsVolume;
-use App\Measurements\UsWeights;
+use App\Measurements\UsWeight;
 
 it('returns a UsWeight enum case from a string', function ($from, $expected) {
     $type = get_debug_type($expected);
     $returned = $type::from($from);
     expect($returned === $expected)->toBeTrue();
 })->with([
-    ['oz', UsWeights::oz],
-    ['Ounce', UsWeights::oz],
-    ['lb', UsWeights::lb],
-    ['LB', UsWeights::lb],
-    ['pound', UsWeights::lb],
-    ['ton', UsWeights::ton],
+    ['oz', UsWeight::oz],
+    ['Ounce', UsWeight::oz],
+    ['lb', UsWeight::lb],
+    ['LB', UsWeight::lb],
+    ['pound', UsWeight::lb],
+    ['ton', UsWeight::ton],
     ['fl oz', UsVolume::floz],
     ['fluid oz', UsVolume::floz],
     ['cup', UsVolume::cup],
@@ -28,9 +28,9 @@ it('returns a UsWeight enum case from a string', function ($from, $expected) {
 it('returns a factor used for unit conversions', function ($enum, $factor) {
     expect($enum->conversionFactor())->toBe($factor);
 })->with([
-    [UsWeights::oz, 1],
-    [UsWeights::lb, 16],
-    [UsWeights::ton, 2000],
+    [UsWeight::oz, 1],
+    [UsWeight::lb, 16],
+    [UsWeight::ton, 2000],
     [UsVolume::floz, 1],
     [UsVolume::cup, 8],
     [UsVolume::pint, 16],
