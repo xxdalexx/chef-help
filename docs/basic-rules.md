@@ -27,9 +27,9 @@ If a footer is useful it will be preceded by (5) hyphens.
 │       │             │
 │       │             └─⫸ Summary in present tense. Capitalized. No period at the end.
 │       │
-│       └─⫸ Commit Scope: Composer|Design|Docs|Testing
+│       └─⫸ Commit Scope: Composer|Config|Design|Docs|Testing
 │
-└─⫸ Commit Type: New|Refactor
+└─⫸ Commit Type: New|Refactor|Update
 ```
 
 ## Front End
