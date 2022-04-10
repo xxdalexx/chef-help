@@ -6,6 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.1.2",
+        "ext-intl": "*",
+        "ext-gmp": "*",
+        "ext-bcmath": "*",
         "brick/money": "^0.5.3",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.2",
