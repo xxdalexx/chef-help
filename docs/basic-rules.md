@@ -1,7 +1,7 @@
 # Basic Rules
 
 Some basic rules for myself I can update and refer to as needed.  
-Living document that will be updated (in separate commits) as new ideas are formed.
+Living document that will be updated as new ideas are formed.
 
 ### Commits
 
@@ -13,9 +13,11 @@ New types and scopes shouldn't be added until they are used.
 
 A more detailed message expanding on the summary, separated by empty lines.
 
-Scope and detailed messages are optional when the short summary is clear enough on
-smaller commits. This should be avoided and not the norm.
+Scope and/or detailed messages are optional when the short summary is clear enough 
+on smaller commits (ie. Composer/Docs/Etc.). This should be avoided and not the norm.
 
+Docs: Any changes to the documentation files that make more sense to fit with this 
+commit instead of a separte one should be prefaced with Docs:
 -----
 If a footer is useful it will be preceded by (5) hyphens.
 ```
@@ -25,7 +27,7 @@ If a footer is useful it will be preceded by (5) hyphens.
 │       │             │
 │       │             └─⫸ Summary in present tense. Capitalized. No period at the end.
 │       │
-│       └─⫸ Commit Scope: Design|Docs
+│       └─⫸ Commit Scope: Composer|Design|Docs|Testing
 │
 └─⫸ Commit Type: New|Refactor
 ```
@@ -57,3 +59,9 @@ When adding comment blocks to break classes into sections:
 |--------------------------------------------------------------------------
 */
 ```
+
+## Testing
+
+I haven't used PEST before, so I'll use this project to learn it. The goal is to use it exclusively, but PHPUnit will
+remain just in case there is a need to use it for something instead.
+[Testing Doc](testing.md)
