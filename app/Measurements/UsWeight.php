@@ -2,11 +2,11 @@
 
 namespace App\Measurements;
 
-enum UsWeight implements MeasurementEnum
+enum UsWeight: string implements MeasurementEnum
 {
-    case oz;
-    case lb;
-    case ton;
+    case oz = 'oz';
+    case lb = 'lb';
+    case ton = 'ton';
 
     public function conversionFactor(): int
     {
@@ -17,7 +17,7 @@ enum UsWeight implements MeasurementEnum
         };
     }
 
-    public static function from(string $unit): self
+    public static function fromString(string $unit): self
     {
         $unit = strtolower($unit);
 

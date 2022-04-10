@@ -5,7 +5,7 @@ use App\Measurements\UsWeight;
 
 it('returns a UsWeight enum case from a string', function ($from, $expected) {
     $type = get_debug_type($expected);
-    $returned = $type::from($from);
+    $returned = $type::fromString($from);
     expect($returned === $expected)->toBeTrue();
 })->with([
     ['oz', UsWeight::oz],

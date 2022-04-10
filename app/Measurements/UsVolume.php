@@ -2,13 +2,13 @@
 
 namespace App\Measurements;
 
-enum UsVolume implements MeasurementEnum
+enum UsVolume: string implements MeasurementEnum
 {
-    case floz;
-    case cup;
-    case pint;
-    case quart;
-    case gallon;
+    case floz = 'floz';
+    case cup = 'cup';
+    case pint = 'pint';
+    case quart = 'quart';
+    case gallon = 'gallon';
 
     public function conversionFactor(): int
     {
@@ -21,7 +21,7 @@ enum UsVolume implements MeasurementEnum
         };
     }
 
-    public static function from(string $unit): MeasurementEnum
+    public static function fromString(string $unit): MeasurementEnum
     {
         $unit = strtolower($unit);
 
