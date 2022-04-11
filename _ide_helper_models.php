@@ -14,9 +14,6 @@ namespace App\Models{
 /**
  * App\Models\AsPurchased
  *
- * @method static AsPurchased find(int $int)
- * @method static AsPurchased create(array $attributes)
- * @method static int count()
  * @property int $id
  * @property int $ingredient_id
  * @property int $quantity
@@ -42,10 +39,19 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\BaseModel
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BaseModel query()
+ */
+	class BaseModel extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Ingredient
  *
- * @method static Ingredient create(array $array)
- * @method static int count()
  * @property int $id
  * @property string $name
  * @property int $cleaned_yield
@@ -73,10 +79,6 @@ namespace App\Models{
 /**
  * App\Models\Recipe
  *
- * @method static Recipe create(array $attributes)
- * @method static int count()
- * @method static Recipe first()
- * @method static Builder withAllRelations()
  * @property int $id
  * @property string $name
  * @property int $portions
@@ -95,6 +97,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe wherePortions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recipe withAllRelations()
  */
 	class Recipe extends \Eloquent {}
 }
@@ -103,8 +106,6 @@ namespace App\Models{
 /**
  * App\Models\RecipeItem
  *
- * @method static RecipeItem create(array $attributes)
- * @method static int count()
  * @property int $id
  * @property int $recipe_id
  * @property int $ingredient_id
@@ -125,6 +126,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereRecipeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereUnit($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem withFullIngredientRelation()
  */
 	class RecipeItem extends \Eloquent {}
 }
