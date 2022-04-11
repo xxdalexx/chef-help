@@ -15,11 +15,6 @@ class DevController extends Controller
 
     public function index()
     {
-        $lobster = new \stdClass;
 
-        $lobster->name = 'Lobster';
-        $lobster->asPurchased = '12.99 per lb';
-        $lobster->
-        dd($lobster);
     }
 }
