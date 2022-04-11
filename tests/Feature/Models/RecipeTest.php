@@ -17,6 +17,7 @@ test('casts and relationships', function () {
 
 });
 
+
 test('Lobster Dish Seeder', function () {
 
     $this->seed(LobsterDishSeeder::class);
@@ -25,5 +26,37 @@ test('Lobster Dish Seeder', function () {
     expect(AsPurchased::count())->toBe(2);
     expect(Recipe::count())->toBe(1);
     expect(RecipeItem::count())->toBe(2);
+
+});
+
+
+it('gives a total cost', function () {
+
+    $this->seed(LobsterDishSeeder::class);
+
+    $recipe = Recipe::first();
+
+    expect($recipe->totalCostAsString())->toBe('$9.11');
+
+});
+
+
+it('gives a cost per portion', function () {
+
+    $this->seed(LobsterDishSeeder::class);
+
+    $recipe = Recipe::first();
+
+    expect($recipe->costPerPortionAsString())->toBe('$4.56');
+
+});
+
+it('give portion cost percentage', function () {
+
+    $this->seed(LobsterDishSeeder::class);
+
+    $recipe = Recipe::first();
+
+    expect($recipe->portionCostPercentageAsString())->toBe('25.3');
 
 });

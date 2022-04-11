@@ -42,8 +42,8 @@ class LobsterDishSeeder extends Seeder
 
         $recipe = Recipe::create([
             'name'     => 'Lobster Dish',
-            'portions' => 1,
-            'price'    => money('35'),
+            'portions' => 2,
+            'price'    => money('18'),
         ]);
 
         RecipeItem::create([
