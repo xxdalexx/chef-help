@@ -7,10 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @method static RecipeItem create(array $attributes)
- * @method static int count()
- */
 class RecipeItem extends Model
 {
     use HasFactory;
