@@ -46,6 +46,11 @@ changes related to size and spacing, and not colors due to multiple themes.
 
 ## Back End
 
+### Migrations
+
+Until the project is pushed to a production server, all changes can be made directly in the create_table migration
+files.
+
 ### Global Functions/Helpers
 
 When needed, they will live in `bootstrap/helpers.php` in a section marked so.
