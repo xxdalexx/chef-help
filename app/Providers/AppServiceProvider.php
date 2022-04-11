@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,9 +28,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Factory::macro('fakePrice', function () {
-            $first = (string) $this->faker->randomDigit();
-            $second = (string) $this->faker->numberBetween(10,99);
-            return $first .".". $second;
+            return Money::ofMinor(
+                $this->faker->numberBetween(100, 2000),
+                'USD'
+            );
         });
 
         Factory::macro('fakeUnit', function () {

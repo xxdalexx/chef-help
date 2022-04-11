@@ -9,10 +9,17 @@
 use Brick\Math\RoundingMode;
 use Brick\Money\Context\CustomContext;
 use Brick\Money\Money;
+use Illuminate\Support\Str;
 
-function moneyToString(Money $money): string
+function moneyToString(Money $money, $withDollarSign = true): string
 {
-    return $money->to(new CustomContext(2), RoundingMode::UP)->formatTo('en_US');
+    $string = $money->to(new CustomContext(2), RoundingMode::UP)->formatTo('en_US');
+
+    if ($withDollarSign) {
+        return $string;
+    } else {
+        return Str::of($string)->after('$');
+    }
 }
 
 function money($price, $decimalPlaces = 4): Money

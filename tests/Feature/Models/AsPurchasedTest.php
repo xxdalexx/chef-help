@@ -8,5 +8,5 @@ it('belongs to an ingredient', function () {
     $ap = AsPurchased::factory()->make();
     expect($ap->ingredient)->toBeInstanceOf(Ingredient::class);
     expect($ap->unit)->toBeInstanceOf(MeasurementEnum::class);
-    expect($ap->price)->not->toBeNull();
+    expect($ap->price)->toBeMoney();
 });
