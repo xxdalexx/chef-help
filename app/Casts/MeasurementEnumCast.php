@@ -21,17 +21,17 @@ class MeasurementEnumCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        $possible = UsWeight::fromString($value);
-        if ($possible) return $possible;
+        $classes = [
+            UsWeight::class,
+            UsVolume::class,
+            MetricVolume::class,
+            MetricWeight::class
+        ];
 
-        $possible = UsVolume::fromString($value);
-        if ($possible) return $possible;
-
-        $possible = MetricWeight::fromString($value);
-        if ($possible) return $possible;
-
-        $possible = MetricVolume::fromString($value);
-        if ($possible) return $possible;
+        foreach ($classes as $class) {
+            $possible = $class::fromString($value);
+            if ($possible) return $possible;
+        }
 
         return $value;
     }

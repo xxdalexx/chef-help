@@ -24,7 +24,8 @@ enum MetricVolume: string implements MeasurementEnum
 
         return match ($unit) {
             'l', 'liter' => self::liter,
-            'ml', 'milliliter' => self::ml
+            'ml', 'milliliter' => self::ml,
+            default => false
         };
     }
 
