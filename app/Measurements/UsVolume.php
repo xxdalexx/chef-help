@@ -3,9 +3,13 @@
 namespace App\Measurements;
 
 use Brick\Math\BigDecimal;
+use Brick\Math\BigRational;
+use Brick\Math\RoundingMode;
 
 enum UsVolume: string implements MeasurementEnum
 {
+    case tsp = 'tsp';
+    case tbsp = 'tbsp';
     case floz = 'floz';
     case cup = 'cup';
     case pint = 'pint';
@@ -15,12 +19,18 @@ enum UsVolume: string implements MeasurementEnum
     public function conversionFactor(): BigDecimal
     {
         $number = match ($this) {
+            self::tsp => '1/6',
+            self::tbsp => .5,
             self::floz => 1,
             self::cup => 8,
             self::pint => 16,
             self::quart => 32,
-            self::gallon => 128
+            self::gallon => 128,
         };
+
+        if (is_string($number)) {
+            return BigDecimal::of(1)->dividedBy(6, 10, RoundingMode::UP);
+        }
 
         return BigDecimal::of($number);
     }
@@ -35,6 +45,8 @@ enum UsVolume: string implements MeasurementEnum
             'pint', 'pt' => self::pint,
             'quart', 'qt' => self::quart,
             'gal', 'gallon' => self::gallon,
+            'tbsp', 'table spoon' => self::tbsp,
+            'tsp', 'tea spoon' => self::tsp,
             default => false
         };
     }

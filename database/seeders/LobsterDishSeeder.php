@@ -40,6 +40,32 @@ class LobsterDishSeeder extends Seeder
             'price'         => money('6.42'),
         ]);
 
+        $oil = Ingredient::create([
+            'name'          => 'Sesame Seed Oil',
+            'cleaned_yield' => 100,
+            'cooked_yield'  => 100
+        ]);
+
+        AsPurchased::create([
+            'ingredient_id' => $oil->id,
+            'quantity'      => 10,
+            'unit'          => UsVolume::floz,
+            'price'         => money('10.00')
+        ]);
+
+        $vin = Ingredient::create([
+            'name'          => 'Imported Aged White Balsamic Vinegar',
+            'cleaned_yield' => 100,
+            'cooked_yield'  => 100
+        ]);
+
+        AsPurchased::create([
+            'ingredient_id' => $vin->id,
+            'quantity'      => 12,
+            'unit'          => UsVolume::floz,
+            'price'         => money('72.00')
+        ]);
+
         $recipe = Recipe::create([
             'name'     => 'Lobster Dish',
             'portions' => 2,
@@ -61,6 +87,24 @@ class LobsterDishSeeder extends Seeder
             'cleaned'       => false,
             'cooked'        => true,
             'unit'          => UsVolume::cup,
+            'quantity'      => 1,
+        ]);
+
+        RecipeItem::create([
+            'recipe_id'     => $recipe->id,
+            'ingredient_id' => $oil->id,
+            'cleaned'       => false,
+            'cooked'        => false,
+            'unit'          => UsVolume::tbsp,
+            'quantity'      => 1,
+        ]);
+
+        RecipeItem::create([
+            'recipe_id'     => $recipe->id,
+            'ingredient_id' => $vin->id,
+            'cleaned'       => false,
+            'cooked'        => false,
+            'unit'          => UsVolume::tsp,
             'quantity'      => 1,
         ]);
 

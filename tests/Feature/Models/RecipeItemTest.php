@@ -28,5 +28,7 @@ it('has a calculated cost', function ($id, $expectedCost) {
 
 })->with([
     [1, '$7.50'],
-    [2, '$1.61']
+    [2, '$1.61'],
+    [3, '$0.50'],
+    [4, '$1.00']
 ]);

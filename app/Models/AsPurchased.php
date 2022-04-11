@@ -39,7 +39,7 @@ class AsPurchased extends BaseModel
     public function getCostPerBaseUnit(): Money
     {
         return $this->price
-            ->dividedBy($this->unit->conversionFactor(), RoundingMode::UP)
-            ->dividedBy($this->quantity, RoundingMode::UP);
+            ->dividedBy($this->unit->conversionFactor(), RoundingMode::HALF_UP)
+            ->dividedBy($this->quantity, RoundingMode::HALF_UP);
     }
 }

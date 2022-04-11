@@ -55,15 +55,15 @@ class RecipeItem extends BaseModel
     public function getCost(): Money
     {
         $price = $this->ingredient->asPurchased->getCostPerBaseUnit()
-            ->multipliedBy($this->quantity)
-            ->multipliedBy($this->unit->conversionFactor());
+            ->multipliedBy($this->quantity, RoundingMode::HALF_UP)
+            ->multipliedBy($this->unit->conversionFactor(), RoundingMode::HALF_UP);
 
         if ($this->cleaned) {
-            $price = $price->dividedBy($this->ingredient->cleanedYieldDecimal(), RoundingMode::UP);
+            $price = $price->dividedBy($this->ingredient->cleanedYieldDecimal(), RoundingMode::HALF_UP);
         }
 
         if ($this->cooked) {
-            $price = $price->dividedBy($this->ingredient->cookedYieldDecimal(), RoundingMode::UP);
+            $price = $price->dividedBy($this->ingredient->cookedYieldDecimal(), RoundingMode::HALF_UP);
         }
 
         return $price;

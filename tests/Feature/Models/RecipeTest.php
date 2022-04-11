@@ -22,10 +22,10 @@ test('Lobster Dish Seeder', function () {
 
     $this->seed(LobsterDishSeeder::class);
 
-    expect(Ingredient::count())->toBe(2);
-    expect(AsPurchased::count())->toBe(2);
+    expect(Ingredient::count())->toBe(4);
+    expect(AsPurchased::count())->toBe(4);
     expect(Recipe::count())->toBe(1);
-    expect(RecipeItem::count())->toBe(2);
+    expect(RecipeItem::count())->toBe(4);
 
 });
 
@@ -36,7 +36,7 @@ it('gives a total cost', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->totalCostAsString())->toBe('$9.11');
+    expect($recipe->totalCostAsString())->toBe('$10.61');
 
 });
 
@@ -47,7 +47,7 @@ it('gives a cost per portion', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->costPerPortionAsString())->toBe('$4.56');
+    expect($recipe->costPerPortionAsString())->toBe('$5.31');
 
 });
 
@@ -57,6 +57,6 @@ it('give portion cost percentage', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->portionCostPercentageAsString())->toBe('25.3');
+    expect($recipe->portionCostPercentageAsString())->toBe('29.5');
 
 });
