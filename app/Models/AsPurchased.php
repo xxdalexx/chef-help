@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * @method static AsPurchased find(int $int)
  * @method static AsPurchased create(array $attributes)
+ * @method static int count()
  */
 class AsPurchased extends Model
 {

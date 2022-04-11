@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static Recipe create(array $attributes)
+ * @method static int count()
  */
 class Recipe extends Model
 {

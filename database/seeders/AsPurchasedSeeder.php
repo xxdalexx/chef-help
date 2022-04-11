@@ -18,18 +18,6 @@ class AsPurchasedSeeder extends Seeder
      */
     public function run()
     {
-        AsPurchased::create([
-            'ingredient_id' => Ingredient::whereName('Lobster')->first()->id,
-            'quantity' => '1',
-            'unit' => UsWeight::lb,
-            'price' => '12.00',
-        ]);
 
-        AsPurchased::create([
-            'ingredient_id' => Ingredient::whereName('Heavy Cream')->first()->id,
-            'quantity' => '1',
-            'unit' => UsVolume::quart,
-            'price' => '6.42',
-        ]);
     }
 }

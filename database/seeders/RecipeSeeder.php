@@ -15,10 +15,6 @@ class RecipeSeeder extends Seeder
      */
     public function run()
     {
-        Recipe::create([
-            'name' => 'Lobster Dish',
-            'portions' => 1,
-            'price' => money('35'),
-        ]);
+
     }
 }
