@@ -109,6 +109,8 @@ namespace App\Models{
  * @property int $id
  * @property int $recipe_id
  * @property int $ingredient_id
+ * @property bool $cleaned
+ * @property bool $cooked
  * @property mixed $unit
  * @property int $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -119,6 +121,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereCleaned($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereCooked($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereIngredientId($value)

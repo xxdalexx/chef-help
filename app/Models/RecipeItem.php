@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\MeasurementEnumCast;
+use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +14,9 @@ class RecipeItem extends BaseModel
     use HasFactory;
 
     protected $casts = [
-        'unit' => MeasurementEnumCast::class
+        'unit' => MeasurementEnumCast::class,
+        'cleaned' => 'boolean',
+        'cooked' => 'boolean'
     ];
 
     /*
@@ -51,9 +54,19 @@ class RecipeItem extends BaseModel
 
     public function getCost(): Money
     {
-        return $this->ingredient->asPurchased->getCostPerBaseUnit()
+        $price = $this->ingredient->asPurchased->getCostPerBaseUnit()
             ->multipliedBy($this->quantity)
             ->multipliedBy($this->unit->conversionFactor());
+
+        if ($this->cleaned) {
+            $price = $price->dividedBy($this->ingredient->cleanedYieldDecimal(), RoundingMode::UP);
+        }
+
+        if ($this->cooked) {
+            $price = $price->dividedBy($this->ingredient->cookedYieldDecimal(), RoundingMode::UP);
+        }
+
+        return $price;
     }
 
     public function getCostAsString(bool $withDollarSign = true)

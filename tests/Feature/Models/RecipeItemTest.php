@@ -16,7 +16,7 @@ test('relationships and casts', function () {
 
 });
 
-//no account for yield
+
 it('has a calculated cost', function ($id, $expectedCost) {
 
     $this->seed(LobsterDishSeeder::class);
@@ -27,6 +27,6 @@ it('has a calculated cost', function ($id, $expectedCost) {
     expect($item->getCostAsString())->toBe($expectedCost);
 
 })->with([
-    [1, '$6.00'],
+    [1, '$7.50'],
     [2, '$1.61']
 ]);

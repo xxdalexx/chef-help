@@ -8,16 +8,10 @@ use App\Models\AsPurchased;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class LobsterDishSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         $lobster = Ingredient::create([
@@ -52,7 +46,7 @@ class LobsterDishSeeder extends Seeder
             'price'    => money('35'),
         ]);
 
-        $lobsterItem = RecipeItem::create([
+        RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $lobster->id,
             'cleaned'       => true,
@@ -61,7 +55,7 @@ class LobsterDishSeeder extends Seeder
             'quantity'      => 8,
         ]);
 
-        $creamItem = RecipeItem::create([
+        RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $cream->id,
             'cleaned'       => false,
