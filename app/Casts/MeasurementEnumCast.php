@@ -2,6 +2,7 @@
 
 namespace App\Casts;
 
+use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
@@ -27,6 +28,9 @@ class MeasurementEnumCast implements CastsAttributes
         if ($possible) return $possible;
 
         $possible = MetricWeight::fromString($value);
+        if ($possible) return $possible;
+
+        $possible = MetricVolume::fromString($value);
         if ($possible) return $possible;
 
         return $value;

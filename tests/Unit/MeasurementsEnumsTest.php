@@ -1,6 +1,7 @@
 <?php
 
 use App\Casts\MeasurementEnumCast;
+use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
@@ -27,7 +28,9 @@ it('returns a UsWeight enum case from a string', function ($from, $expected) {
     ['qt', UsVolume::quart],
     ['Gallon', UsVolume::gallon],
     ['g', MetricWeight::gram],
-    ['kilogram', MetricWeight::kg]
+    ['kilogram', MetricWeight::kg],
+    ['l', MetricVolume::liter],
+    ['ml', MetricVolume::ml]
 ]);
 
 it('returns a factor used for unit conversions', function ($enum, $factor) {
@@ -42,7 +45,9 @@ it('returns a factor used for unit conversions', function ($enum, $factor) {
     [UsVolume::quart, '32'],
     [UsVolume::gallon, '128'],
     [MetricWeight::kg, '1000'],
-    [MetricWeight::gram, '1']
+    [MetricWeight::gram, '1'],
+    [MetricVolume::ml, '0.001'],
+    [MetricVolume::liter, '1']
 ]);
 
 test('it can be casted to in a model', function ($value, $expected) {
@@ -52,7 +57,8 @@ test('it can be casted to in a model', function ($value, $expected) {
 })->with([
     ['floz', UsVolume::floz],
     ['oz', UsWeight::oz],
-    ['gram', MetricWeight::gram]
+    ['gram', MetricWeight::gram],
+    ['liter', MetricVolume::liter]
 ]);
 
 test('it can be casted from in a model', function ($value, $expected) {
@@ -62,5 +68,6 @@ test('it can be casted from in a model', function ($value, $expected) {
 })->with([
     [UsVolume::floz, 'floz'],
     [UsWeight::oz, 'oz'],
-    [MetricWeight::gram, 'gram']
+    [MetricWeight::gram, 'gram'],
+    [MetricVolume::ml, 'ml']
 ]);
