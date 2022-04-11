@@ -14,6 +14,7 @@ it('returns a new object converted to the base unit with US weights', function (
 
 });
 
+
 //Also tests that the quantity parameter is optional.
 it('returns a new object converted to the base unit with US volume', function () {
 
@@ -25,6 +26,7 @@ it('returns a new object converted to the base unit with US volume', function ()
 
 });
 
+
 it('returns a new converted object with weights', function () {
 
     $unit = new ConvertableUnit(UsWeight::lb, 1);
@@ -34,6 +36,7 @@ it('returns a new converted object with weights', function () {
     expect($converted->getUnit())->toBe(UsWeight::oz);
 
 });
+
 
 it('returns a new converted object with volume', function () {
 
@@ -45,6 +48,7 @@ it('returns a new converted object with volume', function () {
 
 });
 
+
 it('converts to decimals', function () {
 
     $unit = new ConvertableUnit(UsVolume::cup, 1);
@@ -52,6 +56,16 @@ it('converts to decimals', function () {
 
     expect($converted->getQuantityAsString())->toBe('0.5');
     expect($converted->getUnit())->toBe(UsVolume::pint);
+
+});
+
+
+it('throws an exception on type mismatch', function () {
+
+    $this->expectException(Exception::class);
+
+    $unit = new ConvertableUnit(UsVolume::cup, 1);
+    $converted = $unit->convertTo(UsWeight::oz);
 
 });
 

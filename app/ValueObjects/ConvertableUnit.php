@@ -46,6 +46,10 @@ class ConvertableUnit
 
     public function convertTo(MeasurementEnum $unit): self
     {
+        if (get_class($this->unit) != get_class($unit)) {
+            throw new \Exception('Measurement System Mismatch');
+        }
+
         $by = $unit->conversionFactor()->exactlyDividedBy($this->unit->conversionFactor());
 
         $newQuantity = $this->quantity->exactlyDividedBy($by);
