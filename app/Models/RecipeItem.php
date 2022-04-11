@@ -51,8 +51,9 @@ class RecipeItem extends BaseModel
 
     public function getCost(): Money
     {
-        $asPurchased = $this->ingredient->asPurchased;
-        return money(0);
+        return $this->ingredient->asPurchased->getCostPerBaseUnit()
+            ->multipliedBy($this->quantity)
+            ->multipliedBy($this->unit->conversionFactor());
     }
 
     public function getCostAsString(bool $withDollarSign = true)

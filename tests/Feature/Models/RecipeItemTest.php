@@ -16,13 +16,17 @@ test('relationships and casts', function () {
 
 });
 
-//it('has a calculated cost', function () {
-//
-//    $this->seed(LobsterDishSeeder::class);
-//
-//    $item = RecipeItem::withFullIngredientRelation()->first();
-//
-//    expect($item->getCost())->toBeMoney();
-//    expect($item->getCostAsString())->toBe("$7.50");
-//
-//});
+//no account for yield
+it('has a calculated cost', function ($id, $expectedCost) {
+
+    $this->seed(LobsterDishSeeder::class);
+
+    $item = RecipeItem::withFullIngredientRelation()->find($id);
+
+    expect($item->getCost())->toBeMoney();
+    expect($item->getCostAsString())->toBe($expectedCost);
+
+})->with([
+    [1, '$6.00'],
+    [2, '$1.61']
+]);
