@@ -21,49 +21,53 @@ class LobsterDishSeeder extends Seeder
     public function run()
     {
         $lobster = Ingredient::create([
-            'name' => 'Lobster',
+            'name'          => 'Lobster',
             'cleaned_yield' => 80,
-            'cooked_yield' => 80
+            'cooked_yield'  => 80
         ]);
 
         AsPurchased::create([
             'ingredient_id' => $lobster->id,
-            'quantity' => '1',
-            'unit' => UsWeight::lb,
-            'price' => money('12.00'),
+            'quantity'      => '1',
+            'unit'          => UsWeight::lb,
+            'price'         => money('12.00'),
         ]);
 
         $cream = Ingredient::create([
-            'name' => 'Heavy Cream',
+            'name'          => 'Heavy Cream',
             'cleaned_yield' => 100,
-            'cooked_yield' => 100
+            'cooked_yield'  => 100
         ]);
 
         AsPurchased::create([
             'ingredient_id' => $cream->id,
-            'quantity' => '1',
-            'unit' => UsVolume::quart,
-            'price' => money('6.42'),
+            'quantity'      => '1',
+            'unit'          => UsVolume::quart,
+            'price'         => money('6.42'),
         ]);
 
         $recipe = Recipe::create([
-            'name' => 'Lobster Dish',
+            'name'     => 'Lobster Dish',
             'portions' => 1,
-            'price' => money('35'),
+            'price'    => money('35'),
         ]);
 
         $lobsterItem = RecipeItem::create([
-            'recipe_id' => $recipe->id,
+            'recipe_id'     => $recipe->id,
             'ingredient_id' => $lobster->id,
-            'unit' => UsWeight::oz,
-            'quantity' => 8,
+            'cleaned'       => true,
+            'cooked'        => false,
+            'unit'          => UsWeight::oz,
+            'quantity'      => 8,
         ]);
 
         $creamItem = RecipeItem::create([
-            'recipe_id' => $recipe->id,
+            'recipe_id'     => $recipe->id,
             'ingredient_id' => $cream->id,
-            'unit' => UsVolume::cup,
-            'quantity' => 1,
+            'cleaned'       => false,
+            'cooked'        => true,
+            'unit'          => UsVolume::cup,
+            'quantity'      => 1,
         ]);
 
     }

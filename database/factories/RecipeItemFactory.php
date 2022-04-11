@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\RecipeItem>
- * @method fakeUnit()
+ * @method fakeUnit() Macro in appServiceProvider
  */
 class RecipeItemFactory extends Factory
 {
@@ -20,10 +20,12 @@ class RecipeItemFactory extends Factory
     public function definition()
     {
         return [
-            'recipe_id' => Recipe::factory(),
+            'recipe_id'     => Recipe::factory(),
             'ingredient_id' => Ingredient::factory(),
-            'unit' => $this->fakeUnit(),
-            'quantity' => $this->faker->randomDigit()
+            'cleaned'       => $this->faker->boolean(),
+            'cooked'        => $this->faker->boolean(),
+            'unit'          => $this->fakeUnit(),
+            'quantity'      => $this->faker->randomDigit()
         ];
     }
 }
