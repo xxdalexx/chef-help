@@ -2,8 +2,16 @@
 
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
+use App\Models\RecipeItem;
 
-it('has an as purchased relationship', function () {
-    $ingredient = Ingredient::factory()->has(AsPurchased::factory(), 'asPurchased')->create();
+test('relationships and casts', function () {
+
+    $ingredient = Ingredient::factory()
+        ->has(AsPurchased::factory(), 'asPurchased')
+        ->has(RecipeItem::factory()->count(3), 'recipeItems')
+        ->create();
+
     expect($ingredient->asPurchased)->toBeInstanceOf(AsPurchased::class);
+    expect($ingredient->recipeItems)->toBeCollection();
+
 });

@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use App\Casts\MoneyCast;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @method static Recipe create(array $attributes)
- * @method static int count()
- */
 class Recipe extends Model
 {
     use HasFactory;
@@ -23,4 +20,10 @@ class Recipe extends Model
     {
         return $this->hasMany(RecipeItem::class);
     }
+
+    public function scopeWithAllRelations($query): Builder
+    {
+        return $query->with('items.ingredient.asPurchased');
+    }
+
 }
