@@ -2,6 +2,7 @@
 
 namespace App\Casts;
 
+use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
@@ -20,11 +21,12 @@ class MeasurementEnumCast implements CastsAttributes
     public function get($model, string $key, $value, array $attributes)
     {
         $possible = UsWeight::fromString($value);
-
         if ($possible) return $possible;
 
         $possible = UsVolume::fromString($value);
+        if ($possible) return $possible;
 
+        $possible = MetricWeight::fromString($value);
         if ($possible) return $possible;
 
         return $value;
