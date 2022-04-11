@@ -35,7 +35,6 @@ class AppServiceProvider extends ServiceProvider
         Factory::macro('fakeUnit', function () {
             return collect(UsWeight::cases())
                 ->merge(UsVolume::cases())
-                ->pluck('value')
                 ->random();
         });
     }

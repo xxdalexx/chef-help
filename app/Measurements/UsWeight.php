@@ -17,14 +17,15 @@ enum UsWeight: string implements MeasurementEnum
         };
     }
 
-    public static function fromString(string $unit): self
+    public static function fromString(string $unit): self|bool
     {
         $unit = strtolower($unit);
 
         return match ($unit) {
             'oz', 'ounce' => self::oz,
             'lb', 'pound' => self::lb,
-            'ton', => self::ton
+            'ton', => self::ton,
+            default => false
         };
     }
 }

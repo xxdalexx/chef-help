@@ -6,5 +6,5 @@ interface MeasurementEnum
 {
     public function conversionFactor(): int;
 
-    public static function fromString(string $unit): self;
+    public static function fromString(string $unit): self|bool;
 }

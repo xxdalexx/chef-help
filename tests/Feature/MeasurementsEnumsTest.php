@@ -1,7 +1,9 @@
 <?php
 
+use App\Casts\MeasurementEnumCast;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
+use App\Models\AsPurchased;
 
 it('returns a UsWeight enum case from a string', function ($from, $expected) {
     $type = get_debug_type($expected);
@@ -36,4 +38,22 @@ it('returns a factor used for unit conversions', function ($enum, $factor) {
     [UsVolume::pint, 16],
     [UsVolume::quart, 32],
     [UsVolume::gallon, 128],
+]);
+
+test('it can be casted to in a model', function ($value, $expected) {
+    $cast = new MeasurementEnumCast();
+    $casted = $cast->get(new AsPurchased(), 'unit', $value, []);
+    expect($casted)->toBe($expected);
+})->with([
+    ['floz', UsVolume::floz],
+    ['oz', UsWeight::oz],
+]);
+
+test('it can be casted from in a model', function ($value, $expected) {
+    $cast = new MeasurementEnumCast();
+    $casted = $cast->set(new AsPurchased(), 'unit', $value, []);
+    expect($casted)->toBe($expected);
+})->with([
+    [UsVolume::floz, 'floz'],
+    [UsWeight::oz, 'oz'],
 ]);

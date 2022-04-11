@@ -21,7 +21,7 @@ enum UsVolume: string implements MeasurementEnum
         };
     }
 
-    public static function fromString(string $unit): MeasurementEnum
+    public static function fromString(string $unit): MeasurementEnum|bool
     {
         $unit = strtolower($unit);
 
@@ -30,7 +30,8 @@ enum UsVolume: string implements MeasurementEnum
             'cup' => self::cup,
             'pint', 'pt' => self::pint,
             'quart', 'qt' => self::quart,
-            'gal', 'gallon' => self::gallon
+            'gal', 'gallon' => self::gallon,
+            default => false
         };
     }
 }
