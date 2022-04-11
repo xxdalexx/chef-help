@@ -28,16 +28,16 @@ it('returns a UsWeight enum case from a string', function ($from, $expected) {
 ]);
 
 it('returns a factor used for unit conversions', function ($enum, $factor) {
-    expect($enum->conversionFactor())->toBe($factor);
+    expect((string) $enum->conversionFactor())->toBe($factor);
 })->with([
-    [UsWeight::oz, 1],
-    [UsWeight::lb, 16],
-    [UsWeight::ton, 2000],
-    [UsVolume::floz, 1],
-    [UsVolume::cup, 8],
-    [UsVolume::pint, 16],
-    [UsVolume::quart, 32],
-    [UsVolume::gallon, 128],
+    [UsWeight::oz, '1'],
+    [UsWeight::lb, '16'],
+    [UsWeight::ton, '2000'],
+    [UsVolume::floz, '1'],
+    [UsVolume::cup, '8'],
+    [UsVolume::pint, '16'],
+    [UsVolume::quart, '32'],
+    [UsVolume::gallon, '128'],
 ]);
 
 test('it can be casted to in a model', function ($value, $expected) {

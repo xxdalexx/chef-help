@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Casts\MeasurementEnumCast;
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -48,9 +49,15 @@ class RecipeItem extends BaseModel
     |--------------------------------------------------------------------------
     */
 
-    public function getCost()
+    public function getCost(): Money
     {
-        dd($this);
+        $asPurchased = $this->ingredient->asPurchased;
+        return money(0);
+    }
+
+    public function getCostAsString(bool $withDollarSign = true)
+    {
+        return moneyToString($this->getCost(), $withDollarSign);
     }
 
 }

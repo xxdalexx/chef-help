@@ -2,6 +2,8 @@
 
 namespace App\Measurements;
 
+use Brick\Math\BigDecimal;
+
 enum UsVolume: string implements MeasurementEnum
 {
     case floz = 'floz';
@@ -10,15 +12,17 @@ enum UsVolume: string implements MeasurementEnum
     case quart = 'quart';
     case gallon = 'gallon';
 
-    public function conversionFactor(): int
+    public function conversionFactor(): BigDecimal
     {
-        return match ($this) {
+        $number = match ($this) {
             self::floz => 1,
             self::cup => 8,
             self::pint => 16,
             self::quart => 32,
             self::gallon => 128
         };
+
+        return BigDecimal::of($number);
     }
 
     public static function fromString(string $unit): MeasurementEnum|bool
@@ -33,5 +37,10 @@ enum UsVolume: string implements MeasurementEnum
             'gal', 'gallon' => self::gallon,
             default => false
         };
+    }
+
+    public static function getBaseUnit(): MeasurementEnum
+    {
+        return UsVolume::floz;
     }
 }

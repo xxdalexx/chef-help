@@ -2,19 +2,23 @@
 
 namespace App\Measurements;
 
+use Brick\Math\BigDecimal;
+
 enum UsWeight: string implements MeasurementEnum
 {
     case oz = 'oz';
     case lb = 'lb';
     case ton = 'ton';
 
-    public function conversionFactor(): int
+    public function conversionFactor(): BigDecimal
     {
-        return match ($this) {
+        $number = match ($this) {
             self::oz => 1,
             self::lb => 16,
             self::ton => 2000
         };
+
+        return BigDecimal::of($number);
     }
 
     public static function fromString(string $unit): self|bool
@@ -27,5 +31,10 @@ enum UsWeight: string implements MeasurementEnum
             'ton', => self::ton,
             default => false
         };
+    }
+
+    public static function getBaseUnit(): MeasurementEnum
+    {
+        return UsWeight::oz;
     }
 }
