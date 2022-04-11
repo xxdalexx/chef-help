@@ -15,7 +15,7 @@ class BaseModel extends Model
         $dumpInfo = array_merge($details, $attributes);
 
         foreach ($this->getRelations() as $model) {
-            $dumpInfo['Relations'][] = $model->dumpInfo(false);
+            $dumpInfo[get_debug_type($model)][] = $model->dumpInfo(false);
         }
 
         if ($dump) {
