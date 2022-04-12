@@ -8,4 +8,5 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{{ asset('css/lux.css') }}" rel="stylesheet"/>
+    @livewireStyles
 </head>
