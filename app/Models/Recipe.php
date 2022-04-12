@@ -105,7 +105,10 @@ class Recipe extends BaseModel
 
     public function getCostPerPortion(): Money
     {
-        return $this->getTotalCost()->dividedBy($this->portions, RoundingMode::UP);
+        if ($this->portions) {
+            return $this->getTotalCost()->dividedBy($this->portions, RoundingMode::UP);
+        }
+        return money(0);
     }
 
     public function getPortionCostPercentage(): BigDecimal
