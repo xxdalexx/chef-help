@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\MeasurementEnumCast;
 use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
+use App\Measurements\UsVolume;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
@@ -19,9 +20,9 @@ class RecipeItem extends BaseModel
     use HasFactory;
 
     protected $casts = [
-        'unit' => MeasurementEnumCast::class,
+        'unit'    => MeasurementEnumCast::class,
         'cleaned' => 'boolean',
-        'cooked' => 'boolean'
+        'cooked'  => 'boolean'
     ];
 
     /*
@@ -73,7 +74,8 @@ class RecipeItem extends BaseModel
 
             $costPerApBaseUnit = match ($apBaseUnit) {
                 MetricVolume::liter => $this->asPurchasedCostFromLitersToFloz(),
-                default => throw new \Exception('US<->Metric Conversion Case Missing.')
+                UsVolume::floz      => $this->asPurchasedCostFromFlozToLiters(),
+                default             => throw new \Exception('US<->Metric Conversion Case Missing.')
             };
         }
 

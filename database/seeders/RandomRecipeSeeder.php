@@ -29,11 +29,28 @@ class RandomRecipeSeeder extends Seeder
             'price'         => money(15)
         ]);
 
+        $iceCream = Ingredient::create([
+            'name' => 'Ice Cream',
+            'cleaned_yield' => 100,
+            'cooked_yield'  => 100,
+        ]);
+
+        AsPurchased::create([
+            'ingredient_id' => $iceCream->id,
+            'quantity'      => 1,
+            'unit'          => UsVolume::quart,
+            'price'         => money(16)
+        ]);
+
+
+
         $recipe = Recipe::create([
             'name'     => 'Random Items',
             'portions' => 1,
             'price'    => money('10'),
         ]);
+
+
 
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
@@ -41,6 +58,15 @@ class RandomRecipeSeeder extends Seeder
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => UsVolume::cup,
+            'quantity'      => 1,
+        ]);
+
+        RecipeItem::create([
+            'recipe_id'     => $recipe->id,
+            'ingredient_id' => $iceCream->id,
+            'cleaned'       => false,
+            'cooked'        => false,
+            'unit'          => MetricVolume::liter,
             'quantity'      => 1,
         ]);
 
