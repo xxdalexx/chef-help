@@ -13,8 +13,7 @@ use Illuminate\Support\Str;
 
 
 /**
- * A function is required here because the money class from the Brick\Money\Money package is a final class, so it can't
- * be extended to add more methods.
+ * Brick\Money\Money package is a final class, so since it can't be extended to add more methods, we use a function.
  *
  * @param Money $money
  * @param bool  $withDollarSign
@@ -44,5 +43,5 @@ function moneyToString(Money $money, bool $withDollarSign = true): string
  */
 function money($price, int $decimalPlaces = 8): Money
 {
-    return Money::of($price, 'USD', new CustomContext($decimalPlaces), RoundingMode::UP);
+    return Money::of($price, 'USD', new CustomContext($decimalPlaces), RoundingMode::HALF_UP);
 }
