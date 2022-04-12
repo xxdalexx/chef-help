@@ -25,7 +25,7 @@
                         <a href="{{ $recipe->showLink() }}">{{ $recipe->name }}</a>
                     </td>
                     <td class="text-center">
-                        {{ $recipe->getTotalCostAsString() }}
+                        {{ $recipe->price }}
                     </td>
                     <td class="text-end">
                         {{ $recipe->getPortionCostPercentageAsString() }}%
