@@ -42,7 +42,7 @@ function moneyToString(Money $money, bool $withDollarSign = true): string
  * @return Money
  * @throws \Brick\Money\Exception\UnknownCurrencyException
  */
-function money($price, int $decimalPlaces = 4): Money
+function money($price, int $decimalPlaces = 8): Money
 {
     return Money::of($price, 'USD', new CustomContext($decimalPlaces), RoundingMode::UP);
 }

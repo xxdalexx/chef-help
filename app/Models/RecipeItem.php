@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Casts\MeasurementEnumCast;
 use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
+use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
+use App\Measurements\UsWeight;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
@@ -75,6 +77,8 @@ class RecipeItem extends BaseModel
             $costPerApBaseUnit = match ($apBaseUnit) {
                 MetricVolume::liter => $this->asPurchasedCostFromLitersToFloz(),
                 UsVolume::floz      => $this->asPurchasedCostFromFlozToLiters(),
+                MetricWeight::gram  => $this->asPurchasedCostFromGramsToOz(),
+                UsWeight::oz        => $this->asPurchasedCostFromOzToGrams(),
                 default             => throw new \Exception('US<->Metric Conversion Case Missing.')
             };
         }
@@ -107,16 +111,16 @@ class RecipeItem extends BaseModel
     |--------------------------------------------------------------------------
     */
 
-    public function asPurchasedCostFromFlozToLiters()
+    protected function asPurchasedCostFromFlozToLiters(): Money
     {
-        // 1floz = 0.02957344 L
+        // 1 floz = 0.02957344 L
         return $this->ingredient
             ->asPurchased
             ->getCostPerBaseUnit()
             ->dividedBy('0.02957344', RoundingMode::HALF_UP);
     }
 
-    public function asPurchasedCostFromLitersToFloz()
+    protected function asPurchasedCostFromLitersToFloz(): Money
     {
         // 1 Liter = 33.81413 floz
         return $this->ingredient
@@ -125,4 +129,21 @@ class RecipeItem extends BaseModel
             ->dividedBy('33.81413', RoundingMode::HALF_UP);
     }
 
+    protected function asPurchasedCostFromOzToGrams(): Money
+    {
+        // 1 oz = 28.34952 gram
+        return $this->ingredient
+            ->asPurchased
+            ->getCostPerBaseUnit()
+            ->dividedBy('28.34952', RoundingMode::HALF_UP);
+    }
+
+    protected function asPurchasedCostFromGramsToOz(): Money
+    {
+        // 1 gram = 0.03527396 oz
+        return $this->ingredient
+            ->asPurchased
+            ->getCostPerBaseUnit()
+            ->dividedBy('0.03527396', RoundingMode::HALF_UP);
+    }
 }

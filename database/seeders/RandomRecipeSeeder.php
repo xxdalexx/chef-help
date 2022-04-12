@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Measurements\MetricVolume;
+use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
@@ -42,6 +43,33 @@ class RandomRecipeSeeder extends Seeder
             'price'         => money(16)
         ]);
 
+        $meat = Ingredient::create([
+            'name' => 'Meat',
+            'cleaned_yield' => 100,
+            'cooked_yield'  => 100,
+        ]);
+
+        AsPurchased::create([
+            'ingredient_id' => $meat->id,
+            'quantity'      => 1,
+            'unit'          => UsWeight::lb,
+            'price'         => money(16)
+        ]);
+
+        $flour = Ingredient::create([
+            'name' => 'Flour',
+            'cleaned_yield' => 100,
+            'cooked_yield'  => 100,
+        ]);
+
+        AsPurchased::create([
+            'ingredient_id' => $flour->id,
+            'quantity'      => 4,
+            'unit'          => MetricWeight::kg,
+            'price'         => money(26)
+        ]);
+
+
 
 
         $recipe = Recipe::create([
@@ -68,6 +96,24 @@ class RandomRecipeSeeder extends Seeder
             'cooked'        => false,
             'unit'          => MetricVolume::liter,
             'quantity'      => 1,
+        ]);
+
+        RecipeItem::create([
+            'recipe_id'     => $recipe->id,
+            'ingredient_id' => $meat->id,
+            'cleaned'       => false,
+            'cooked'        => false,
+            'unit'          => MetricWeight::gram,
+            'quantity'      => 500,
+        ]);
+
+        RecipeItem::create([
+            'recipe_id'     => $recipe->id,
+            'ingredient_id' => $flour->id,
+            'cleaned'       => false,
+            'cooked'        => false,
+            'unit'          => UsWeight::lb,
+            'quantity'      => 5,
         ]);
 
     }

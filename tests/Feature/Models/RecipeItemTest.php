@@ -58,6 +58,8 @@ it('calculates a cost with a US Metric conversion', function ($id, $expectedCost
     expect($item->getCostAsString())->toBe($expectedCost);
 
 })->with([
-    [1, '$4.74'], //AP: Metric Volume, RI: US Volume
-    [2, '$16.91'] //Ap: US Volume, RI: Metric Volume
+    [1, '$4.74'],  //AP: Metric Volume, RI: US Volume
+    [2, '$16.91'], //AP: US Volume, RI: Metric Volume
+    [3, '$17.64'], //AP: US Weight, RI: Metric Weight
+    [4, '$14.75'], //AP: Metric Weight, RI: US Weight
 ]);
