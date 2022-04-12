@@ -49,12 +49,14 @@ it('throws an exception', function () {
 });
 
 
-it('calculates a cost with a US Metric conversion', function () {
+it('calculates a cost with a US Metric conversion', function ($id, $expectedCost) {
 
     $this->seed(RandomRecipeSeeder::class);
 
-    $item = RecipeItem::find(1);
+    $item = RecipeItem::find($id);
 
-    expect($item->getCostAsString())->toBe('$4.74');
+    expect($item->getCostAsString())->toBe($expectedCost);
 
-});
+})->with([
+    [1, '$4.74'] //AP: Metric Volume, RI: US Volume
+]);

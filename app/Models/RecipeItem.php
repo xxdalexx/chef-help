@@ -67,9 +67,14 @@ class RecipeItem extends BaseModel
         //$20 per liter, or $20 per 33.81413 floz
         $costPerApBaseUnit = $this->ingredient->asPurchased->getCostPerBaseUnit();
 
+        //Until a Misc System is created, we can assume only US<->Metric will hit here.
         if ($this->unit->getSystem() != $this->ingredient->asPurchased->unit->getSystem()) {
-            // Make the $20 for 33.81413 flozs -> become $0.5912 per floz
-            $costPerApBaseUnit = $this->asPurchasedCostFromLitersToFloz();
+            $apBaseUnit = $this->ingredient->asPurchased->getBaseUnit();
+
+            $costPerApBaseUnit = match ($apBaseUnit) {
+                MetricVolume::liter => $this->asPurchasedCostFromLitersToFloz(),
+                default => throw new \Exception('US<->Metric Conversion Case Missing.')
+            };
         }
 
 
