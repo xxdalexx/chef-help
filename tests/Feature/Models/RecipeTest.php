@@ -36,7 +36,7 @@ it('gives a total cost', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->totalCostAsString())->toBe('$10.61');
+    expect($recipe->getTotalCostAsString())->toBe('$10.61');
 
 });
 
@@ -47,9 +47,10 @@ it('gives a cost per portion', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->costPerPortionAsString())->toBe('$5.31');
+    expect($recipe->getCostPerPortionAsString())->toBe('$5.31');
 
 });
+
 
 it('give portion cost percentage', function () {
 
@@ -57,6 +58,6 @@ it('give portion cost percentage', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->portionCostPercentageAsString())->toBe('29.5');
+    expect($recipe->getPortionCostPercentageAsString())->toBe('29.5');
 
 });

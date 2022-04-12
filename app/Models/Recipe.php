@@ -30,6 +30,42 @@ class Recipe extends BaseModel
 
     /*
     |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    public function getTotalCostAsString(bool $withDollarSign = true): string
+    {
+        return moneyToString($this->getTotalCost(), $withDollarSign);
+    }
+
+    public function getCostPerPortionAsString(bool $withDollarSign = true): string
+    {
+        return moneyToString($this->getCostPerPortion(), $withDollarSign);
+    }
+
+    public function getPortionCostPercentageAsString(): string
+    {
+        return (string) (float) (string) $this->getPortionCostPercentage()->multipliedBy(100);
+    }
+
+    public function getTotalCostAttribute(): string
+    {
+        return $this->getTotalCostAsString();
+    }
+
+    public function getCostPerPortionAttribute(): string
+    {
+        return $this->getCostPerPortionAsString();
+    }
+
+    public function getPortionCostPercentageAttribute(): string
+    {
+        return $this->getPortionCostPercentageAsString();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
     | Business
     |--------------------------------------------------------------------------
     */
@@ -58,19 +94,6 @@ class Recipe extends BaseModel
         return $costPerPortion->dividedBy($price, 3,RoundingMode::UP);
     }
 
-    public function totalCostAsString(bool $withDollarSign = true): string
-    {
-        return moneyToString($this->getTotalCost(), $withDollarSign);
-    }
 
-    public function costPerPortionAsString(bool $withDollarSign = true): string
-    {
-        return moneyToString($this->getCostPerPortion(), $withDollarSign);
-    }
-
-    public function portionCostPercentageAsString(): string
-    {
-        return (string) (float) (string) $this->getPortionCostPercentage()->multipliedBy(100);
-    }
 
 }
