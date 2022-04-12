@@ -19,7 +19,7 @@ class RecipeFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
-            'portions' => $this->faker->randomDigit(),
+            'portions' => $this->faker->randomDigitNot(0),
             'price' => $this->fakePrice(),
         ];
     }

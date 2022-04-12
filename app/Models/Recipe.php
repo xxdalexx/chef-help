@@ -23,9 +23,20 @@ class Recipe extends BaseModel
         return $this->hasMany(RecipeItem::class);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
     public function scopeWithAllRelations($query): Builder
     {
         return $query->with('items.ingredient.asPurchased');
+    }
+
+    public function scopeSearch($query, $searchString): Builder
+    {
+        return $query->where('name', 'LIKE', "%$searchString%");
     }
 
     /*
@@ -62,6 +73,17 @@ class Recipe extends BaseModel
     public function getPortionCostPercentageAttribute(): string
     {
         return $this->getPortionCostPercentageAsString();
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Shortcuts
+    |--------------------------------------------------------------------------
+    */
+
+    public function showLink(): string
+    {
+        return route('recipe.show', $this);
     }
 
     /*

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\DevController;
+use App\Http\Livewire\RecipeIndex;
+use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +20,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('dev', [\App\Http\Controllers\DevController::class, 'index']);
+Route::get('dev', [DevController::class, 'index']);
+
+Route::get('recipes', RecipeIndex::class)->name('recipe.index');
+Route::get('recipe/{recipe}', function (Recipe $recipe) {
+    dump($recipe);
+})->name('recipe.show');
