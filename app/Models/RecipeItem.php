@@ -3,12 +3,17 @@
 namespace App\Models;
 
 use App\Casts\MeasurementEnumCast;
+use App\Measurements\MeasurementEnum;
+use App\Measurements\MetricVolume;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property MeasurementEnum $unit
+ */
 class RecipeItem extends BaseModel
 {
     use HasFactory;
@@ -54,9 +59,24 @@ class RecipeItem extends BaseModel
 
     public function getCost(): Money
     {
-        $price = $this->ingredient->asPurchased->getCostPerBaseUnit()
-            ->multipliedBy($this->quantity, RoundingMode::HALF_UP)
-            ->multipliedBy($this->unit->conversionFactor(), RoundingMode::HALF_UP);
+        // Weight/Volume Check
+        if ($this->unit->getType() != $this->ingredient->asPurchased->unit->getType()) {
+            throw new \Exception('Weight/Volume Conversion Attempted');
+        }
+
+        //$20 per liter, or $20 per 33.81413 floz
+        $costPerApBaseUnit = $this->ingredient->asPurchased->getCostPerBaseUnit();
+
+        if ($this->unit->getSystem() != $this->ingredient->asPurchased->unit->getSystem()) {
+            // Make the $20 for 33.81413 flozs -> become $0.5912 per floz
+            $costPerApBaseUnit = $this->asPurchasedCostFromLitersToFloz();
+        }
+
+
+        $price = $costPerApBaseUnit
+            ->multipliedBy($this->unit->conversionFactor(), RoundingMode::HALF_UP)
+            ->multipliedBy($this->quantity, RoundingMode::HALF_UP);
+
 
         if ($this->cleaned) {
             $price = $price->dividedBy($this->ingredient->cleanedYieldDecimal(), RoundingMode::HALF_UP);
@@ -72,6 +92,30 @@ class RecipeItem extends BaseModel
     public function getCostAsString(bool $withDollarSign = true)
     {
         return moneyToString($this->getCost(), $withDollarSign);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Conversion Methods
+    |--------------------------------------------------------------------------
+    */
+
+    public function asPurchasedCostFromFlozToLiters()
+    {
+        // 1floz = 0.02957344 L
+        return $this->ingredient
+            ->asPurchased
+            ->getCostPerBaseUnit()
+            ->dividedBy('0.02957344', RoundingMode::HALF_UP);
+    }
+
+    public function asPurchasedCostFromLitersToFloz()
+    {
+        // 1 Liter = 33.81413 floz
+        return $this->ingredient
+            ->asPurchased
+            ->getCostPerBaseUnit()
+            ->dividedBy('33.81413', RoundingMode::HALF_UP);
     }
 
 }

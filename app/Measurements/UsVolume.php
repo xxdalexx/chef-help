@@ -55,4 +55,14 @@ enum UsVolume: string implements MeasurementEnum
     {
         return UsVolume::floz;
     }
+
+    public function getType(): string
+    {
+        return 'volume';
+    }
+
+    public function getSystem(): string
+    {
+        return 'us';
+    }
 }

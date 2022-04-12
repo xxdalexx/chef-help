@@ -37,4 +37,14 @@ enum UsWeight: string implements MeasurementEnum
     {
         return UsWeight::oz;
     }
+
+    public function getType(): string
+    {
+        return 'weight';
+    }
+
+    public function getSystem(): string
+    {
+        return 'us';
+    }
 }

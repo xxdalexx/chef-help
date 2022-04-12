@@ -34,4 +34,14 @@ enum MetricWeight: string implements MeasurementEnum
     {
         return self::gram;
     }
+
+    public function getType(): string
+    {
+        return 'weight';
+    }
+
+    public function getSystem(): string
+    {
+        return 'metric';
+    }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Casts\MeasurementEnumCast;
+use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
@@ -70,4 +71,26 @@ test('it can be casted from in a model', function ($value, $expected) {
     [UsWeight::oz, 'oz'],
     [MetricWeight::gram, 'gram'],
     [MetricVolume::ml, 'ml']
+]);
+
+test('it returns a type', function (MeasurementEnum $unit, $expected) {
+
+    expect($unit->getType())->toBe($expected);
+
+})->with([
+    [UsWeight::oz, 'weight'],
+    [UsVolume::floz, 'volume'],
+    [MetricWeight::gram, 'weight'],
+    [MetricVolume::ml, 'volume']
+]);
+
+test('it returns a system', function (MeasurementEnum $unit, $expected) {
+
+    expect($unit->getSystem())->toBe($expected);
+
+})->with([
+    [UsWeight::oz, 'us'],
+    [UsVolume::floz, 'us'],
+    [MetricWeight::gram, 'metric'],
+    [MetricVolume::ml, 'metric']
 ]);

@@ -72,4 +72,26 @@ class ConvertableUnit
         return new self($this->unit->getBaseUnit(), $newQuantity);
     }
 
+    public function litersToFloz()
+    {
+        // 1 Liter = 33.81413 floz
+        return $this->quantity->multipliedBy('33.81413');
+    }
+
+    public function flozToLiters()
+    {
+        // 1floz = 0.02957344 L
+        return $this->quantity->multipliedBy('0.02957344');
+    }
+
+    public function ozToGram()
+    {
+
+    }
+
+    public function gramToOz()
+    {
+
+    }
+
 }

@@ -4,12 +4,17 @@ namespace App\Models;
 
 use App\Casts\MeasurementEnumCast;
 use App\Casts\MoneyCast;
+use App\Measurements\MeasurementEnum;
 use App\ValueObjects\ConvertableUnit;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property-read MeasurementEnum $unit
+ * @property-read Money           $price
+ */
 class AsPurchased extends BaseModel
 {
     use HasFactory;
@@ -42,4 +47,10 @@ class AsPurchased extends BaseModel
             ->dividedBy($this->unit->conversionFactor(), RoundingMode::HALF_UP)
             ->dividedBy($this->quantity, RoundingMode::HALF_UP);
     }
+
+    public function getBaseUnit(): MeasurementEnum
+    {
+        return $this->unit::getBaseUnit();
+    }
+
 }

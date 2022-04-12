@@ -1,10 +1,13 @@
 <?php
 
 use App\Measurements\MeasurementEnum;
+use App\Measurements\UsWeight;
+use App\Models\AsPurchased;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
+use Database\Seeders\RandomRecipeSeeder;
 
 test('relationships and casts', function () {
 
@@ -32,3 +35,26 @@ it('has a calculated cost', function ($id, $expectedCost) {
     [3, '$0.50'],
     [4, '$1.00']
 ]);
+
+
+it('throws an exception', function () {
+
+    $this->seed(RandomRecipeSeeder::class);
+    $this->expectException(Exception::class);
+
+    $item = RecipeItem::first();
+    $item->unit = UsWeight::oz;
+
+    $item->getCost();
+});
+
+
+it('calculates a cost with a US Metric conversion', function () {
+
+    $this->seed(RandomRecipeSeeder::class);
+
+    $item = RecipeItem::find(1);
+
+    expect($item->getCostAsString())->toBe('$4.74');
+
+});

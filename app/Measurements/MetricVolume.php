@@ -33,4 +33,14 @@ enum MetricVolume: string implements MeasurementEnum
     {
         return self::liter;
     }
+
+    public function getType(): string
+    {
+        return 'volume';
+    }
+
+    public function getSystem(): string
+    {
+        return 'metric';
+    }
 }
