@@ -60,19 +60,9 @@ class Recipe extends BaseModel
         return (string) (float) (string) $this->getPortionCostPercentage()->multipliedBy(100);
     }
 
-    public function getTotalCostAttribute(): string
+    public function getPriceAsString(): string
     {
-        return $this->getTotalCostAsString();
-    }
-
-    public function getCostPerPortionAttribute(): string
-    {
-        return $this->getCostPerPortionAsString();
-    }
-
-    public function getPortionCostPercentageAttribute(): string
-    {
-        return $this->getPortionCostPercentageAsString();
+        return moneyToString($this->price);
     }
 
     /*
