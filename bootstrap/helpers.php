@@ -45,3 +45,19 @@ function money($price, int $decimalPlaces = 8): Money
 {
     return Money::of($price, 'USD', new CustomContext($decimalPlaces), RoundingMode::HALF_UP);
 }
+
+function theme(): string
+{
+    $availableThemes = collect(config('app.themes'));
+    $selected = session('theme', $availableThemes->first());
+
+    $list = $availableThemes->mapWithKeys(function ($item) {
+        return [$item => asset("css/$item.css")];
+    });
+
+    if ($availableThemes->contains($selected)) {
+        return $list[$selected];
+    }
+
+    return $list->first();
+}

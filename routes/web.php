@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DevController;
+use App\Http\Controllers\ThemeController;
 use App\Http\Livewire\RecipeIndex;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
+
+Route::get('theme/{theme}', ThemeController::class)->name('change-theme');
 
 Route::get('dev', [DevController::class, 'index']);
 

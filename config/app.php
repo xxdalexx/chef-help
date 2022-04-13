@@ -194,4 +194,16 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Themes
+    |--------------------------------------------------------------------------
+    |
+    | This array is a list of bootstrap recolor themes that can be selected
+    | for use by the user. Each item must match the css file name in
+    | app/public/css
+    |
+    */
+
+    'themes' => ['lux', 'sandstone', 'sketchy', 'slate', 'superhero']
 ];
