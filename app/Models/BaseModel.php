@@ -7,6 +7,8 @@ use Illuminate\Support\Arr;
 
 class BaseModel extends Model
 {
+    protected $guarded = [];
+
     public function dumpInfo($dump = true): array
     {
         $details = [];
