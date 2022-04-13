@@ -37,4 +37,38 @@
     <div class="float-end">
         {{ $recipes->links() }}
     </div>
+
+    <hr>
+
+    @if($showCreateForm)
+        <div class="display-5 text-center m-5">New Recipe</div>
+
+        <div class="row g-3">
+            <div class="form-floating col-sm-7 mb-3">
+                <input type="text" class="form-control" placeholder="">
+                <label>Recipe Name</label>
+            </div>
+            <div class="form-floating col-sm">
+                <input type="text" class="form-control" placeholder="Menu Price">
+                <label>Menu Price</label>
+            </div>
+            <div class="form-floating col-sm">
+                <input type="text" class="form-control" placeholder="Portions">
+                <label>Portions Yielded</label>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 mt-2">
+            <button wire:click="$toggle('showCreateForm')" class="btn btn-success" type="button">
+                Create New Recipe
+            </button>
+        </div>
+    @else
+        <div class="d-grid gap-2">
+            <button wire:click="$toggle('showCreateForm')" class="btn btn-primary" type="button">
+                Create New Recipe
+            </button>
+        </div>
+    @endif
+
 </div>

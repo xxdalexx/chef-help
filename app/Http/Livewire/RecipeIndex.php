@@ -12,6 +12,8 @@ class RecipeIndex extends Component
 
     public string $search = '';
 
+    public bool $showCreateForm = true;
+
     protected $paginationTheme = 'bootstrap';
 
     public function updatingSearch()
