@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Plugins\Refreshable;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
@@ -10,6 +11,8 @@ use Livewire\Component;
 
 class RecipeShow extends Component
 {
+    use Refreshable;
+
     public ?Recipe $recipe;
 
     public ?string $editArea = '';
