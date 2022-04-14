@@ -14,11 +14,11 @@ namespace App\Models{
 /**
  * App\Models\AsPurchased
  *
+ * @property-read MeasurementEnum $unit
+ * @property-read Money           $price
  * @property int $id
  * @property int $ingredient_id
  * @property int $quantity
- * @property mixed $unit
- * @property mixed $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Ingredient $ingredient
@@ -65,6 +65,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ingredient search($searchString)
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient whereCleanedYield($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient whereCookedYield($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient whereCreatedAt($value)
@@ -91,6 +92,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Recipe search($searchString)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereName($value)
@@ -106,15 +108,18 @@ namespace App\Models{
 /**
  * App\Models\RecipeItem
  *
+ * @property MeasurementEnum $unit
  * @property int $id
  * @property int $recipe_id
  * @property int $ingredient_id
  * @property bool $cleaned
  * @property bool $cooked
- * @property mixed $unit
  * @property int $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $cost
+ * @property-read string $ingredient_name
+ * @property-read string $measurement
  * @property-read \App\Models\Ingredient $ingredient
  * @property-read \App\Models\Recipe $recipe
  * @method static \Database\Factories\RecipeItemFactory factory(...$parameters)

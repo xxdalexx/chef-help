@@ -6,6 +6,11 @@
 |--------------------------------------------------------------------------
 */
 
+use App\Measurements\MeasurementEnum;
+use App\Measurements\MetricVolume;
+use App\Measurements\MetricWeight;
+use App\Measurements\UsVolume;
+use App\Measurements\UsWeight;
 use Brick\Math\RoundingMode;
 use Brick\Money\Context\CustomContext;
 use Brick\Money\Money;
@@ -60,4 +65,21 @@ function theme(): string
     }
 
     return $list->first();
+}
+
+function findMeasurementUnitEnum($value): MeasurementEnum
+{
+    $classes = [
+        UsWeight::class,
+        UsVolume::class,
+        MetricVolume::class,
+        MetricWeight::class
+    ];
+
+    foreach ($classes as $class) {
+        $possible = $class::fromString($value);
+        if ($possible) return $possible;
+    }
+
+    throw new Exception("Failed to match '$value' to MeasurementEnum");
 }
