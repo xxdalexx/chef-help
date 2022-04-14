@@ -53,64 +53,19 @@
 
         <div class="row">
 
-            <div class="form-floating col-sm-7 mb-3">
-                <input wire:model="recipeNameInput"
-                       type="text"
-                       class="form-control @error('recipeNameInput') is-invalid @enderror"
-                       placeholder="">
-                <label class="ms-1">Recipe Name</label>
-
-                @error('recipeNameInput')
-                <div class="invalid-feedback">
-                    Please provide a valid name.<br>
-                    Required
-                </div>
-                @enderror
-            </div>
-
-            <div class="form-floating col-sm">
-                <input wire:model="menuPriceInput"
-                       type="text"
-                       class="form-control @error('menuPriceInput') is-invalid @enderror"
-                       placeholder="Menu Price">
-                <label class="ms-1">Menu Price</label>
-
-                @error('menuPriceInput')
-                <div class="invalid-feedback">
-                    Please provide a valid price.<br>
-                    Required, must be a number.
-                </div>
-                @enderror
-            </div>
-
-            <div class="form-floating col-sm">
-                <input wire:model="portionsInput"
-                       type="text"
-                       class="form-control @error('portionsInput') is-invalid @enderror"
-                       placeholder="Portions">
-                <label class="ms-1">Portions Yielded</label>
-
-                @error('portionsInput')
-                <div class="invalid-feedback">
-                    Please provide a valid portion amount.<br>
-                    Required, must be a number.
-                </div>
-                @enderror
-            </div>
+            <x-form.text-input name="recipeNameInput" label-name="Recipe Name" cols="7" />
+            <x-form.text-input name="menuPriceInput" label-name="Menu Price" />
+            <x-form.text-input name="portionsInput" label-name="Portions" />
 
         </div>
 
-        <div class="d-grid gap-2 mt-2 row">
-            <button wire:click="createRecipe" class="btn btn-success" type="button">
-                Create New Recipe
-            </button>
-        </div>
+        <x-button.block
+            wire:click="createRecipe"
+            class="row mt-2"
+            style-type="success"
+            text="Create New Recipe"/>
     @else
-        <div class="d-grid gap-2">
-            <button wire:click="$toggle('showCreateForm')" class="btn btn-primary" type="button">
-                Create New Recipe
-            </button>
-        </div>
+        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Recipe" />
     @endif
     </div>
 
