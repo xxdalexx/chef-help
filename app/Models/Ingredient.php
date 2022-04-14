@@ -11,6 +11,23 @@ class Ingredient extends BaseModel
 {
     use HasFactory;
 
+    /*
+    |--------------------------------------------------------------------------
+    | Scopes
+    |--------------------------------------------------------------------------
+    */
+
+    public function scopeSearch($query, $searchString)
+    {
+        return $query->where('name', 'LIKE', "%$searchString%");
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function asPurchased(): HasOne
     {
         return $this->hasOne(AsPurchased::class);
