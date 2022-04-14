@@ -18,6 +18,12 @@ class Recipe extends BaseModel
         'price' => MoneyCast::class
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function items(): HasMany
     {
         return $this->hasMany(RecipeItem::class);
@@ -57,7 +63,7 @@ class Recipe extends BaseModel
 
     public function getPortionCostPercentageAsString(): string
     {
-        return (string) (float) (string) $this->getPortionCostPercentage()->multipliedBy(100);
+        return (string) (float) (string) $this->getPortionCostPercentage()->multipliedBy(100) . '%';
     }
 
     public function getPriceAsString(): string

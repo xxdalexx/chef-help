@@ -47,23 +47,14 @@
 
     <hr>
 
-    <div class="row mb-5">
+    <div class="mb-5">
     @if($showCreateForm)
-        <div class="display-5 text-center mb-5 mt-5">New Recipe</div>
 
-        <div class="row">
+        <x-card title="Editing Recipe" >
+            <x-form.group.recipe />
+            <x-button.block wire:click="createRecipe" style-type="success" text="Create" />
+        </x-card>
 
-            <x-form.text-input name="recipeNameInput" label-name="Recipe Name" cols="7" />
-            <x-form.text-input name="menuPriceInput" label-name="Menu Price" />
-            <x-form.text-input name="portionsInput" label-name="Portions" />
-
-        </div>
-
-        <x-button.block
-            wire:click="createRecipe"
-            class="row mt-2"
-            style-type="success"
-            text="Create New Recipe"/>
     @else
         <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Recipe" />
     @endif

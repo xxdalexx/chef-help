@@ -1,4 +1,4 @@
-<div class="form-floating {{ $columnClass }} mb-3">
+<div class="form-floating {{ $columnClass }} mb-3" wire:key="{{ $name }}">
     <input wire:model="{{ $name }}"
            type="text"
            class="form-control @error($name) is-invalid @enderror"

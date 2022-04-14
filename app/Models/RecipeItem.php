@@ -13,6 +13,7 @@ use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property MeasurementEnum $unit
@@ -52,6 +53,34 @@ class RecipeItem extends BaseModel
     public function recipe(): BelongsTo
     {
         return $this->belongsTo(Recipe::class);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Attribute Accessors
+    |--------------------------------------------------------------------------
+    */
+
+    public function getIngredientNameAttribute(): string
+    {
+        return $this->ingredient->name;
+    }
+
+    public function getMeasurementAttribute(): string
+    {
+        return $this->quantity . ' ' . $this->unit->value;
+    }
+
+    public function getCostAttribute(): string
+    {
+        return Cache::remember($this->costCacheKey(), $thirtyDays = 60*60*24*30, function () {
+            return $this->getCostAsString();
+        });
+    }
+
+    public function costCacheKey(): string
+    {
+        return 'RecipeItemCost' . $this->id . $this->updated_at;
     }
 
     /*

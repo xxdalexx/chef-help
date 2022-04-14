@@ -58,6 +58,6 @@ it('give portion cost percentage', function () {
 
     $recipe = Recipe::first();
 
-    expect($recipe->getPortionCostPercentageAsString())->toBe('29.5');
+    expect($recipe->getPortionCostPercentageAsString())->toBe('29.5%');
 
 });

@@ -3,6 +3,7 @@
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Livewire\RecipeIndex;
+use App\Http\Livewire\RecipeShow;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,4 @@ Route::get('theme/{theme}', ThemeController::class)->name('change-theme');
 Route::get('dev', [DevController::class, 'index']);
 
 Route::get('recipes', RecipeIndex::class)->name('recipe.index');
-Route::get('recipe/{recipe}', function (Recipe $recipe) {
-    dump($recipe);
-})->name('recipe.show');
+Route::get('recipe/{recipe}', RecipeShow::class)->name('recipe.show');
