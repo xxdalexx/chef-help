@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Recipe;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -38,6 +39,12 @@ class RecipeIndex extends Component
 
     public function createRecipe()
     {
+        //Todo: This will need to be refactored when more currency symbols are supported.
+        $strOfPrice = Str::of($this->menuPriceInput);
+        if ($strOfPrice->startsWith('$')) {
+            $this->menuPriceInput = $strOfPrice->after('$');
+        }
+
         $this->validate();
 
         Recipe::create([

@@ -7,7 +7,7 @@ it('can create a new recipe', function () {
 
     Livewire::test(RecipeIndex::class)
         ->set('recipeNameInput', 'string')
-        ->set('menuPriceInput', '10.50')
+        ->set('menuPriceInput', '$10.50')
         ->set('portionsInput', 1)
         ->call('createRecipe');
 
