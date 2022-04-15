@@ -17,27 +17,11 @@ class RecipeShow extends Component
 
     public ?string $editArea = '';
 
-    /*
-    |--------------------------------------------------------------------------
-    | Edit Recipe Inputs
-    |--------------------------------------------------------------------------
-    */
-
     public string $recipeNameInput = '';
-    public string $menuPriceInput  = '';
-    public string $portionsInput   = '';
 
-    /*
-    |--------------------------------------------------------------------------
-    | Add Ingredient Inputs
-    |--------------------------------------------------------------------------
-    */
+    public string $menuPriceInput = '';
 
-    public string $ingredientInput = '';
-    public string $unitInput         = 'oz';
-    public string $unitQuantityInput = '';
-    public string $cleanedInput = '';
-    public string $cookedInput = '';
+    public string $portionsInput = '';
 
     protected array $rules = [
         'recipeNameInput' => 'required',
@@ -51,8 +35,6 @@ class RecipeShow extends Component
         $this->recipeNameInput = $recipe->name;
         $this->menuPriceInput  = $recipe->getPriceAsString();
         $this->portionsInput   = $recipe->portions;
-
-        $this->ingredientInput = Ingredient::first()->id;
     }
 
     /*
@@ -78,20 +60,6 @@ class RecipeShow extends Component
         ]);
 
         $this->editArea = '';
-    }
-
-    public function addIngredient()
-    {
-        $recipeItem = RecipeItem::make([
-            'ingredient_id' => $this->ingredientInput,
-            'quantity' => $this->unitQuantityInput,
-            'unit' => findMeasurementUnitEnum($this->unitInput),
-            'cooked' => (bool) $this->cookedInput,
-            'cleaned' => (bool) $this->cleanedInput
-        ]);
-
-        $this->recipe->items()->save($recipeItem);
-        $this->recipe->refresh();
     }
 
     /*
