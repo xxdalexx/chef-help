@@ -26,5 +26,17 @@
 
     <hr>
 
-    Create Stuff
+    @if($showCreateForm)
+        <x-card title="Create Ingredient">
+            <div class="row">
+                <x-form.text-input name="nameInput" label-name="Name" cols="8" />
+                <x-form.text-input name="cleanedInput" label-name="Cleaned Yield %" />
+                <x-form.text-input name="cookedInput" label-name="Cooked Yield %" />
+            </div>
+
+            <x-button.block wire:click="createIngredient" style-type="success" text="Create" />
+        </x-card>
+    @else
+        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Ingredient" />
+    @endif
 </div>
