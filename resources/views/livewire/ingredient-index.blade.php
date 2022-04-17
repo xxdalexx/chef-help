@@ -35,14 +35,16 @@
                 <x-form.text-input name="cookedInput" label-name="Cooked Yield %" />
             </div>
 
+            <div class="d-flex justify-content-center mb-2">
+                <x-form.toggle-switch wire:model="createAsPurchase" label-name="Add As Purchased Pricing" />
+            </div>
+
             @if($createAsPurchase)
                 <div class="row">
                     <x-form.text-input name="apQuantityInput" label-name="Quantity" />
                     <x-form.select-units wire:model="apUnitInput" />
                     <x-form.text-input name="apPriceInput" label-name="Price" />
                 </div>
-            @else
-                Something to toggle.
             @endif
 
             <x-button.block wire:click="createIngredient" style-type="success" text="Create" />
