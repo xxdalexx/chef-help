@@ -6,20 +6,14 @@
 <div>
     <div class="display-1 text-center mb-5">Ingredients</div>
 
-    <div class="row">
-        <div class="col-md-4 offset-md-8 col-sm-12 float-end">
-            <input wire:model.debounce="searchString" class="form-control" type="search" placeholder="Search" aria-label="Search">
-        </div>
-    </div>
+    <x-livewire.search-box />
 
     <div class="table-responsive">
-
-
         <table class="table">
             <thead>
-            <tr>
-                <th scope="col" style="width: 33%;">Name</th>
-            </tr>
+                <tr>
+                    <th scope="col">Name</th>
+                </tr>
             </thead>
             <tbody>
             @foreach($ingredients as $ingredient)
@@ -40,4 +34,6 @@
     </div>
 
     <hr>
+
+    Create Stuff
 </div>
