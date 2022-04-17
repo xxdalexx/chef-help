@@ -5,13 +5,13 @@
     <div class="display-1 text-center mb-5">{{ $recipe->name }}</div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
             <x-card title="Ingredients">
                 <x-livewire.recipe-show.ingredient-table :recipe="$recipe" />
             </x-card>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
 
             <x-card title="Recipe Stats" header-class="text-end">
                 <x-livewire.recipe-show.stats :recipe="$recipe" />

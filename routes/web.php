@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Livewire\IngredientIndex;
 use App\Http\Livewire\RecipeIndex;
 use App\Http\Livewire\RecipeShow;
 use App\Models\Recipe;
@@ -28,3 +29,5 @@ Route::get('dev', [DevController::class, 'index']);
 
 Route::get('recipes', RecipeIndex::class)->name('recipe.index');
 Route::get('recipe/{recipe}', RecipeShow::class)->name('recipe.show');
+
+Route::get('ingredients', IngredientIndex::class)->name('ingredient.index');
