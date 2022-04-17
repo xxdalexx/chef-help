@@ -36,7 +36,7 @@
     <div class="mb-5">
     @if($showCreateForm)
 
-        <x-card title="Editing Recipe" >
+        <x-card title="Create Recipe" >
             <x-form.group.recipe />
             <x-button.block wire:click="createRecipe" style-type="success" text="Create" />
         </x-card>

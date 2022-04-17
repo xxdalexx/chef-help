@@ -44,6 +44,12 @@ class RecipeIndex extends LivewireBaseComponent
             'portions' => $this->portionsInput,
         ]);
 
+        $this->setSearch($this->recipeNameInput);
+        $this->resetInputs();
+    }
+
+    public function resetInputs(): void
+    {
         $this->recipeNameInput = '';
         $this->menuPriceInput = '';
         $this->portionsInput = '';

@@ -6,6 +6,11 @@ trait WithSearch
 {
     public string $searchString = '';
 
+    public function setSearch($string)
+    {
+        $this->searchString = $string;
+    }
+
     public function updatingSearchString()
     {
         $this->resetPage();

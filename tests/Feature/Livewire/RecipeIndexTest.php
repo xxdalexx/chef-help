@@ -9,23 +9,27 @@ it('can create a new recipe', function () {
         ->set('recipeNameInput', 'string')
         ->set('menuPriceInput', '$10.50')
         ->set('portionsInput', 1)
-        ->call('createRecipe');
+        ->call('createRecipe')
+        ->assertSet('recipeNameInput', '')
+        ->assertSet('menuPriceInput', '')
+        ->assertSet('portionsInput', '')
+        ->assertSet('searchString', 'string');
 
     expect(Recipe::count())->toBe(1);
 
 });
 
-it('validates input', function ($name, $price, $portions) {
+it('validates input', function ($testing, $name, $price, $portions) {
 
     Livewire::test(RecipeIndex::class)
         ->set('recipeNameInput', $name)
         ->set('menuPriceInput', $price)
         ->set('portionsInput', $portions)
         ->call('createRecipe')
-        ->assertHasErrors();
+        ->assertHasErrors([$testing]);
 
 })->with([
-    ['', '10.00', 1],
-    ['name', '', 1],
-    ['name', '10.00', '']
+    ['recipeNameInput', '', '10.00', 1],
+    ['menuPriceInput', 'name', '', 1],
+    ['portionsInput', 'name', '10.00', '']
 ]);
