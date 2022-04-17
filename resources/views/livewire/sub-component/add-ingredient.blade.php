@@ -5,14 +5,8 @@
         <x-form.text-input name="unitQuantityInput" label-name="Quantity" />
         <x-form.select-units wire:model="unitInput" />
         <div class="col">
-            <div class="form-check form-switch">
-                <input wire:model="cleanedInput" class="form-check-input" type="checkbox" role="switch" id="cleaned">
-                <label class="form-check-label" for="cleaned">Cleaned</label>
-            </div>
-            <div class="form-check form-switch">
-                <input wire:model="cookedInput" class="form-check-input" type="checkbox" role="switch" id="cooked">
-                <label class="form-check-label" for="cooked">Cooked</label>
-            </div>
+            <x-form.toggle-switch wire:model="cleanedInput" label-name="Cleaned" />
+            <x-form.toggle-switch wire:model="cookedInput" label-name="Cooked" />
         </div>
     </div>
 
