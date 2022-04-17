@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Plugins\WithLiveValidation;
 use App\Http\Livewire\Plugins\WithSearch;
 use App\Models\Recipe;
 use Illuminate\Support\Str;
@@ -9,7 +10,7 @@ use Livewire\WithPagination;
 
 class RecipeIndex extends LivewireBaseComponent
 {
-    use WithPagination, WithSearch;
+    use WithPagination, WithSearch, WithLiveValidation;
 
     public bool $showCreateForm = false;
 
@@ -22,11 +23,6 @@ class RecipeIndex extends LivewireBaseComponent
         'menuPriceInput'  => 'required|numeric',
         'portionsInput'   => 'required|numeric',
     ];
-
-    public function updated($propertyName)
-    {
-        $this->validateOnly($propertyName);
-    }
 
     public function createRecipe()
     {

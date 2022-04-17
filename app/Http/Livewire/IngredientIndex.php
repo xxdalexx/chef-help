@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Plugins\WithLiveValidation;
 use App\Http\Livewire\Plugins\WithSearch;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
@@ -9,7 +10,7 @@ use Livewire\WithPagination;
 
 class IngredientIndex extends LivewireBaseComponent
 {
-    use WithPagination, WithSearch;
+    use WithPagination, WithSearch, WithLiveValidation;
 
     public bool $showCreateForm = false;
 
@@ -33,12 +34,6 @@ class IngredientIndex extends LivewireBaseComponent
         'apUnitInput'     => 'required',
         'apPriceInput'    => 'required|numeric',
     ];
-
-    public function updated($propertyName)
-    {
-        //Todo: trait
-        $this->validateOnly($propertyName);
-    }
 
     protected function validateInputs()
     {
