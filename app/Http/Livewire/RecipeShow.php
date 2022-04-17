@@ -3,13 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Http\Livewire\Plugins\Refreshable;
-use App\Models\Ingredient;
 use App\Models\Recipe;
-use App\Models\RecipeItem;
 use Illuminate\Support\Str;
-use Livewire\Component;
 
-class RecipeShow extends Component
+class RecipeShow extends LivewireBaseComponent
 {
     use Refreshable;
 

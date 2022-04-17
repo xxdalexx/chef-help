@@ -3,16 +3,13 @@
 namespace App\Http\Livewire;
 
 use App\Models\Ingredient;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class IngredientIndex extends Component
+class IngredientIndex extends LivewireBaseComponent
 {
     use WithPagination;
 
     public string $searchString = '';
-
-    protected $paginationTheme = 'bootstrap';
 
     public function render()
     {

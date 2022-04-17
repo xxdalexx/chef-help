@@ -4,14 +4,11 @@ namespace App\Http\Livewire;
 
 use App\Models\Recipe;
 use Illuminate\Support\Str;
-use Livewire\Component;
 use Livewire\WithPagination;
 
-class RecipeIndex extends Component
+class RecipeIndex extends LivewireBaseComponent
 {
     use WithPagination;
-
-    protected $paginationTheme = 'bootstrap';
 
     public string $search = '';
 
