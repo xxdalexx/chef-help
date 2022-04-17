@@ -23,8 +23,8 @@ class AddIngredient extends Component
     public string $ingredientInput   = '';
     public string $unitInput         = 'oz';
     public string $unitQuantityInput = '';
-    public string $cleanedInput      = '0';
-    public string $cookedInput       = '0';
+    public string $cleanedInput      = '';
+    public string $cookedInput       = '';
 
     protected array $rules = [
         'ingredientInput'   => 'required|exists:ingredients,id',
