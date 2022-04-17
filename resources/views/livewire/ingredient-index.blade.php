@@ -8,30 +8,21 @@
 
     <x-livewire.search-box />
 
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach($ingredients as $ingredient)
-                <tr>
-                    <td>
-                        <a href="">{{ $ingredient->name }}</a>
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
+    <x-table>
+        <x-slot:heading>
+            <th scope="col">Name</th>
+        </x-slot:heading>
 
-    <div class="d-flex flex-row-reverse">
-        <div class="float-end">
-            {{ $ingredients->links() }}
-        </div>
-    </div>
+        @foreach($ingredients as $ingredient)
+            <tr>
+                <td>
+                    <a href="">{{ $ingredient->name }}</a>
+                </td>
+            </tr>
+        @endforeach
+    </x-table>
+
+    <x-pagination-links :paginated="$ingredients"/>
 
     <hr>
 

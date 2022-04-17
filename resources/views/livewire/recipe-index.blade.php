@@ -7,38 +7,29 @@
 
     <x-livewire.search-box />
 
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col" style="width: 33%;">Name</th>
-                    <th scope="col" class="text-center" style="width: 33%;">Menu Price</th>
-                    <th scope="col" class="text-end" style="width: 33%;">Current Cost %</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($recipes as $recipe)
-                    <tr>
-                        <td>
-                            <a href="{{ $recipe->showLink() }}">{{ $recipe->name }}</a>
-                        </td>
-                        <td class="text-center">
-                            {{ $recipe->getPriceAsString() }}
-                        </td>
-                        <td class="text-end">
-                            {{ $recipe->getPortionCostPercentageAsString() }}%
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    <x-table>
+        <x-slot:heading>
+            <th scope="col" style="width: 33%;">Name</th>
+            <th scope="col" class="text-center" style="width: 33%;">Menu Price</th>
+            <th scope="col" class="text-end" style="width: 33%;">Current Cost %</th>
+        </x-slot:heading>
 
-    <div class="d-flex flex-row-reverse">
-        <div class="float-end">
-            {{ $recipes->links() }}
-        </div>
-    </div>
+        @foreach($recipes as $recipe)
+            <tr>
+                <td>
+                    <a href="{{ $recipe->showLink() }}">{{ $recipe->name }}</a>
+                </td>
+                <td class="text-center">
+                    {{ $recipe->getPriceAsString() }}
+                </td>
+                <td class="text-end">
+                    {{ $recipe->getPortionCostPercentageAsString() }}%
+                </td>
+            </tr>
+        @endforeach
+    </x-table>
+
+    <x-pagination-links :paginated="$recipes" />
 
     <hr>
 
