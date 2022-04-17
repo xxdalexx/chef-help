@@ -2,14 +2,15 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Plugins\WithSearch;
 use App\Models\Ingredient;
 use Livewire\WithPagination;
 
 class IngredientIndex extends LivewireBaseComponent
 {
-    use WithPagination;
+    use WithPagination, WithSearch;
 
-    public string $searchString = '';
+    public bool $showCreateForm = false;
 
     public function render()
     {

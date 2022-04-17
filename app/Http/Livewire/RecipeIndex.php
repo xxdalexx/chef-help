@@ -2,15 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Plugins\WithSearch;
 use App\Models\Recipe;
 use Illuminate\Support\Str;
 use Livewire\WithPagination;
 
 class RecipeIndex extends LivewireBaseComponent
 {
-    use WithPagination;
-
-    public string $search = '';
+    use WithPagination, WithSearch;
 
     public bool $showCreateForm = false;
 
@@ -27,11 +26,6 @@ class RecipeIndex extends LivewireBaseComponent
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName);
-    }
-
-    public function updatingSearch()
-    {
-        $this->resetPage();
     }
 
     public function createRecipe()
@@ -58,6 +52,6 @@ class RecipeIndex extends LivewireBaseComponent
     public function render()
     {
         return view('livewire.recipe-index')
-            ->withRecipes(Recipe::search($this->search)->paginate(10));
+            ->withRecipes(Recipe::search($this->searchString)->paginate(10));
     }
 }
