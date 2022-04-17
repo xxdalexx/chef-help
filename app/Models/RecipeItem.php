@@ -89,12 +89,22 @@ class RecipeItem extends BaseModel
     |--------------------------------------------------------------------------
     */
 
-    public function getCost(): Money
+    public function canCalculateCost(): bool
     {
+        // Ingredient Missing As Purchased Record
+        if (!$this->ingredient->asPurchased) return false;
+
         // Weight/Volume Check
         if ($this->unit->getType() != $this->ingredient->asPurchased->unit->getType()) {
-            throw new \Exception('Weight/Volume Conversion Attempted');
+            return false;
         }
+
+        return true;
+    }
+
+    public function getCost(): Money
+    {
+        if (!$this->canCalculateCost()) return money(0);
 
         //$20 per liter, or $20 per 33.81413 floz
         $costPerApBaseUnit = $this->ingredient->asPurchased->getCostPerBaseUnit();
