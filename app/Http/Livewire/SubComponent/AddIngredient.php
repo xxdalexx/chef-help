@@ -11,14 +11,12 @@ class AddIngredient extends Component
 {
     public Recipe $recipe;
 
+    public int $showingExistingIngredient = 1;
+
     public string $ingredientInput = '';
-
     public string $unitInput = 'oz';
-
     public string $unitQuantityInput = '';
-
     public string $cleanedInput = '';
-
     public string $cookedInput = '';
 
     protected array $rules = [
