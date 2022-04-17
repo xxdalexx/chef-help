@@ -12,7 +12,7 @@ class RecipeShow extends LivewireBaseComponent
 
     public ?Recipe $recipe;
 
-    public ?string $editArea = '';
+    public ?string $editArea = 'ingredient';
 
     public string $recipeNameInput = '';
 

@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-4 mb-5">
         <div class="col-12">
             @if($editArea == 'recipe')
                 <x-card title="Editing Recipe" >
