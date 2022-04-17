@@ -22,7 +22,7 @@ class AddIngredient extends Component
     public string $cookedInput = '';
 
     protected array $rules = [
-        'ingredientInput'   => 'required',
+        'ingredientInput'   => 'required|exists:ingredients,id',
         'unitInput'         => 'required',
         'unitQuantityInput' => 'required|numeric',
         'cleanedInput'      => 'boolean',
@@ -36,6 +36,8 @@ class AddIngredient extends Component
 
     public function addIngredient()
     {
+        $this->validate();
+
         $recipeItem = RecipeItem::make([
             'ingredient_id' => $this->ingredientInput,
             'quantity'      => $this->unitQuantityInput,
