@@ -2,13 +2,11 @@
 
 use App\Http\Livewire\RecipeShow;
 use App\Models\Recipe;
-use Database\Seeders\LobsterDishSeeder;
 
-beforeEach()->seed(LobsterDishSeeder::class);
 
 it('can update a recipe', function () {
 
-    Livewire::test(RecipeShow::class, ['recipe' => Recipe::first()])
+    Livewire::test(RecipeShow::class, ['recipe' => Recipe::factory()->create()])
         ->set('recipeNameInput', 'string')
         ->set('menuPriceInput', '$12.34')
         ->set('portionsInput', 5)
@@ -21,17 +19,20 @@ it('can update a recipe', function () {
     expect($recipe->getPriceAsString())->toBe('$12.34');
 });
 
-it('validates input', function ($name, $price, $portions) {
+it('validates input', function ($parameter, $value = '', $violation = 'required') {
 
-    Livewire::test(RecipeShow::class, ['recipe' => Recipe::first()])
-        ->set('recipeNameInput', $name)
-        ->set('menuPriceInput', $price)
-        ->set('portionsInput', $portions)
+    Livewire::test(RecipeShow::class, ['recipe' => Recipe::factory()->create()])
+        ->set($parameter, $value)
         ->call('updateRecipe')
-        ->assertHasErrors();
+        ->assertHasErrors([$parameter => $violation]);
 
 })->with([
-    ['', '10.00', 1],
-    ['name', '', 1],
-    ['name', '10.00', '']
+//    'recipeNameInput' => 'required',
+//    'menuPriceInput'  => 'required|numeric',
+//    'portionsInput'   => 'required|numeric',
+    ['recipeNameInput'],
+    ['menuPriceInput'],
+    ['menuPriceInput', 'not a number', 'numeric'],
+    ['portionsInput'],
+    ['portionsInput', 'not a number', 'numeric'],
 ]);

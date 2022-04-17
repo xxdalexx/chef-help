@@ -46,39 +46,45 @@ it('can create a new ingredient with an asPurchased record', function () {
 });
 
 
-it('validates input', function ($testing, $name, $cleaned, $cooked) {
+it('validates input', function ($parameter, $value = '', $violation = 'required') {
 
     Livewire::test(IngredientIndex::class)
-        ->set('nameInput', $name)
-        ->set('cleanedInput', $cleaned)
-        ->set('cookedInput', $cooked)
+        ->set($parameter, $value)
         ->call('createIngredient')
-        ->assertHasErrors([$testing]);
+        ->assertHasErrors([$parameter => $violation]);
 
 })->with([
-    ['nameInput', '', '100', '100'],
-    ['cleanedInput', 'name', '1000', '100'],
-    ['cookedInput', 'name', '100', '1000']
+//    'nameInput'       => 'required',
+//    'cleanedInput'    => 'required|numeric|between:1,100',
+//    'cookedInput'     => 'required|numeric|between:1,100',
+    ['nameInput'],
+    ['cleanedInput'],
+    ['cleanedInput', 'not a number', 'numeric'],
+    ['cleanedInput', '999', 'between'],
+    ['cookedInput'],
+    ['cookedInput', 'not a number', 'numeric'],
+    ['cookedInput', '999', 'between'],
 ]);
 
 
-it('validates input when creating asPurchased', function ($property, $name, $cleaned, $cooked, $quantity, $unit, $price) {
+it('validates input when creating asPurchased', function ($parameter, $value = '', $violation = 'required') {
 
     Livewire::test(IngredientIndex::class)
-        ->set('nameInput', $name)
-        ->set('cleanedInput', $cleaned)
-        ->set('cookedInput', $cooked)
-        ->set('apQuantityInput', $quantity)
-        ->set('apUnitInput', $unit)
-        ->set('apPriceInput', $price)
+        ->set('nameInput', 'name')
+        ->set('cleanedInput', '100')
+        ->set('cookedInput', '100')
+        //Above is required because the tested validation happen separately.
+        ->set($parameter, $value)
         ->call('createIngredient')
-        ->assertHasErrors([$property]);
+        ->assertHasErrors([$parameter => $violation]);
 
 })->with([
-    ['nameInput', '', '100', '100', '1', 'oz', '1.00'],
-    ['cleanedInput', 'name', '1000', '100', '1', 'oz', '1.00'],
-    ['cookedInput', 'name', '100', '1000', '1', 'oz', '1.00'],
-    ['apQuantityInput', 'name', '100', '100', '', 'oz', '1.00'],
-    ['apUnitInput', 'name', '100', '100', '1', '', '1.00'],
-    ['apPriceInput', 'name', '100', '100', '1', 'oz', ''],
+//    'apQuantityInput' => 'required|numeric',
+//    'apUnitInput'     => 'required',
+//    'apPriceInput'    => 'required|numeric',
+    ['apQuantityInput'],
+    ['apQuantityInput', 'not a number', 'numeric'],
+    ['apUnitInput'],
+    ['apPriceInput'],
+    ['apPriceInput', 'not a number', 'numeric'],
 ]);

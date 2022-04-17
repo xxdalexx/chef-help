@@ -19,17 +19,20 @@ it('can create a new recipe', function () {
 
 });
 
-it('validates input', function ($testing, $name, $price, $portions) {
+it('validates input', function ($parameter, $value = '', $violation = 'required') {
 
     Livewire::test(RecipeIndex::class)
-        ->set('recipeNameInput', $name)
-        ->set('menuPriceInput', $price)
-        ->set('portionsInput', $portions)
+        ->set($parameter, $value)
         ->call('createRecipe')
-        ->assertHasErrors([$testing]);
+        ->assertHasErrors([$parameter => $violation]);
 
 })->with([
-    ['recipeNameInput', '', '10.00', 1],
-    ['menuPriceInput', 'name', '', 1],
-    ['portionsInput', 'name', '10.00', '']
+//    'recipeNameInput' => 'required',
+//    'menuPriceInput'  => 'required|numeric',
+//    'portionsInput'   => 'required|numeric',
+    ['recipeNameInput'],
+    ['menuPriceInput'],
+    ['menuPriceInput', 'not a number', 'numeric'],
+    ['portionsInput'],
+    ['portionsInput', 'not a number', 'numeric'],
 ]);
