@@ -5,6 +5,7 @@ use App\Http\Controllers\ThemeController;
 use App\Http\Livewire\IngredientIndex;
 use App\Http\Livewire\RecipeIndex;
 use App\Http\Livewire\RecipeShow;
+use App\Models\Ingredient;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\Route;
 
@@ -31,3 +32,7 @@ Route::get('recipes', RecipeIndex::class)->name('recipe.index');
 Route::get('recipe/{recipe}', RecipeShow::class)->name('recipe.show');
 
 Route::get('ingredients', IngredientIndex::class)->name('ingredient.index');
+Route::get('ingredient/{ingredient}', function (Ingredient $ingredient) {
+    $ingredient->load('asPurchased');
+    dd($ingredient);
+})->name('ingredient.show');

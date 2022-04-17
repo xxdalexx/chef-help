@@ -47,4 +47,16 @@ class Ingredient extends BaseModel
     {
         return BigDecimal::of($this->cooked_yield)->exactlyDividedBy(100);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Shortcuts
+    |--------------------------------------------------------------------------
+    */
+
+    public function showLink(): string
+    {
+        return route('ingredient.show', $this);
+    }
+
 }

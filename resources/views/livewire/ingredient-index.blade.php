@@ -16,7 +16,7 @@
         @foreach($ingredients as $ingredient)
             <tr>
                 <td>
-                    <a href="">{{ $ingredient->name }}</a>
+                    <a href="{{ $ingredient->showLink() }}">{{ $ingredient->name }}</a>
                 </td>
             </tr>
         @endforeach
@@ -26,6 +26,7 @@
 
     <hr>
 
+    <div class="mb-5">
     @if($showCreateForm)
         <x-card title="Create Ingredient">
             <div class="row">
@@ -34,9 +35,20 @@
                 <x-form.text-input name="cookedInput" label-name="Cooked Yield %" />
             </div>
 
+            @if($createAsPurchase)
+                <div class="row">
+                    <x-form.text-input name="apQuantityInput" label-name="Quantity" />
+                    <x-form.select-units wire:model="apUnitInput" />
+                    <x-form.text-input name="apPriceInput" label-name="Price" />
+                </div>
+            @else
+                Something to toggle.
+            @endif
+
             <x-button.block wire:click="createIngredient" style-type="success" text="Create" />
         </x-card>
     @else
         <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Ingredient" />
     @endif
+    </div>
 </div>
