@@ -61,6 +61,12 @@ class AddIngredient extends Component
         'apPriceInput'       => 'required|numeric',
     ];
 
+    public function updated($property)
+    {
+        $rules = collect($this->rules)->merge($this->rulesForNew)->toArray();
+        $this->validateOnly($property, $rules);
+    }
+
     public function mount()
     {
         $this->ingredientInput = Ingredient::first()->id ?? 0;

@@ -43,7 +43,7 @@
         <div class="row">
             <x-form.text-input name="apQuantityInput" label-name="Quantity" />
             <x-form.select-units wire:model="apUnitInput" />
-            <x-form.text-input name="apPriceInput" label-name="Price" />
+            <x-form.price-input name="apPriceInput" label-name="Price" />
         </div>
 
         <hr>
