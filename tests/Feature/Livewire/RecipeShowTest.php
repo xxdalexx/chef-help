@@ -9,13 +9,13 @@ it('can update a recipe', function () {
     Livewire::test(RecipeShow::class, ['recipe' => Recipe::factory()->create()])
         ->set('recipeNameInput', 'string')
         ->set('menuPriceInput', '$12.34')
-        ->set('portionsInput', 5)
+        ->set('portionsInput', 5.5)
         ->call('updateRecipe')
         ->assertHasNoErrors();
 
     $recipe = Recipe::first();
 
-    expect($recipe->portions)->toBe(5);
+    expect((string) $recipe->portions)->toBe('5.5');
     expect($recipe->getPriceAsString())->toBe('$12.34');
 });
 

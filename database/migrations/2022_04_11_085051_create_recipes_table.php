@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('recipes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedSmallInteger('portions');
+            $table->string('portions');
             $table->string('price');
             $table->timestamps();
         });

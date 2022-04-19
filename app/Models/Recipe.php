@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\BigDecimalCast;
 use App\Casts\MoneyCast;
 use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
@@ -15,7 +16,8 @@ class Recipe extends BaseModel
     use HasFactory;
 
     protected $casts = [
-        'price' => MoneyCast::class
+        'price' => MoneyCast::class,
+        'portions' => BigDecimalCast::class
     ];
 
     /*
