@@ -1,3 +1,6 @@
+<?php
+/** @var \App\Models\Recipe $recipe */
+?>
 <table class="table">
     <thead>
     <tr>
@@ -16,7 +19,15 @@
                 {{ $item->measurement }}
             </td>
             <td class="text-end">
-                {{ $item->cost }}
+                @if(!$item->canCalculateCost())
+                    <span class="text-danger">{{ $item->cost }}</span>
+                    <i class="bi bi-exclamation-circle text-warning"
+                       data-bs-toggle="tooltip"
+                       data-bs-placement="top"
+                       title="{{ $item->canNotCalculateCostReason() }}"></i>
+                @else
+                    {{ $item->cost }}
+                @endif
             </td>
         </tr>
     @endforeach

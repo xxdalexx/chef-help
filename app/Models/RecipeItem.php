@@ -83,6 +83,21 @@ class RecipeItem extends BaseModel
         return 'RecipeItemCost' . $this->id . $this->updated_at;
     }
 
+    public function canNotCalculateCostReason(): string
+    {
+        // Ingredient Missing As Purchased Record
+        if (!$this->ingredient->asPurchased) {
+            return 'No As Purchased Data';
+        }
+
+        // Weight/Volume Check
+        if ($this->unit->getType() != $this->ingredient->asPurchased->unit->getType()) {
+            return 'No Weight <-> Volume Conversion';
+        }
+
+        return '';
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Business
@@ -139,7 +154,7 @@ class RecipeItem extends BaseModel
         return $price;
     }
 
-    public function getCostAsString(bool $withDollarSign = true)
+    public function getCostAsString(bool $withDollarSign = true): string
     {
         return moneyToString($this->getCost(), $withDollarSign);
     }

@@ -62,6 +62,33 @@ it('knows that it cannot calculate cost when ingredient is missing AP record', f
     expect(RecipeItem::first()->canCalculateCost())->toBeFalse();
 });
 
+it('can tell the reasoning for not calculating cost', function () {
+
+    //Create Recipe, Item, and an Ingredient with no AP Record.
+    $recipe = Recipe::factory()->has(
+        RecipeItem::factory(['unit' => UsWeight::oz])->has(
+            Ingredient::factory()
+        ), 'items'
+    )->create();
+
+    $item = RecipeItem::first();
+    expect(
+        $item->canNotCalculateCostReason()
+    )->toBe(
+        'No As Purchased Data'
+    );
+
+    AsPurchased::factory()->for($item->ingredient)->create(['unit' => UsVolume::floz]);
+    $item->refresh();
+
+    expect(
+        $item->canNotCalculateCostReason()
+    )->toBe(
+        'No Weight <-> Volume Conversion'
+    );
+
+});
+
 
 it('knows that it cannot calculate cost when there is a weight volume mismatch', function () {
 
