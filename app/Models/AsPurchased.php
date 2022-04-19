@@ -25,6 +25,8 @@ class AsPurchased extends BaseModel
         'price' => MoneyCast::class
     ];
 
+    protected $touches = ['ingredient'];
+
     public function ingredient(): BelongsTo
     {
         return $this->belongsTo(Ingredient::class);

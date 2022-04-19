@@ -62,6 +62,7 @@ it('knows that it cannot calculate cost when ingredient is missing AP record', f
     expect(RecipeItem::first()->canCalculateCost())->toBeFalse();
 });
 
+
 it('can tell the reasoning for not calculating cost', function () {
 
     //Create Recipe, Item, and an Ingredient with no AP Record.
@@ -131,4 +132,23 @@ test('get cost caching through attribute accessor', function () {
     $item->update(['quantity' => 100]);
     expect($item->cost)->not->toBe($originalCost);
     expect($item->costCacheKey())->not->toBe($originalKey);
+
+});
+
+
+test('cost cache is updated when the ap price is updated', function () {
+
+    $this->seed(LobsterDishSeeder::class);
+    testTime()->addDay();
+    /** @var RecipeItem $item */
+    $item         = RecipeItem::with('ingredient.asPurchased')->first();
+    $originalCost = $item->getCostAsString();
+    $originalKey = $item->costCacheKey();
+
+    $ap = $item->ingredient->asPurchased;
+    $ap->update(['price' => money(13)]);
+    $item->refresh();
+
+    expect($item->costCacheKey())->not->toBe($originalKey);
+    expect($item->getCostAsString())->not->toBe($originalCost);
 });

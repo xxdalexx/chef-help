@@ -74,6 +74,7 @@ it('knows if the cost is inaccurate', function () {
 
 });
 
+
 it('knows if the cost is accurate', function () {
 
     $this->seed(LobsterDishSeeder::class);

@@ -11,6 +11,8 @@ class Ingredient extends BaseModel
 {
     use HasFactory;
 
+    protected $touches = ['recipeItems'];
+
     /*
     |--------------------------------------------------------------------------
     | Scopes
