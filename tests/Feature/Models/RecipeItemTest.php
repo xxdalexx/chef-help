@@ -11,6 +11,7 @@ use Database\Seeders\LobsterDishSeeder;
 use Database\Seeders\RandomRecipeSeeder;
 use function Spatie\PestPluginTestTime\testTime;
 
+
 test('relationships and casts', function () {
 
     $item = RecipeItem::factory()->create();
@@ -21,21 +22,22 @@ test('relationships and casts', function () {
 
 });
 
-
-it('has a calculated cost', function ($id, $expectedCost) {
-
+//TODO: figure out a better way to get ids.
+it('has a calculated cost', function ($idOffset, $expectedCost) {
     $this->seed(LobsterDishSeeder::class);
+    $id = RecipeItem::first()->id + $idOffset;
 
-    $item = RecipeItem::withFullIngredientRelation()->find($id);
+    $item = RecipeItem::with('ingredient.asPurchased')->find($id);
 
     expect($item->getCost())->toBeMoney();
     expect($item->getCostAsString())->toBe($expectedCost);
 
 })->with([
-    [1, '$7.50'],
-    [2, '$1.61'],
-    [3, '$0.50'],
-    [4, '$1.00']
+    //Refresh database doesn't reset auto incrementing ids.
+    [0, '$7.50'],  //Lobster
+    [1, '$1.61'],  //Heavy Cream
+    [2, '$0.50'], //Sesame Seed Oil
+    [3, '$1.00']  //Imported Aged White Balsamic Vinegar
 ]);
 
 
@@ -101,19 +103,20 @@ it('knows that it cannot calculate cost when there is a weight volume mismatch',
 });
 
 
-it('calculates a cost with a US Metric conversion', function ($id, $expectedCost) {
+it('calculates a cost with a US Metric conversion', function ($idOffset, $expectedCost) {
 
     $this->seed(RandomRecipeSeeder::class);
+    $id = RecipeItem::first()->id + $idOffset;
 
     $item = RecipeItem::find($id);
 
     expect($item->getCostAsString())->toBe($expectedCost);
 
 })->with([
-    [1, '$4.74'],  //AP: Metric Volume, RI: US Volume
-    [2, '$16.91'], //AP: US Volume, RI: Metric Volume
-    [3, '$17.64'], //AP: US Weight, RI: Metric Weight
-    [4, '$14.75'], //AP: Metric Weight, RI: US Weight
+    [0, '$4.74'],  //AP: Metric Volume, RI: US Volume
+    [1, '$16.91'], //AP: US Volume, RI: Metric Volume
+    [2, '$17.64'], //AP: US Weight, RI: Metric Weight
+    [3, '$14.75'], //AP: Metric Weight, RI: US Weight
 ]);
 
 

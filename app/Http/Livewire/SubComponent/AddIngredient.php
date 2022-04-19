@@ -121,8 +121,8 @@ class AddIngredient extends Component
             RecipeItem::make([
                 'quantity' => $this->unitQuantityInput,
                 'unit' => findMeasurementUnitEnum($this->unitInput),
-                'cleaned' => $this->cleanedInput,
-                'cooked' => $this->cookedInput,
+                'cleaned' => (bool) $this->cleanedInput,
+                'cooked' => (bool) $this->cookedInput,
                 'ingredient_id' => $ingredient->id
             ])
         );

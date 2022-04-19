@@ -1,8 +1,10 @@
 <?php
 
 use App\Measurements\MeasurementEnum;
+use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
+use App\Models\Recipe;
 use App\ValueObjects\ConvertableUnit;
 use Database\Seeders\LobsterDishSeeder;
 
@@ -34,3 +36,16 @@ it('gives a price per base unit', function () {
     expect($costPerUnit)->toBe('$0.75');
 
 });
+
+it('can have a quantity that is not a whole number', function () {
+
+    $recipe = Recipe::factory()->create();
+    $ap = AsPurchased::factory()->for(Ingredient::factory())->create([
+        'quantity' => 1.5,
+        'unit' => UsWeight::oz,
+        'price' => money(1.5)
+    ]);
+    $ap->refresh();
+
+    expect(moneyToString($ap->getCostPerBaseUnit()))->toBe('$1.00');
+})->skip('TDD WIP');
