@@ -205,5 +205,5 @@ return [
     |
     */
 
-    'themes' => ['lux', 'sandstone', 'sketchy', 'slate', 'superhero']
+    'themes' => ['flatly', 'lux', 'sandstone', 'sketchy', 'slate', 'superhero', 'vapor']
 ];

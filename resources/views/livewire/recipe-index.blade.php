@@ -23,7 +23,7 @@
                     {{ $recipe->getPriceAsString() }}
                 </td>
                 <td class="text-end">
-                    {{ $recipe->getPortionCostPercentageAsString() }}%
+                    {{ $recipe->getPortionCostPercentageAsString() }}
                 </td>
             </tr>
         @endforeach
