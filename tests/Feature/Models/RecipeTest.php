@@ -5,6 +5,7 @@ use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
+use Database\Seeders\RandomRecipeSeeder;
 
 test('casts and relationships', function () {
 
@@ -60,4 +61,24 @@ it('give portion cost percentage', function () {
 
     expect($recipe->getPortionCostPercentageAsString())->toBe('29.5%');
 
+});
+
+
+it('knows if the cost is inaccurate', function () {
+
+    $this->seed(RandomRecipeSeeder::class);
+
+    $recipe = Recipe::with('items.ingredient.asPurchased')->first();
+
+    expect($recipe->hasInaccurateCost())->toBeTrue();
+
+});
+
+it('knows if the cost is accurate', function () {
+
+    $this->seed(LobsterDishSeeder::class);
+
+    $recipe = Recipe::with('items.ingredient.asPurchased')->first();
+
+    expect($recipe->hasInaccurateCost())->toBeFalse();
 });

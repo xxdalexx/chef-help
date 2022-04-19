@@ -69,6 +69,17 @@ class RandomRecipeSeeder extends Seeder
             'price'         => money(26)
         ]);
 
+        $noAPIngredient = Ingredient::factory()->create([
+            'name' => 'No AP'
+        ]);
+
+        $measurementMismatch = Ingredient::factory()->create([
+            'name' => 'Measurement Mismatch'
+        ]);
+
+        AsPurchased::factory()->for($measurementMismatch)->create([
+            'unit' => UsWeight::oz
+        ]);
 
 
 
@@ -114,6 +125,12 @@ class RandomRecipeSeeder extends Seeder
             'cooked'        => false,
             'unit'          => UsWeight::lb,
             'quantity'      => 5,
+        ]);
+
+        RecipeItem::factory()->for($recipe)->for($noAPIngredient)->create();
+
+        RecipeItem::factory()->for($recipe)->for($measurementMismatch)->create([
+            'unit' => UsVolume::floz
         ]);
 
     }

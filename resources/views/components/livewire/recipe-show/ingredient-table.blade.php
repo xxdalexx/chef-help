@@ -21,10 +21,7 @@
             <td class="text-end">
                 @if(!$item->canCalculateCost())
                     <span class="text-danger">{{ $item->cost }}</span>
-                    <i class="bi bi-exclamation-circle text-warning"
-                       data-bs-toggle="tooltip"
-                       data-bs-placement="top"
-                       title="{{ $item->canNotCalculateCostReason() }}"></i>
+                    <x-icon.warning :tooltip="$item->canNotCalculateCostReason()" />
                 @else
                     {{ $item->cost }}
                 @endif

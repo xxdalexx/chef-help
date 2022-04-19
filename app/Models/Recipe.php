@@ -88,6 +88,14 @@ class Recipe extends BaseModel
     |--------------------------------------------------------------------------
     */
 
+    public function hasInaccurateCost(): bool
+    {
+        foreach ($this->items as $item) {
+            if (! $item->canCalculateCost()) return true;
+        }
+        return false;
+    }
+
     public function getTotalCost(): Money
     {
         $totalCost = money(0);

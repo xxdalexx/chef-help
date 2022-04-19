@@ -24,6 +24,9 @@
                 </td>
                 <td class="text-end">
                     {{ $recipe->getPortionCostPercentageAsString() }}
+                    @if($recipe->hasInaccurateCost())
+                        <x-icon.warning tooltip="Inaccurate Due To Missing Data" />
+                    @endif
                 </td>
             </tr>
         @endforeach
