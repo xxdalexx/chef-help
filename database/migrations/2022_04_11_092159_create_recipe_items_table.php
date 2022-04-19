@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('cleaned');
             $table->boolean('cooked');
             $table->string('unit');
-            $table->unsignedSmallInteger('quantity');
+            $table->string('quantity');
             $table->timestamps();
         });
     }

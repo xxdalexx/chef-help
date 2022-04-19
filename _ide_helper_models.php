@@ -54,8 +54,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property int $cleaned_yield
- * @property int $cooked_yield
+ * @property \Brick\Math\BigDecimal $cleaned_yield
+ * @property \Brick\Math\BigDecimal $cooked_yield
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\AsPurchased|null $asPurchased
@@ -82,7 +82,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property int $portions
+ * @property \Brick\Math\BigDecimal $portions
  * @property \Brick\Money\Money $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -114,7 +114,7 @@ namespace App\Models{
  * @property int $ingredient_id
  * @property bool $cleaned
  * @property bool $cooked
- * @property int $quantity
+ * @property \Brick\Math\BigDecimal $quantity
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $cost

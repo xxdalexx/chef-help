@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\BigDecimalCast;
 use App\Casts\MeasurementEnumCast;
 use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
@@ -23,9 +24,10 @@ class RecipeItem extends BaseModel
     use HasFactory;
 
     protected $casts = [
-        'unit'    => MeasurementEnumCast::class,
-        'cleaned' => 'boolean',
-        'cooked'  => 'boolean'
+        'unit'     => MeasurementEnumCast::class,
+        'cleaned'  => 'boolean',
+        'cooked'   => 'boolean',
+        'quantity' => BigDecimalCast::class
     ];
 
     /*
@@ -73,7 +75,7 @@ class RecipeItem extends BaseModel
 
     public function getCostAttribute(): string
     {
-        return Cache::remember($this->costCacheKey(), $thirtyDays = 60*60*24*30, function () {
+        return Cache::remember($this->costCacheKey(), $thirtyDays = 60 * 60 * 24 * 30, function () {
             return $this->getCostAsString();
         });
     }
@@ -130,10 +132,10 @@ class RecipeItem extends BaseModel
 
             $costPerApBaseUnit = match ($apBaseUnit) {
                 MetricVolume::liter => $this->asPurchasedCostFromLitersToFloz(),
-                UsVolume::floz      => $this->asPurchasedCostFromFlozToLiters(),
-                MetricWeight::gram  => $this->asPurchasedCostFromGramsToOz(),
-                UsWeight::oz        => $this->asPurchasedCostFromOzToGrams(),
-                default             => throw new \Exception('US<->Metric Conversion Case Missing.')
+                UsVolume::floz => $this->asPurchasedCostFromFlozToLiters(),
+                MetricWeight::gram => $this->asPurchasedCostFromGramsToOz(),
+                UsWeight::oz => $this->asPurchasedCostFromOzToGrams(),
+                default => throw new \Exception('US<->Metric Conversion Case Missing.')
             };
         }
 
