@@ -38,6 +38,12 @@ class Ingredient extends BaseModel
         return $this->hasMany(RecipeItem::class);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
     public function cleanedYieldDecimal(): BigDecimal
     {
         return BigDecimal::of($this->cleaned_yield)->exactlyDividedBy(100);

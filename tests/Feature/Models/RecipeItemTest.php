@@ -1,6 +1,7 @@
 <?php
 
 use App\Measurements\MeasurementEnum;
+use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
@@ -49,6 +50,30 @@ it('returns $0.00 cost on weight/volume conversion attempt', function () {
 });
 
 
+it('knows that it cannot calculate cost when ingredient is missing AP record', function () {
+
+    //Create Recipe, Item, and an Ingredient with no AP Record.
+    $recipe = Recipe::factory()->has(
+        RecipeItem::factory()->has(
+            Ingredient::factory()
+        ), 'items'
+    )->create();
+
+    expect(RecipeItem::first()->canCalculateCost())->toBeFalse();
+});
+
+
+it('knows that it cannot calculate cost when there is a weight volume mismatch', function () {
+
+    //Create Recipe, Item, and an Ingredient with no AP Record.
+    $recipe = Recipe::factory()->create();
+    $ingredient = Ingredient::factory()->has(AsPurchased::factory(['unit' => UsWeight::oz]))->create();
+    $item = RecipeItem::factory()->for($recipe)->for($ingredient)->create(['unit' => UsVolume::floz]);
+
+    expect($item->canCalculateCost())->toBeFalse();
+});
+
+
 it('calculates a cost with a US Metric conversion', function ($id, $expectedCost) {
 
     $this->seed(RandomRecipeSeeder::class);
@@ -63,6 +88,7 @@ it('calculates a cost with a US Metric conversion', function ($id, $expectedCost
     [3, '$17.64'], //AP: US Weight, RI: Metric Weight
     [4, '$14.75'], //AP: Metric Weight, RI: US Weight
 ]);
+
 
 test('get cost caching through attribute accessor', function () {
 
