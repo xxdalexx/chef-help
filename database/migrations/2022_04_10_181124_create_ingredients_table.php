@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->smallInteger('cleaned_yield');
-            $table->smallInteger('cooked_yield');
+            $table->string('cleaned_yield');
+            $table->string('cooked_yield');
             $table->timestamps();
         });
     }

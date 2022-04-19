@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\BigDecimalCast;
 use Brick\Math\BigDecimal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Ingredient extends BaseModel
 {
     use HasFactory;
+
+    protected $casts = [
+        'cleaned_yield' => BigDecimalCast::class,
+        'cooked_yield' => BigDecimalCast::class
+    ];
 
     protected $touches = ['recipeItems'];
 
