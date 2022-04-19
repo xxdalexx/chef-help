@@ -11,10 +11,7 @@ use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-/**
- * @property-read MeasurementEnum $unit
- * @property-read Money           $price
- */
+
 class AsPurchased extends BaseModel
 {
     use HasFactory;

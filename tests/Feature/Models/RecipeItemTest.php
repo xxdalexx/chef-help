@@ -38,15 +38,14 @@ it('has a calculated cost', function ($id, $expectedCost) {
 ]);
 
 
-it('throws an exception', function () {
+it('returns $0.00 cost on weight/volume conversion attempt', function () {
 
     $this->seed(RandomRecipeSeeder::class);
-    $this->expectException(Exception::class);
 
     $item = RecipeItem::first();
     $item->unit = UsWeight::oz;
 
-    $item->getCost();
+    expect($item->getCostAsString())->toBe('$0.00');
 });
 
 

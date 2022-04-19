@@ -2,24 +2,27 @@
 
 namespace App\Casts;
 
+use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
+use Illuminate\Database\Eloquent\Model;
 
 class MeasurementEnumCast implements CastsAttributes
 {
     /**
      * Cast the given value.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return mixed
+     *
+     * @return MeasurementEnum
      */
-    public function get($model, string $key, $value, array $attributes)
+    public function get($model, string $key, $value, array $attributes): MeasurementEnum
     {
         return findMeasurementUnitEnum($value);
     }
@@ -27,13 +30,13 @@ class MeasurementEnumCast implements CastsAttributes
     /**
      * Prepare the given value for storage.
      *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
+     * @param  Model  $model
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
      * @return mixed
      */
-    public function set($model, string $key, $value, array $attributes)
+    public function set($model, string $key, $value, array $attributes): mixed
     {
         return $value->value;
     }

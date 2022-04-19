@@ -14,11 +14,11 @@ namespace App\Models{
 /**
  * App\Models\AsPurchased
  *
- * @property-read MeasurementEnum $unit
- * @property-read Money           $price
  * @property int $id
  * @property int $ingredient_id
  * @property int $quantity
+ * @property \App\Measurements\MeasurementEnum $unit
+ * @property \Brick\Money\Money $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Ingredient $ingredient
@@ -83,7 +83,7 @@ namespace App\Models{
  * @property int $id
  * @property string $name
  * @property int $portions
- * @property mixed $price
+ * @property \Brick\Money\Money $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $items

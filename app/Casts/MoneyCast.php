@@ -2,6 +2,7 @@
 
 namespace App\Casts;
 
+use Brick\Money\Money;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
 class MoneyCast implements CastsAttributes
@@ -13,9 +14,9 @@ class MoneyCast implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return mixed
+     * @return Money
      */
-    public function get($model, string $key, $value, array $attributes)
+    public function get($model, string $key, $value, array $attributes): Money
     {
         return money($value);
     }
@@ -27,9 +28,9 @@ class MoneyCast implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     * @return mixed
+     * @return string
      */
-    public function set($model, string $key, $value, array $attributes)
+    public function set($model, string $key, $value, array $attributes): string
     {
         return moneyToString($value, false);
     }
