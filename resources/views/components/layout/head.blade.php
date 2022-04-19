@@ -7,6 +7,7 @@
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ theme() }}" rel="stylesheet"/>
+    <link rel="stylesheet" href="{{ theme() }}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     @livewireStyles
 </head>
