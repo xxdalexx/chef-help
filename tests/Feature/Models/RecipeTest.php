@@ -34,7 +34,7 @@ it('gives a total cost', function () {
 
     $this->seed(LobsterDishSeeder::class);
 
-    $recipe = Recipe::first();
+    $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
     expect($recipe->getTotalCostAsString())->toBe('$10.61');
 
@@ -45,7 +45,7 @@ it('gives a cost per portion', function () {
 
     $this->seed(LobsterDishSeeder::class);
 
-    $recipe = Recipe::first();
+    $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
     expect($recipe->getCostPerPortionAsString())->toBe('$5.31');
 
@@ -56,7 +56,7 @@ it('give portion cost percentage', function () {
 
     $this->seed(LobsterDishSeeder::class);
 
-    $recipe = Recipe::first();
+    $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
     expect($recipe->getPortionCostPercentageAsString())->toBe('29.5%');
 

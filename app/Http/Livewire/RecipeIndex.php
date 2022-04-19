@@ -54,6 +54,6 @@ class RecipeIndex extends LivewireBaseComponent
     public function render()
     {
         return view('livewire.recipe-index')
-            ->withRecipes(Recipe::search($this->searchString)->paginate(10));
+            ->withRecipes(Recipe::search($this->searchString)->with('items.ingredient.asPurchased')->paginate(10));
     }
 }
