@@ -48,4 +48,4 @@ it('can have a quantity that is not a whole number', function () {
     $ap->refresh();
 
     expect(moneyToString($ap->getCostPerBaseUnit()))->toBe('$1.00');
-})->skip('TDD WIP');
+});

@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('as_purchased', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Ingredient::class)->constrained()->cascadeOnDelete();
-            $table->unsignedSmallInteger('quantity');
+            $table->string('quantity');
             $table->string('unit');
             $table->string('price');
             $table->timestamps();

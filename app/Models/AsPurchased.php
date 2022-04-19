@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\BigDecimalCast;
 use App\Casts\MeasurementEnumCast;
 use App\Casts\MoneyCast;
 use App\Measurements\MeasurementEnum;
@@ -22,7 +23,8 @@ class AsPurchased extends BaseModel
 
     protected $casts = [
         'unit'  => MeasurementEnumCast::class,
-        'price' => MoneyCast::class
+        'price' => MoneyCast::class,
+        'quantity' => BigDecimalCast::class
     ];
 
     protected $touches = ['ingredient'];

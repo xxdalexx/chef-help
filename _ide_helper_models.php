@@ -16,7 +16,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $ingredient_id
- * @property int $quantity
+ * @property \Brick\Math\BigDecimal $quantity
  * @property \App\Measurements\MeasurementEnum $unit
  * @property \Brick\Money\Money $price
  * @property \Illuminate\Support\Carbon|null $created_at
