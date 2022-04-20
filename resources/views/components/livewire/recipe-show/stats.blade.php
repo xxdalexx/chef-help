@@ -29,6 +29,18 @@
         </tr>
         <tr>
             <td>
+                Menu Category:
+            </td>
+            <td class="text-end">
+                @if(empty($recipe->menuCategory))
+                    Not Assigned
+                @else
+                    {{ $recipe->menuCategory->name }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
                 Menu Price
             </td>
             <td class="text-end">

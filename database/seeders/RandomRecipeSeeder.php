@@ -8,6 +8,7 @@ use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
+use App\Models\MenuCategory;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -83,10 +84,16 @@ class RandomRecipeSeeder extends Seeder
 
 
 
+        $appsCategory = MenuCategory::create([
+            'name' => 'Appetizers',
+            'costing_goal' => 18
+        ]);
+
         $recipe = Recipe::create([
             'name'     => 'Random Items',
             'portions' => 1,
             'price'    => money('10'),
+            'menu_category_id' => $appsCategory->id
         ]);
 
 

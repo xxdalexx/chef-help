@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\MenuCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class RecipeFactory extends Factory
             'name' => $this->faker->word(),
             'portions' => $this->faker->randomDigitNot(0),
             'price' => $this->fakePrice(),
+            'menu_category_id' => MenuCategory::factory()
         ];
     }
 }
