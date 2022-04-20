@@ -9,6 +9,7 @@ use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Recipe extends BaseModel
@@ -25,6 +26,11 @@ class Recipe extends BaseModel
     | Relationships
     |--------------------------------------------------------------------------
     */
+
+    public function menuCategory(): BelongsTo
+    {
+        return $this->belongsTo(MenuCategory::class);
+    }
 
     public function items(): HasMany
     {

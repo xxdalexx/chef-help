@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\MenuCategory;
+use App\Models\Recipe;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('recipes', function (Blueprint $table) {
+        Schema::create('menu_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('portions');
-            $table->string('price');
-            $table->foreignIdFor(MenuCategory::class)->nullable()->constrained()->cascadeOnDelete();
+            $table->string('costing_goal');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipes');
+        Schema::dropIfExists('menu_categories');
     }
 };

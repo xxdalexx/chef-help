@@ -82,16 +82,42 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\MenuCategory
+ *
+ * @property int $id
+ * @property string $name
+ * @property \Brick\Math\BigDecimal $costing_goal
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipe[] $recipes
+ * @property-read int|null $recipes_count
+ * @method static \Database\Factories\MenuCategoryFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory whereCostingGoal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|MenuCategory whereUpdatedAt($value)
+ */
+	class MenuCategory extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Recipe
  *
  * @property int $id
  * @property string $name
  * @property \Brick\Math\BigDecimal $portions
  * @property \Brick\Money\Money $price
+ * @property int|null $menu_category_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $items
  * @property-read int|null $items_count
+ * @property-read \App\Models\MenuCategory|null $menuCategory
  * @method static \Database\Factories\RecipeFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe newQuery()
@@ -99,6 +125,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe search($searchString)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereMenuCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe wherePortions($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe wherePrice($value)

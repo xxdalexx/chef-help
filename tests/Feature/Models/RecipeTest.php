@@ -2,6 +2,7 @@
 
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
+use App\Models\MenuCategory;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
@@ -11,10 +12,12 @@ test('casts and relationships', function () {
 
     $recipe = Recipe::factory()
         ->has(RecipeItem::factory()->count(3), 'items')
+        ->for(MenuCategory::factory())
         ->create();
 
     expect($recipe->price)->toBeMoney();
     expect($recipe->items)->toBeCollection();
+    expect($recipe->menuCategory)->toBeInstanceOf(MenuCategory::class);
 
 });
 

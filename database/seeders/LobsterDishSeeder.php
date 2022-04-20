@@ -6,6 +6,7 @@ use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
+use App\Models\MenuCategory;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Illuminate\Database\Seeder;
@@ -66,11 +67,21 @@ class LobsterDishSeeder extends Seeder
             'price'         => money('72.00')
         ]);
 
+
+
+        $entreeCategory = MenuCategory::create([
+            'name' => 'Entrees',
+            'costing_goal' => '28'
+        ]);
+
         $recipe = Recipe::create([
             'name'     => 'Lobster Dish',
             'portions' => 2,
             'price'    => money('18'),
+            'menu_category_id' => $entreeCategory->id
         ]);
+
+
 
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
