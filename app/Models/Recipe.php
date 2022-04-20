@@ -79,6 +79,11 @@ class Recipe extends BaseModel
         return moneyToString($this->price);
     }
 
+    public function getCostingPercentageDifferenceFromGoalAsString(): string
+    {
+        return (string) $this->getCostingPercentageDifferenceFromGoal();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Shortcuts
@@ -131,6 +136,10 @@ class Recipe extends BaseModel
         return $costPerPortion->dividedBy($price, 3,RoundingMode::UP);
     }
 
-
-
+    public function getCostingPercentageDifferenceFromGoal(): BigDecimal
+    {
+        $current = $this->getPortionCostPercentage()->multipliedBy(100);
+        $goal = $this->menuCategory->costing_goal;
+        return $current->minus($goal)->toScale(1, RoundingMode::HALF_UP);
+    }
 }

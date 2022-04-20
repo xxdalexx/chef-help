@@ -53,6 +53,7 @@
             </td>
             <td class="text-end">
                 {{ $recipe->getPortionCostPercentageAsString() }}
+                <x-costing-goal-difference :number="$recipe->getCostingPercentageDifferenceFromGoalAsString()"/>
             </td>
         </tr>
     </tbody>
