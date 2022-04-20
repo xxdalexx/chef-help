@@ -59,6 +59,10 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\AsPurchased|null $asPurchased
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AsPurchased[] $asPurchasedAll
+ * @property-read int|null $as_purchased_all_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AsPurchased[] $asPurchasedHistory
+ * @property-read int|null $as_purchased_history_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $recipeItems
  * @property-read int|null $recipe_items_count
  * @method static \Database\Factories\IngredientFactory factory(...$parameters)

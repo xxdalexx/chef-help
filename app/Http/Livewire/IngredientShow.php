@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\AsPurchased;
 use App\Models\Ingredient;
 use Livewire\Component;
 
@@ -9,9 +10,88 @@ class IngredientShow extends Component
 {
     public ?Ingredient $ingredient;
 
-    public function mount()
+    public bool $hasAsPurchased = false;
+
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Parameters
+    |--------------------------------------------------------------------------
+    */
+
+    public string $nameInput         = '';
+    public string $cleanedYieldInput = '';
+    public string $cookedYieldInput  = '';
+
+    protected array $rulesForEdit = [
+        'nameInput'         => 'required',
+        'cleanedYieldInput' => 'required|numeric|between:1,100',
+        'cookedYieldInput'  => 'required|numeric|between:1,100',
+    ];
+
+    /*
+    |--------------------------------------------------------------------------
+    | As Purchased Parameters
+    |--------------------------------------------------------------------------
+    */
+
+    public string $apQuantityInput = '';
+    public string $apUnitInput     = '';
+    public string $apPriceInput    = '';
+
+    protected array $rulesForAp = [
+        'apQuantityInput' => 'required|numeric',
+        'apUnitInput'     => 'required',
+        'apPriceInput'    => 'required|numeric',
+    ];
+
+    public function mount(): void
     {
         $this->ingredient->load('asPurchased');
+
+        if (! empty($this->ingredient->asPurchased)) {
+            $this->hasAsPurchased = true;
+            $this->apQuantityInput = (string) $this->ingredient->asPurchased->quantity;
+            $this->apUnitInput = $this->ingredient->asPurchased->unit->value;
+        }
+
+        $this->setEditProperties();
+    }
+
+    protected function setEditProperties(): void
+    {
+        $this->nameInput = $this->ingredient->name;
+        $this->cleanedYieldInput = $this->ingredient->cleaned_yield;
+        $this->cookedYieldInput = $this->ingredient->cooked_yield;
+    }
+
+    public function editIngredient(): void
+    {
+        $this->validate($this->rulesForEdit);
+
+        $this->ingredient->update([
+            'name' => $this->nameInput,
+            'cooked_yield' => $this->cookedYieldInput,
+            'cleaned_yield' => $this->cleanedYieldInput
+        ]);
+
+        $this->ingredient->refresh();
+        $this->setEditProperties();
+    }
+
+    public function addAsPurchased(): void
+    {
+        $this->validate($this->rulesForAp);
+
+        AsPurchased::create([
+            'price' => money($this->apPriceInput),
+            'unit' => findMeasurementUnitEnum($this->apUnitInput),
+            'quantity' => $this->apQuantityInput,
+            'ingredient_id' => $this->ingredient->id
+        ]);
+
+        $this->hasAsPurchased = true;
+        $this->apPriceInput = '';
+        $this->ingredient->refresh();
     }
 
     public function render()

@@ -38,7 +38,17 @@ class Ingredient extends BaseModel
 
     public function asPurchased(): HasOne
     {
-        return $this->hasOne(AsPurchased::class);
+        return $this->hasOne(AsPurchased::class)->latest();
+    }
+
+    public function asPurchasedHistory(): HasMany
+    {
+        return $this->hasMany(AsPurchased::class)->take(10)->skip(1)->latest();
+    }
+
+    public function asPurchasedAll(): HasMany
+    {
+        return $this->hasMany(AsPurchased::class)->latest();
     }
 
     public function recipeItems(): HasMany
