@@ -3,6 +3,7 @@
 use App\Http\Controllers\DevController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Livewire\IngredientIndex;
+use App\Http\Livewire\IngredientShow;
 use App\Http\Livewire\RecipeIndex;
 use App\Http\Livewire\RecipeShow;
 use App\Models\Ingredient;
@@ -20,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::view('/', 'welcome')->name('home');
 
 Route::get('theme/{theme}', ThemeController::class)->name('change-theme');
 
@@ -32,7 +31,4 @@ Route::get('recipes', RecipeIndex::class)->name('recipe.index');
 Route::get('recipe/{recipe}', RecipeShow::class)->name('recipe.show');
 
 Route::get('ingredients', IngredientIndex::class)->name('ingredient.index');
-Route::get('ingredient/{ingredient}', function (Ingredient $ingredient) {
-    $ingredient->load('asPurchased');
-    dd($ingredient);
-})->name('ingredient.show');
+Route::get('ingredient/{ingredient}', IngredientShow::class)->name('ingredient.show');
