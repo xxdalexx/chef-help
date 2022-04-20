@@ -12,7 +12,7 @@ class AddIngredient extends Component
 {
     public Recipe $recipe;
 
-    public int $showingExistingIngredient = 0;
+    public int $showingExistingIngredient = 1;
 
     /*
     |--------------------------------------------------------------------------

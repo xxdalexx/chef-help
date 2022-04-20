@@ -3,7 +3,10 @@
 namespace App\Http\Livewire;
 
 use App\Http\Livewire\Plugins\Refreshable;
+use App\Models\Ingredient;
 use App\Models\Recipe;
+use App\Models\RecipeItem;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class RecipeShow extends LivewireBaseComponent
@@ -12,13 +15,19 @@ class RecipeShow extends LivewireBaseComponent
 
     public ?Recipe $recipe;
 
-    public ?string $editArea = '';
+    public ?RecipeItem $editingRecipeItem;
+
+    public string $editArea = '';
+
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Recipe Properties
+    |--------------------------------------------------------------------------
+    */
 
     public string $recipeNameInput = '';
-
-    public string $menuPriceInput = '';
-
-    public string $portionsInput = '';
+    public string $menuPriceInput  = '';
+    public string $portionsInput   = '';
 
     protected array $rules = [
         'recipeNameInput' => 'required',
@@ -26,12 +35,36 @@ class RecipeShow extends LivewireBaseComponent
         'portionsInput'   => 'required|numeric',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Edit Item Properties
+    |--------------------------------------------------------------------------
+    */
+
+    public string $editUnitInput     = '';
+    public string $editQuantityInput = '';
+    public string $editCleanedInput  = '';
+    public string $editCookedInput   = '';
+
+    protected array $itemRules = [
+        'editUnitInput'         => 'required',
+        'editQuantityInput' => 'required|numeric',
+        'editCleanedInput'      => 'boolean',
+        'editCookedInput'       => 'boolean'
+    ];
+
     public function mount(Recipe $recipe): void
     {
-        $this->recipe          = $recipe->load('items.ingredient.asPurchased');
+        $this->recipe->load('items.ingredient.asPurchased');
         $this->recipeNameInput = $recipe->name;
         $this->menuPriceInput  = $recipe->getPriceAsString();
         $this->portionsInput   = $recipe->portions;
+    }
+
+    public function updated($property): void
+    {
+        $rules = collect($this->rules)->merge($this->itemRules)->toArray();
+        $this->validateOnly($property, $rules);
     }
 
     /*
@@ -59,6 +92,32 @@ class RecipeShow extends LivewireBaseComponent
         $this->editArea = '';
     }
 
+    public function updateItem(): void
+    {
+        $this->validate($this->itemRules);
+
+        $this->editingRecipeItem->update([
+            'quantity' => $this->editQuantityInput,
+            'unit' => findMeasurementUnitEnum($this->editUnitInput),
+            'cooked' =>  (bool) $this->editCookedInput,
+            'cleaned' => (bool) $this->editCleanedInput
+        ]);
+
+        $this->editUnitInput     = '';
+        $this->editQuantityInput = '';
+        $this->editCleanedInput  = '';
+        $this->editCookedInput   = '';
+
+        $this->editArea = '';
+        $this->recipe->refresh();
+    }
+
+    public function removeRecipeItem(RecipeItem $item): void
+    {
+        $item->delete();
+        $this->recipe->refresh();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Page Toggles
@@ -67,7 +126,19 @@ class RecipeShow extends LivewireBaseComponent
 
     public function showAddIngredient(): void
     {
-        $this->editArea = 'ingredient';
+        $this->editArea = 'addIngredient';
+    }
+
+    public function showEditItem(RecipeItem $item): void
+    {
+        $this->editingRecipeItem = $item->load('ingredient');
+//        dd($item);
+        $this->editUnitInput     = $item->unit->value;
+        $this->editQuantityInput = (string) $item->quantity;
+        $this->editCleanedInput  = $item->cleaned ? '1' : '';
+        $this->editCookedInput   = $item->cooked ? '1' : '';
+
+        $this->editArea = 'editItem';
     }
 
     public function showEditRecipe(): void

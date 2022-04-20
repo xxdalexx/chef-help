@@ -4,7 +4,7 @@
            class="form-control @error($name) is-invalid @enderror"
            placeholder="">
 
-    <label class="ms-1">
+    <label class="ms-3">
         {{ $labelName }}
     </label>
 

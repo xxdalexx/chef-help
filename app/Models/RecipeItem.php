@@ -65,6 +65,11 @@ class RecipeItem extends BaseModel
 
     public function getIngredientNameAttribute(): string
     {
+        //Lazy loading issues with livewire?
+        if (! $this->relationLoaded('ingredient')) {
+            $this->load('ingredient.asPurchased');
+        }
+
         return $this->ingredient->name;
     }
 

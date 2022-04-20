@@ -90,7 +90,9 @@ it('creates an ingredient and attaches it to a recipe by creating a RecipeItem',
 
     $recipe = Recipe::factory()->create();
 
+
     Livewire::test(\App\Http\Livewire\SubComponent\AddIngredient::class, ['recipe' => $recipe])
+        ->set('showingExistingIngredient', 0)
         ->set('nameInput', 'Name')
         ->set('cleanedInput', false)
         ->set('cookedInput', false)
@@ -101,7 +103,8 @@ it('creates an ingredient and attaches it to a recipe by creating a RecipeItem',
         ->set('unitQuantityInput', '5')
         ->set('cleanedYieldInput', '100')
         ->set('cookedYieldInput', '100')
-        ->call('addIngredient');
+        ->call('addIngredient')
+        ->assertHasNoErrors();
 
     $recipe->refresh();
 

@@ -23,12 +23,24 @@
     <div class="row mt-4 mb-5">
         <div class="col-12">
             @if($editArea == 'recipe')
-                <x-card title="Editing Recipe" >
+                <x-card title="Editing Recipe" wire:key="editRecipe">
                     <x-form.group.recipe />
                     <x-button.block wire:click="updateRecipe" style-type="success" text="Save" />
                 </x-card>
-            @elseif($editArea == 'ingredient')
+            @elseif($editArea == 'addIngredient')
                 <livewire:sub-component.add-ingredient :recipe="$recipe" />
+            @elseif($editArea == 'editItem')
+                <x-card title="Edit {{ $editingRecipeItem->ingredient->name }}" wire:key="editItem">
+                    <div class="row">
+                        <x-form.text-input name="editQuantityInput" label-name="Quantity" cols="5"/>
+                        <x-form.select-units wire:model="editUnitInput" cols="5"/>
+                        <div class="col-md-2">
+                            <x-form.toggle-switch wire:model="editCleanedInput" label-name="Cleaned" />
+                            <x-form.toggle-switch wire:model="editCookedInput" label-name="Cooked" />
+                        </div>
+                    </div>
+                    <x-button.block wire:click="updateItem" style-type="success" text="Save" />
+                </x-card>
             @endif
         </div>
     </div>
