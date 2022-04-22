@@ -53,4 +53,4 @@
     </tbody>
 </table>
 
-<x-button.block wire:click="showAddIngredient" style-type="success" text="Add Ingredient" />
+<x-button.block wire:click="showAddIngredient" style-type="success" text="Add Ingredient" :show-spinner="false"/>

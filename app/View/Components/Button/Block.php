@@ -9,7 +9,8 @@ class Block extends Component
 {
     public function __construct(
         public string $text,
-        public string $styleType = 'primary'
+        public string $styleType = 'primary',
+        public bool $showSpinner = true
     )
     {
     }

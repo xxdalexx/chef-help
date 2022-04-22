@@ -45,7 +45,7 @@
         </x-card>
 
     @else
-        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Recipe" />
+        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Recipe" :show-spinner="false"/>
     @endif
     </div>
 </div>

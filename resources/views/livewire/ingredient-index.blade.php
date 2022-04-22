@@ -50,7 +50,7 @@
             <x-button.block wire:click="createIngredient" style-type="success" text="Create" />
         </x-card>
     @else
-        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Ingredient" />
+        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Ingredient" :show-spinner="false" />
     @endif
     </div>
 </div>
