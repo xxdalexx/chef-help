@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive overflow-visible">
     <table class="table">
         @if(isset($heading))
         <thead>

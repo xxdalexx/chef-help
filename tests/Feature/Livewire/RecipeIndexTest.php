@@ -34,7 +34,7 @@ it('can create a new recipe', function () {
 
     expect(
         $recipe->menuCategory->id
-    )->toBeOne();
+    )->toBe($menuCategoryId);
 
 });
 

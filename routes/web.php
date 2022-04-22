@@ -4,6 +4,7 @@ use App\Http\Controllers\DevController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Livewire\IngredientIndex;
 use App\Http\Livewire\IngredientShow;
+use App\Http\Livewire\MenuCategoryIndex;
 use App\Http\Livewire\RecipeIndex;
 use App\Http\Livewire\RecipeShow;
 use App\Models\Ingredient;
@@ -32,3 +33,5 @@ Route::get('recipe/{recipe}', RecipeShow::class)->name('recipe.show');
 
 Route::get('ingredients', IngredientIndex::class)->name('ingredient.index');
 Route::get('ingredient/{ingredient}', IngredientShow::class)->name('ingredient.show');
+
+Route::get('menu-categories', MenuCategoryIndex::class)->name('menu-category.index');
