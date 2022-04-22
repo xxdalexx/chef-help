@@ -1,6 +1,17 @@
 <div class="row">
-    <x-form.text-input name="recipeNameInput" label-name="Recipe Name" cols="4" />
-    <x-form.price-input name="menuPriceInput" label-name="Menu Price" />
-    <x-form.text-input name="portionsInput" label-name="Portions" />
-    <x-form.select-menu-category wire:model="menuCategoryInput" cols="3"/>
+    <div class="col-4">
+        <x-form.text-input name="recipeNameInput" label-name="Recipe Name" />
+    </div>
+
+    <div class="col">
+        <x-form.price-input name="menuPriceInput" label-name="Menu Price" />
+    </div>
+
+    <div class="col">
+        <x-form.text-input name="portionsInput" label-name="Portions" />
+    </div>
+
+    <div class="col-3">
+        <x-form.select-menu-category wire:model="menuCategoryInput" />
+    </div>
 </div>

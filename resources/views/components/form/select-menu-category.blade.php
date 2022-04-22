@@ -6,6 +6,6 @@
         @endforeach
     </select>
 
-    <label for="category" class="ms-2">Menu Category</label>
+    <label for="category">Menu Category</label>
 
 </div>

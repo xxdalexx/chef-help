@@ -16,7 +16,9 @@
     @if($showingExistingIngredient)
     <div class="row" wire:key="existing">
         <x-form.select-ingredient wire:model="ingredientInput" cols="6" />
-        <x-form.text-input name="unitQuantityInput" label-name="Quantity" />
+        <div class="col">
+            <x-form.text-input name="unitQuantityInput" label-name="Quantity" />
+        </div>
         <x-form.select-units wire:model="unitInput" />
         <div class="col">
             <x-form.toggle-switch wire:model="cleanedInput" label-name="Cleaned" />
