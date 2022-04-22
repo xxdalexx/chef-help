@@ -8,7 +8,8 @@ class Testing extends LivewireBaseComponent
 {
     public function test()
     {
-        $this->alertWithToast('Message Text');
+        sleep(2);
+        $this->alertWithToast('Done Sleeping.');
     }
 
     public function render()

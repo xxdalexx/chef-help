@@ -26,6 +26,12 @@ class Block extends Component
         return $this->attributes->thatStartWith('wire:click');
     }
 
+    public function livewireMethod(): string
+    {
+        //will give the method name that was passed into wire:click
+        return $this->buttonAttributes()->first();
+    }
+
     public function render()
     {
         return view('components.button.block');
