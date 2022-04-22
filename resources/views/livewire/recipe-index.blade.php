@@ -48,5 +48,4 @@
         <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Recipe" />
     @endif
     </div>
-
 </div>

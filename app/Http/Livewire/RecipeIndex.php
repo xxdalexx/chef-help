@@ -50,7 +50,14 @@ class RecipeIndex extends LivewireBaseComponent
         ]);
 
         $this->setSearch($this->recipeNameInput);
+        $this->alertCreated();
         $this->resetInputs();
+    }
+
+    public function alertCreated(): void
+    {
+        $message = 'Recipe: ' . $this->recipeNameInput . ' successfully created';
+        $this->alertWithToast($message);
     }
 
     public function resetInputs(): void

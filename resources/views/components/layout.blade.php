@@ -5,8 +5,11 @@
 <body>
 <x-layout.nav/>
 
+
+
 <!-- Page content-->
 <div class="container mt-5">
+    <livewire:toasts />
     {{ $slot }}
 </div>
 

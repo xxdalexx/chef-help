@@ -4,9 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
-use Livewire\Component;
 
-class IngredientShow extends Component
+class IngredientShow extends LivewireBaseComponent
 {
     public ?Ingredient $ingredient;
 
@@ -75,6 +74,7 @@ class IngredientShow extends Component
         ]);
 
         $this->ingredient->refresh();
+        $this->alertWithToast($this->ingredient->name . ' updated.');
         $this->setEditProperties();
     }
 
@@ -92,6 +92,7 @@ class IngredientShow extends Component
         $this->hasAsPurchased = true;
         $this->apPriceInput = '';
         $this->ingredient->refresh();
+        $this->alertWithToast('Purchase pricing updated.');
     }
 
     public function render()

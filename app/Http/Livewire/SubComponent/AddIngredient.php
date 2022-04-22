@@ -2,13 +2,13 @@
 
 namespace App\Http\Livewire\SubComponent;
 
+use App\Http\Livewire\LivewireBaseComponent;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
-use Livewire\Component;
 
-class AddIngredient extends Component
+class AddIngredient extends LivewireBaseComponent
 {
     public Recipe $recipe;
 
@@ -81,6 +81,7 @@ class AddIngredient extends Component
         }
 
         $this->emit('refreshRecipeShow');
+        $this->alertWithToast('Ingredient Added.');
         $this->resetInputs();
     }
 

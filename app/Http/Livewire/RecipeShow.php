@@ -94,6 +94,7 @@ class RecipeShow extends LivewireBaseComponent
         ]);
 
         $this->editArea = '';
+        $this->alertWithToast($this->recipe->name . ' updated.');
         $this->recipe->refresh();
     }
 
@@ -114,12 +115,14 @@ class RecipeShow extends LivewireBaseComponent
         $this->editCookedInput   = '';
 
         $this->editArea = '';
+        $this->alertWithToast('Ingredient Updated.');
         $this->recipe->refresh();
     }
 
     public function removeRecipeItem(RecipeItem $item): void
     {
         $item->delete();
+        $this->alertWithToast('Ingredient Removed.');
         $this->recipe->refresh();
     }
 

@@ -59,6 +59,7 @@ class IngredientIndex extends LivewireBaseComponent
         }
 
         $this->setSearch($this->nameInput);
+        $this->alertWithToast($this->nameInput . ' created.');
         $this->resetInputs();
     }
 
