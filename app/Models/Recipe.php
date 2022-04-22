@@ -84,6 +84,11 @@ class Recipe extends BaseModel
         return (string) $this->getCostingPercentageDifferenceFromGoal();
     }
 
+    public function getMinPriceForCostingGoalAsString(): string
+    {
+        return moneyToString($this->getMinPriceForCostingGoal());
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Shortcuts
@@ -141,5 +146,12 @@ class Recipe extends BaseModel
         $current = $this->getPortionCostPercentage()->multipliedBy(100);
         $goal = $this->menuCategory->costing_goal;
         return $current->minus($goal)->toScale(1, RoundingMode::HALF_UP);
+    }
+
+    public function getMinPriceForCostingGoal(): Money
+    {
+        return $this->getCostPerPortion()
+            ->dividedBy($this->menuCategory->costing_goal, RoundingMode::HALF_UP)
+            ->multipliedBy('100');
     }
 }

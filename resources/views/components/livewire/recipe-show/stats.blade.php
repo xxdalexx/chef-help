@@ -49,6 +49,14 @@
         </tr>
         <tr>
             <td>
+                Minimum Price That Meets Goal:
+            </td>
+            <td class="text-end">
+                {{ $recipe->getMinPriceForCostingGoalAsString() }}
+            </td>
+        </tr>
+        <tr>
+            <td>
                 Menu Cost Percentage
             </td>
             <td class="text-end">
