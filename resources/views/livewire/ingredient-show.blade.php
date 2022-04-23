@@ -48,15 +48,15 @@
         <x-button.block wire:click="addAsPurchased" style-type="success" text="Save" />
     </x-card>
 
-    @if($ingredient->asPurchasedHistory->count())
     <x-card card-class="mt-2" title="Price History">
+        @if($ingredient->asPurchasedAll->count())
             <x-table>
                 <x-slot name="heading">
                     <th>Price</th>
                     <th>Quantity</th>
                     <th>Date</th>
                 </x-slot>
-                @foreach($ingredient->asPurchasedHistory as $apRecord)
+                @foreach($ingredient->asPurchasedAll as $apRecord)
                     <tr>
                         <td>
                             {{ $apRecord->getPriceAsString() }}
@@ -70,7 +70,9 @@
                     </tr>
                 @endforeach
             </x-table>
+        @else
+            No Records
+        @endif
     </x-card>
-    @endif
 
 </div>
