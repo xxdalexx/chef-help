@@ -2171,6 +2171,9 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 Livewire.on('showToast', function (id) {
   new bootstrap.Toast(document.getElementById(id)).show();
 });
+Livewire.on('showModal', function (id) {
+  new bootstrap.Modal(document.getElementById(id)).show();
+});
 
 /***/ }),
 

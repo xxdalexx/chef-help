@@ -8,3 +8,7 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 Livewire.on('showToast', id => {
     new bootstrap.Toast(document.getElementById(id)).show()
 })
+
+Livewire.on('showModal', id => {
+    new bootstrap.Modal(document.getElementById(id)).show()
+})

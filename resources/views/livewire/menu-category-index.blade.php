@@ -35,10 +35,11 @@
                                     <li>
                                         <a wire:click="loadMenuCategoryToEdit({{ $category->id }})" class="dropdown-item" href="#">Edit</a>
                                     </li>
+                                    @if($menuCategories->count() > 1)
                                     <li>
                                         <a wire:click="deleteMenuCategory({{ $category->id }})" class="dropdown-item" href="#">Delete</a>
                                     </li>
-
+                                    @endif
                                     <li><hr class="dropdown-divider"></li>
 
                                     <li>
@@ -46,7 +47,6 @@
                                     </li>
                                 </ul>
                             </div>
-                        </td>
                         </td>
                     </tr>
                 @endforeach
@@ -69,5 +69,24 @@
             </x-card>
         </div>
     </div>
+
+    {{-- Modal --}}
+
+    <x-modal wire:click="moveAllToCategory" title="Move Recipes to Category" id="moveModal" action-button-text="Move">
+        All recipes must be moved to another category before deleting.
+        <hr>
+
+        <div class="form-floating" wire:key="select-category">
+
+            <select wire:model="categoryIdToMoveTo" class="form-select" id="category">
+                @foreach($this->categoriesForMove as $category)
+                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                @endforeach
+            </select>
+
+            <label for="category">Menu Category</label>
+
+        </div>
+    </x-modal>
 
 </div>
