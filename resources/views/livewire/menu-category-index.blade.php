@@ -42,7 +42,7 @@
                                     <li><hr class="dropdown-divider"></li>
 
                                     <li>
-                                        <a class="dropdown-item" href="#">Show Recipes</a>
+                                        <a class="dropdown-item" href="{{ route('recipe.index', ['menuCategory' => $category->name]) }}">Show Recipes</a>
                                     </li>
                                 </ul>
                             </div>

@@ -13,7 +13,13 @@ class RecipeIndex extends LivewireBaseComponent
 {
     use WithPagination, WithSearch, WithLiveValidation;
 
-    public bool $showCreateForm = true;
+    public bool $showCreateForm = false;
+
+    public string $menuCategoryFilter = '';
+
+    protected $queryString = [
+        'menuCategoryFilter' => ['except' => '', 'as' => 'menuCategory']
+    ];
 
     public string $recipeNameInput = '';
     public string $menuPriceInput  = '';
@@ -70,7 +76,15 @@ class RecipeIndex extends LivewireBaseComponent
 
     public function render()
     {
+        $recipeQuery = Recipe::search($this->searchString)->with(['items.ingredient.asPurchased', 'menuCategory']);
+
+        if (! empty($this->menuCategoryFilter)) {
+            $recipeQuery->whereHas('menuCategory', function ($query) {
+                return $query->where('name', $this->menuCategoryFilter);
+            });
+        }
+
         return view('livewire.recipe-index')
-            ->withRecipes(Recipe::search($this->searchString)->with('items.ingredient.asPurchased')->paginate(10));
+            ->withRecipes($recipeQuery->paginate(10));
     }
 }
