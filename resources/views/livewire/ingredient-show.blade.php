@@ -29,23 +29,25 @@
     </x-card>
 
     <x-card card-class="mt-2" title="Edit">
-        <div class="row">
+        <form wire:submit.prevent="editIngredient">
             <div class="row">
                 <x-form.text-input name="nameInput" label-name="Name" cols="8" />
                 <x-form.text-input name="cleanedYieldInput" label-name="Cleaned Yield %" />
                 <x-form.text-input name="cookedYieldInput" label-name="Cooked Yield %" />
             </div>
-        </div>
-        <x-button.block wire:click="editIngredient" style-type="success" text="Save" />
+            <x-ls.submit-button targets="editIngredient" />
+        </form>
     </x-card>
 
     <x-card card-class="mt-2" title="Update As Purchased Pricing">
-        <div class="row">
-            <x-form.text-input name="apQuantityInput" label-name="Quantity" />
-            <x-form.select-units wire:model="apUnitInput" />
-            <x-form.price-input name="apPriceInput" label-name="Price" />
-        </div>
-        <x-button.block wire:click="addAsPurchased" style-type="success" text="Save" />
+        <form wire:submit.prevent="addAsPurchased">
+            <div class="row">
+                <x-form.text-input name="apQuantityInput" label-name="Quantity" />
+                <x-form.select-units wire:model="apUnitInput" />
+                <x-form.price-input name="apPriceInput" label-name="Price" />
+            </div>
+            <x-ls.submit-button targets="addAsPurchased" />
+        </form>
     </x-card>
 
     <x-card card-class="mt-2" title="Price History">

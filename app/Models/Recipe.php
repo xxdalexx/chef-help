@@ -74,9 +74,9 @@ class Recipe extends BaseModel
         return (string) (float) (string) $this->getPortionCostPercentage()->multipliedBy(100) . '%';
     }
 
-    public function getPriceAsString(): string
+    public function getPriceAsString(bool $withDollarSign = true): string
     {
-        return moneyToString($this->price);
+        return moneyToString($this->price, $withDollarSign);
     }
 
     public function getCostingPercentageDifferenceFromGoalAsString(): string

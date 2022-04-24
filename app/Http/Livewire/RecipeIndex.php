@@ -13,7 +13,7 @@ class RecipeIndex extends LivewireBaseComponent
 {
     use WithPagination, WithSearch, WithLiveValidation;
 
-    public bool $showCreateForm = false;
+    public bool $showCreateForm = true;
 
     public string $recipeNameInput = '';
     public string $menuPriceInput  = '';

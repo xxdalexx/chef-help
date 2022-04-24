@@ -59,7 +59,7 @@ class RecipeShow extends LivewireBaseComponent
     {
         $this->recipe->load('items.ingredient.asPurchased');
         $this->recipeNameInput = $recipe->name;
-        $this->menuPriceInput  = $recipe->getPriceAsString();
+        $this->menuPriceInput  = $recipe->getPriceAsString(false);
         $this->portionsInput   = $recipe->portions;
         $this->menuCategoryInput = $recipe->menuCategory->id;
     }

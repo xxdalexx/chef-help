@@ -40,8 +40,10 @@
     @if($showCreateForm)
 
         <x-card title="Create Recipe" >
-            <x-form.group.recipe />
-            <x-button.block wire:click="createRecipe" style-type="success" text="Create" />
+            <form wire:submit.prevent="createRecipe">
+                <x-form.group.recipe />
+                <x-ls.submit-button targets="createRecipe" />
+            </form>
         </x-card>
 
     @else

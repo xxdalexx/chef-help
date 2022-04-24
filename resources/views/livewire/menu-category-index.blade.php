@@ -54,16 +54,18 @@
         </div>
         <div class="col-md-6">
             <x-card :title="$this->cardTitle">
-                <div class="row">
-                    <div class="col-md-6">
-                        <x-form.text-input name="nameInput" label-name="Name" cols="12"/>
-                    </div>
+                <form wire:submit.prevent="process">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <x-form.text-input name="nameInput" label-name="Name" cols="12"/>
+                        </div>
 
-                    <div class="col-md-6">
-                        <x-form.text-input name="costingGoalInput" label-name="Costing Percentage Goal" cols="12"/>
+                        <div class="col-md-6">
+                            <x-form.text-input name="costingGoalInput" label-name="Costing Percentage Goal" cols="12"/>
+                        </div>
                     </div>
-                </div>
-                <x-button.block wire:click="process" text="Save" />
+                    <x-ls.submit-button targets="process" />
+                </form>
             </x-card>
         </div>
     </div>
