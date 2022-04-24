@@ -12,4 +12,9 @@ class LivewireBaseComponent extends Component
     {
         $this->emit('alertWithToast', $message);
     }
+
+    public function showModal($modalId = 'modal'): void
+    {
+        $this->emit('showModal', $modalId);
+    }
 }

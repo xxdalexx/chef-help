@@ -9,8 +9,16 @@
                 {{ $slot }}
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button {{ $attributes->wire('click') }} type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ $actionButtonText }}</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $closeButtonText ?? 'Close' }}</button>
+                @if(! $attributes->has('noActionButton'))
+                    <button {{ $attributes->wire('click') }}
+                            type="button"
+                            class="btn btn-primary"
+                            data-bs-dismiss="modal"
+                    >
+                        {{ $actionButtonText ?? 'Submit' }}
+                    </button>
+                @endif
             </div>
         </div>
     </div>

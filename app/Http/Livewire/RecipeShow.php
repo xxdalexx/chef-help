@@ -3,10 +3,8 @@
 namespace App\Http\Livewire;
 
 use App\Http\Livewire\Plugins\Refreshable;
-use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class RecipeShow extends LivewireBaseComponent

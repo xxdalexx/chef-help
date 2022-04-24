@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\SubComponent;
 
+use App\Http\Livewire\AbstractionTraits\AddIngredientSearchable;
 use App\Http\Livewire\LivewireBaseComponent;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
@@ -10,6 +11,8 @@ use App\Models\RecipeItem;
 
 class AddIngredient extends LivewireBaseComponent
 {
+    use AddIngredientSearchable;
+
     public Recipe $recipe;
 
     public int $showingExistingIngredient = 1;
@@ -65,11 +68,6 @@ class AddIngredient extends LivewireBaseComponent
     {
         $rules = collect($this->rules)->merge($this->rulesForNew)->toArray();
         $this->validateOnly($property, $rules);
-    }
-
-    public function mount()
-    {
-        $this->ingredientInput = Ingredient::first()->id ?? 0;
     }
 
     public function addIngredient()
@@ -131,7 +129,7 @@ class AddIngredient extends LivewireBaseComponent
 
     protected function resetInputs()
     {
-        $this->ingredientInput    = Ingredient::first()->id ?? 0;
+        $this->ingredientInput    = '';
         $this->unitQuantityInput  = '';
         $this->unitInput          = 'oz';
         $this->cookedInput        = '';
