@@ -37,7 +37,7 @@
             </x-table>
         </div>
         <div class="col-lg-3 mt-5">
-            <x-card title="Filters">
+            <x-card title="Filters" wire:key="filters">
                 <x-form.text-input name="searchString" label-name="Search" />
                 <x-ls.select-menu-category wire:model="menuCategoryFilter" />
             </x-card>
@@ -51,7 +51,7 @@
     <div class="mb-5">
     @if($showCreateForm)
 
-        <x-card title="Create Recipe" >
+        <x-card title="Create Recipe" close-click="$toggle('showCreateForm')" >
             <form wire:submit.prevent="createRecipe">
                 <x-form.group.recipe />
                 <x-ls.submit-button targets="createRecipe" />

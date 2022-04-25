@@ -12,6 +12,6 @@
     </div>
 
     <div class="col-3">
-        <x-form.select-menu-category wire:model="menuCategoryInput" />
+        <x-form.select-menu-category wire:model="menuCategoryInput" num="2" />
     </div>
 </div>

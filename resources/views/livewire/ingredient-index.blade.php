@@ -36,7 +36,7 @@
 
     <div class="mb-5">
     @if($showCreateForm)
-        <x-card title="Create Ingredient">
+        <x-card title="Create Ingredient" close-click="$toggle('showCreateForm')">
             <form wire:submit.prevent="createIngredient">
                 <div class="row">
                     <x-form.text-input name="nameInput" label-name="Name" cols="8" />
