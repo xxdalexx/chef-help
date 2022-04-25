@@ -63,6 +63,8 @@ namespace App\Models{
  * @property-read int|null $as_purchased_all_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AsPurchased[] $asPurchasedHistory
  * @property-read int|null $as_purchased_history_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[] $locations
+ * @property-read int|null $locations_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $recipeItems
  * @property-read int|null $recipe_items_count
  * @method static \Database\Factories\IngredientFactory factory(...$parameters)
@@ -78,6 +80,20 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient whereUpdatedAt($value)
  */
 	class Ingredient extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Location
+ *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredient[] $ingredients
+ * @property-read int|null $ingredients_count
+ * @method static \Database\Factories\LocationFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Location newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Location newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Location query()
+ */
+	class Location extends \Eloquent {}
 }
 
 namespace App\Models{

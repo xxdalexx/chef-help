@@ -43,15 +43,25 @@ class IngredientShow extends LivewireBaseComponent
         'apPriceInput'    => 'required|numeric',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Location Parameters
+    |--------------------------------------------------------------------------
+    */
+
+    public string $locationInput = '';
+
     public function mount(): void
     {
-        $this->ingredient->load('asPurchased')->loadCount('recipeItems');
+        $this->ingredient->load(['asPurchased', 'locations'])->loadCount('recipeItems');
 
         if (! empty($this->ingredient->asPurchased)) {
             $this->hasAsPurchased = true;
             $this->apQuantityInput = (string) $this->ingredient->asPurchased->quantity;
             $this->apUnitInput = $this->ingredient->asPurchased->unit->value;
         }
+
+        $this->locationInput = $this->ingredient->inverseLocationIds()[0] ?? '';
 
         $this->setEditProperties();
     }
@@ -93,6 +103,20 @@ class IngredientShow extends LivewireBaseComponent
         $this->apPriceInput = '';
         $this->ingredient->refresh();
         $this->alertWithToast('Purchase pricing updated.');
+    }
+
+    public function addLocation(): void
+    {
+        $this->ingredient->locations()->attach($this->locationInput);
+        $this->alertWithToast('Location Added.');
+        $this->ingredient->refresh()->loadCount('recipeItems');
+    }
+
+    public function removeLocation(int $id): void
+    {
+        $this->ingredient->locations()->detach($id);
+        $this->alertWithToast('Location Removed.');
+        $this->ingredient->refresh()->loadCount('recipeItems');
     }
 
     public function render()

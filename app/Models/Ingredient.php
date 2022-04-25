@@ -89,4 +89,14 @@ class Ingredient extends BaseModel
         return route('ingredient.show', $this);
     }
 
+    public function inverseLocations(): \Illuminate\Support\Collection
+    {
+        return Location::whereNotIn('id', $this->locations->pluck('id'))->get();
+    }
+
+    public function inverseLocationIds(): array
+    {
+        return $this->inverseLocations()->pluck('id')->toArray();
+    }
+
 }

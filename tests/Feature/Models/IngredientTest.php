@@ -42,3 +42,15 @@ test('multiple asPurchased relationships', function () {
     //all
     expect($ingredient->asPurchasedAll->count())->toBe(2);
 });
+
+it('returns locations that it does not have a relationship to', function () {
+
+    $notAssignedLocations = Location::factory()->count(3)->create();
+    $ingredient = Ingredient::factory()->has(Location::factory()->count(2))->create();
+
+    expect(Location::count())->toBe(5);
+    expect($ingredient->inverseLocations()->count())->toBe(3);
+    expect(
+        $notAssignedLocations->contains( $ingredient->inverseLocationIds() )
+    )->toBeFalse();
+});
