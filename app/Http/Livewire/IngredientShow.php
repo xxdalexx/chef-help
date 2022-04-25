@@ -45,7 +45,7 @@ class IngredientShow extends LivewireBaseComponent
 
     public function mount(): void
     {
-        $this->ingredient->load('asPurchased');
+        $this->ingredient->load('asPurchased')->loadCount('recipeItems');
 
         if (! empty($this->ingredient->asPurchased)) {
             $this->hasAsPurchased = true;
