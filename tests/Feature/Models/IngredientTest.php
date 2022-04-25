@@ -2,6 +2,7 @@
 
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
+use App\Models\Location;
 use App\Models\RecipeItem;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -10,10 +11,14 @@ test('relationships and casts', function () {
     $ingredient = Ingredient::factory()
         ->has(AsPurchased::factory())
         ->has(RecipeItem::factory()->count(3))
-        ->create();
+        ->has(Location::factory()->count(2))
+        ->create()->refresh();
 
     expect($ingredient->asPurchased)->toBeInstanceOf(AsPurchased::class);
     expect($ingredient->recipeItems)->toBeCollection();
+    expect($ingredient->recipeItems->first())->toBeInstanceOf(RecipeItem::class);
+    expect($ingredient->locations)->toBeCollection();
+    expect($ingredient->locations->first())->toBeInstanceOf(Location::class);
 
 });
 

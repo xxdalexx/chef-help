@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\BigDecimalCast;
 use Brick\Math\BigDecimal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -54,6 +55,11 @@ class Ingredient extends BaseModel
     public function recipeItems(): HasMany
     {
         return $this->hasMany(RecipeItem::class);
+    }
+
+    public function locations(): BelongsToMany
+    {
+        return $this->belongsToMany(Location::class);
     }
 
     /*
