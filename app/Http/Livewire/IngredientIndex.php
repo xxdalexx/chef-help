@@ -85,7 +85,11 @@ class IngredientIndex extends LivewireBaseComponent
 
     public function render()
     {
-        $ingredients = Ingredient::search($this->searchString)->orderBy('name')->paginate(10);
+        $ingredients = Ingredient::search($this->searchString)
+            ->orderBy('name')
+            ->withCount(['recipeItems', 'locations'])
+            ->paginate(10);
+
         return view('livewire.ingredient-index')
             ->withIngredients($ingredients);
     }

@@ -10,13 +10,21 @@
 
     <x-table>
         <x-slot:heading>
-            <th scope="col">Name</th>
+            <th scope="col"></th>
+            <th scope="col" class="text-center">In Recipes</th>
+            <th scope="col" class="text-end">Inventory Locations</th>
         </x-slot:heading>
 
         @foreach($ingredients as $ingredient)
             <tr>
                 <td>
                     <a href="{{ $ingredient->showLink() }}">{{ $ingredient->name }}</a>
+                </td>
+                <td class="text-center">
+                    {{ $ingredient->recipe_items_count }}
+                </td>
+                <td class="text-end">
+                    {{ $ingredient->locations_count }}
                 </td>
             </tr>
         @endforeach
