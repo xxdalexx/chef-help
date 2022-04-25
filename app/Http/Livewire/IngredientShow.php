@@ -125,6 +125,7 @@ class IngredientShow extends LivewireBaseComponent
     public function render()
     {
         $this->ingredient->loadCount('recipeItems');
+        $this->ingredient->asPurchasedAll->loadVariances();
         return view('livewire.ingredient-show');
     }
 }

@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Casts\BigDecimalCast;
 use App\Casts\MeasurementEnumCast;
 use App\Casts\MoneyCast;
+use App\CustomCollections\AsPurchasedCollection;
 use App\Measurements\MeasurementEnum;
 use App\ValueObjects\ConvertableUnit;
+use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +30,16 @@ class AsPurchased extends BaseModel
     ];
 
     protected $touches = ['ingredient'];
+
+    /**
+     * Dynamically populated by loadVariances() on AsPurchasedCollection
+     */
+    public Money|bool $previousCostPerBaseUnit = false;
+
+    public function newCollection(array $models = []): AsPurchasedCollection
+    {
+        return new AsPurchasedCollection($models);
+    }
 
     public function ingredient(): BelongsTo
     {
@@ -57,6 +69,19 @@ class AsPurchased extends BaseModel
     public function getBaseUnit(): MeasurementEnum
     {
         return $this->unit::getBaseUnit();
+    }
+
+    public function getVariancePercentage()
+    {
+        if (! $this->previousCostPerBaseUnit) return BigDecimal::of(0);
+        $previous = $this->previousCostPerBaseUnit->getAmount();
+        $current = $this->getCostPerBaseUnit()->getAmount();
+        return $current->dividedBy($previous, 4, RoundingMode::HALF_UP);
+    }
+
+    public function getVariancePercentageAsString(): string
+    {
+        return (string) (float) (string) $this->getVariancePercentage()->multipliedBy(100)->minus(100);
     }
 
 }

@@ -70,6 +70,7 @@
                     <x-table>
                         <x-slot name="heading">
                             <th>Price</th>
+                            <th class="text-center">Base Unit Price</th>
                             <th class="text-center">Quantity</th>
                             <th class="text-center">Date</th>
                             <th class="text-end">Variance</th>
@@ -80,13 +81,18 @@
                                     {{ $apRecord->getPriceAsString() }}
                                 </td>
                                 <td class="text-center">
+                                    {{ moneyToString( $apRecord->getCostPerBaseUnit(), false, 4 ) }} / {{ $apRecord->getBaseUnit()->value }}
+                                </td>
+                                <td class="text-center">
                                     {{ $apRecord->quantity }} {{ $apRecord->unit->value }}
                                 </td>
                                 <td class="text-center">
-                                    {{ $apRecord->created_at }}
+                                    {{ $apRecord->created_at->toFormattedDateString() }} ({{ $apRecord->created_at->diffForHumans() }})
                                 </td>
                                 <td class="text-end">
-                                    ?
+                                    @if($apRecord->previousCostPerBaseUnit)
+                                        <x-costing-goal-difference :number="$apRecord->getVariancePercentageAsString()"/>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

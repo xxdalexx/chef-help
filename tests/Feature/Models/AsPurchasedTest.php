@@ -18,6 +18,18 @@ test('relations and casts', function () {
 
 });
 
+
+test('custom collection', function () {
+
+    AsPurchased::factory()->count(2)->create();
+
+    $collection = AsPurchased::all();
+
+    expect($collection)->toBeInstanceOf(\App\CustomCollections\AsPurchasedCollection::class);
+
+});
+
+
 it('has a convertable unit value object', function () {
 
     $ap = AsPurchased::factory()->create();
@@ -36,6 +48,7 @@ it('gives a price per base unit', function () {
     expect($costPerUnit)->toBe('$0.75');
 
 });
+
 
 it('can have a quantity that is not a whole number', function () {
 

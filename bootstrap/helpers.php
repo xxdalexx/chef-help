@@ -25,9 +25,9 @@ use Illuminate\Support\Str;
  *
  * @return string
  */
-function moneyToString(Money $money, bool $withDollarSign = true): string
+function moneyToString(Money $money, bool $withDollarSign = true, $decimalPlaces = 2): string
 {
-    $string = $money->to(new CustomContext(2), RoundingMode::UP)->formatTo('en_US');
+    $string = $money->to(new CustomContext($decimalPlaces), RoundingMode::UP)->formatTo('en_US');
 
     if ($withDollarSign) {
         return $string;

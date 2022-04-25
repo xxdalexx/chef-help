@@ -41,6 +41,7 @@ test('multiple asPurchased relationships', function () {
     expect($ingredient->asPurchasedHistory->first()->is($initialAP));
     //all
     expect($ingredient->asPurchasedAll->count())->toBe(2);
+    expect($ingredient->asPurchasedAll)->toBeInstanceOf(\App\CustomCollections\AsPurchasedCollection::class);
 });
 
 it('returns locations that it does not have a relationship to', function () {
