@@ -117,7 +117,7 @@
             </x-card>
         </div>
         <div class="col-md-4">
-            <x-card card-class="mt-2" title="Add Location">
+            <x-card card-class="mt-2" title="Add Location" edit-click="$emit('showModal', 'locationsModal')">
                 <form wire:submit.prevent="addLocation">
                     <x-form.select-location wire:model="locationInput" :ingredient="$ingredient" />
                     <x-ls.submit-button targets="addLocation"/>
@@ -126,5 +126,5 @@
         </div>
     </div>
 
-
+    <livewire:sub-component.locations-management-modal/>
 </div>

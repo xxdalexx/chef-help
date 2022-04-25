@@ -8,5 +8,6 @@ trait Refreshable
     {
         $string = 'refresh' . class_basename($this);
         $this->listeners[$string] = '$refresh';
+        $this->listeners['refresh'] = '$refresh';
     }
 }

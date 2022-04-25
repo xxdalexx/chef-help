@@ -2,11 +2,14 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\Plugins\Refreshable;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
 
 class IngredientShow extends LivewireBaseComponent
 {
+    use Refreshable;
+
     public ?Ingredient $ingredient;
 
     public bool $hasAsPurchased = false;
