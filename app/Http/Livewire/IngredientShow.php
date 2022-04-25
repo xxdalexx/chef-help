@@ -56,7 +56,7 @@ class IngredientShow extends LivewireBaseComponent
 
     public function mount(): void
     {
-        $this->ingredient->load(['asPurchased', 'locations'])->loadCount('recipeItems');
+        $this->ingredient->load(['asPurchased', 'locations']);
 
         if (! empty($this->ingredient->asPurchased)) {
             $this->hasAsPurchased = true;
@@ -112,18 +112,19 @@ class IngredientShow extends LivewireBaseComponent
     {
         $this->ingredient->locations()->attach($this->locationInput);
         $this->alertWithToast('Location Added.');
-        $this->ingredient->refresh()->loadCount('recipeItems');
+        $this->ingredient->refresh();
     }
 
     public function removeLocation(int $id): void
     {
         $this->ingredient->locations()->detach($id);
         $this->alertWithToast('Location Removed.');
-        $this->ingredient->refresh()->loadCount('recipeItems');
+        $this->ingredient->refresh();
     }
 
     public function render()
     {
+        $this->ingredient->loadCount('recipeItems');
         return view('livewire.ingredient-show');
     }
 }
