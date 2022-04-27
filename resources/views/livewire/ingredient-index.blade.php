@@ -35,32 +35,8 @@
     <hr>
 
     <div class="mb-5">
-    @if($showCreateForm)
-        <x-card title="Create Ingredient" close-click="$toggle('showCreateForm')">
-            <form wire:submit.prevent="createIngredient">
-                <div class="row">
-                    <x-form.text-input name="nameInput" label-name="Name" cols="8" />
-                    <x-form.text-input name="cleanedInput" label-name="Cleaned Yield %" />
-                    <x-form.text-input name="cookedInput" label-name="Cooked Yield %" />
-                </div>
-
-                <div class="d-flex justify-content-center mb-2">
-                    <x-form.toggle-switch wire:model="createAsPurchase" label-name="Add As Purchased Pricing" />
-                </div>
-
-                @if($createAsPurchase)
-                    <div class="row">
-                        <x-form.text-input name="apQuantityInput" label-name="Quantity" />
-                        <x-form.select-units wire:model="apUnitInput" />
-                        <x-form.price-input name="apPriceInput" label-name="Price" />
-                    </div>
-                @endif
-                <x-ls.submit-button targets="createIngredient" />
-            </form>
-
-        </x-card>
-    @else
-        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Ingredient" :show-spinner="false" />
-    @endif
+        <x-button.block wire:click="$emit('showModal', 'createIngredientModal')" text="Create New Ingredient" :show-spinner="false" />
     </div>
+
+    <livewire:ingredient-create/>
 </div>

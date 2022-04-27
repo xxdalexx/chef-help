@@ -1,4 +1,4 @@
-<div class="form-floating {{ $columnClass }}" wire:key="select-units">
+<div class="form-floating {{ $columnClass }} mb-3" wire:key="select-units">
 
     <select {{ $livewireAttributes }} class="form-select" id="ingredient">
         @foreach($units as $unit)
