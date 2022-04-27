@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\AsPurchased;
 use App\Models\Ingredient;
 use Illuminate\Contracts\View\View;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class IngredientCreate extends Component
@@ -25,9 +26,17 @@ class IngredientCreate extends Component
 
     protected array $rules = [];
 
-    public function hydrate(): void
+    public function rules(): array
     {
-        $this->rules = Ingredient::rules($this->createAsPurchased);
+        return [
+            'nameInput'       => 'required',
+            'cleanedInput'    => 'required|numeric|between:1,100',
+            'cookedInput'     => 'required|numeric|between:1,100',
+
+            'apQuantityInput' => ['numeric', Rule::requiredIf($this->createAsPurchased)],
+            'apUnitInput'     => [Rule::requiredIf($this->createAsPurchased)],
+            'apPriceInput'    => ['numeric', Rule::requiredIf($this->createAsPurchased)],
+        ];
     }
 
     public function resetInputs(): void

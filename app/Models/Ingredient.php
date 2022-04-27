@@ -21,19 +21,6 @@ class Ingredient extends BaseModel
 
     protected $touches = ['recipeItems'];
 
-    public static function rules($creatingAsPurchased = false): array
-    {
-        return [
-            'nameInput'       => 'required',
-            'cleanedInput'    => 'required|numeric|between:1,100',
-            'cookedInput'     => 'required|numeric|between:1,100',
-
-            'apQuantityInput' => ['numeric', Rule::requiredIf($creatingAsPurchased)],
-            'apUnitInput'     => [Rule::requiredIf($creatingAsPurchased)],
-            'apPriceInput'    => ['numeric', Rule::requiredIf($creatingAsPurchased)],
-        ];
-    }
-
     /*
     |--------------------------------------------------------------------------
     | Scopes
