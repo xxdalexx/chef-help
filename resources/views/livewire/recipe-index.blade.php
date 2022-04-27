@@ -49,17 +49,7 @@
     <hr>
 
     <div class="mb-5">
-    @if($showCreateForm)
-
-        <x-card title="Create Recipe" close-click="$toggle('showCreateForm')" >
-            <form wire:submit.prevent="createRecipe">
-                <x-form.group.recipe />
-                <x-ls.submit-button targets="createRecipe" />
-            </form>
-        </x-card>
-
-    @else
-        <x-button.block wire:click="$toggle('showCreateForm')" text="Create New Recipe" :show-spinner="false"/>
-    @endif
+        <x-button.block wire:click="$emit('showModal', 'createRecipeModal')" text="Create New Recipe" :show-spinner="false"/>
     </div>
+    <livewire:recipe-create/>
 </div>

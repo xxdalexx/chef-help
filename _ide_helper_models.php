@@ -22,7 +22,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Ingredient $ingredient
+ * @method static \App\CustomCollections\AsPurchasedCollection|static[] all($columns = ['*'])
  * @method static \Database\Factories\AsPurchasedFactory factory(...$parameters)
+ * @method static \App\CustomCollections\AsPurchasedCollection|static[] get($columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Builder|AsPurchased newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AsPurchased newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|AsPurchased query()
@@ -59,9 +61,9 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\AsPurchased|null $asPurchased
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AsPurchased[] $asPurchasedAll
+ * @property-read \App\CustomCollections\AsPurchasedCollection|\App\Models\AsPurchased[] $asPurchasedAll
  * @property-read int|null $as_purchased_all_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\AsPurchased[] $asPurchasedHistory
+ * @property-read \App\CustomCollections\AsPurchasedCollection|\App\Models\AsPurchased[] $asPurchasedHistory
  * @property-read int|null $as_purchased_history_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[] $locations
  * @property-read int|null $locations_count
