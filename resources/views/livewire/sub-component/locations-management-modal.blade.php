@@ -4,7 +4,7 @@
  */
 ?>
 <div>
-    <x-modal title="Locations" id="locationsModal" noActionButton>
+    <x-modal title="Locations" id="locationsModal" size="sm" noActionButton>
         <form wire:submit.prevent="createLocation">
             <x-form.text-input name="nameInput" label-name="Create New Location" />
         </form>
