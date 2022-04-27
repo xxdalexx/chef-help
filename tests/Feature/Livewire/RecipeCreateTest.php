@@ -13,12 +13,10 @@ it('can create a new recipe', function () {
         ->set('portionsInput', 1)
         ->set('menuCategoryInput', $menuCategoryId)
         ->call('create')
-        ->assertSet('recipeNameInput', '')
-        ->assertSet('menuPriceInput', '')
-        ->assertSet('portionsInput', '')
         ->assertRedirect();
 
     expect( Recipe::count() )->toBe(1);
+
     $recipe = Recipe::first();
 
     expect( $recipe->name )->toBe('string');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Livewire\InputGroups\RecipeInputGroup;
 use App\Http\Livewire\Plugins\WithLiveValidation;
 use App\Models\MenuCategory;
 use App\Models\Recipe;
@@ -12,20 +13,7 @@ class RecipeCreate extends LivewireBaseComponent
 {
     use WithLiveValidation;
 
-    public string $recipeNameInput = '';
-
-    public string $menuPriceInput  = '';
-
-    public string $portionsInput   = '';
-
-    public string $menuCategoryInput = '';
-
-    protected array $rules = [
-        'recipeNameInput' => 'required',
-        'menuPriceInput'  => 'required|numeric',
-        'portionsInput'   => 'required|numeric',
-        'menuCategoryInput' => 'exists:menu_categories,id'
-    ];
+    use RecipeInputGroup;
 
     public function mount(): void
     {
@@ -57,7 +45,6 @@ class RecipeCreate extends LivewireBaseComponent
             'menu_category_id' => $this->menuCategoryInput,
         ]);
 
-        $this->resetInputs();
         return redirect()->route('recipe.show', $recipe);
     }
 
