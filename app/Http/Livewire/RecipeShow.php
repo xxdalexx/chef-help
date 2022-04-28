@@ -19,24 +19,6 @@ class RecipeShow extends LivewireBaseComponent
 
     /*
     |--------------------------------------------------------------------------
-    | Edit Recipe Properties
-    |--------------------------------------------------------------------------
-    */
-
-    public string $recipeNameInput   = '';
-    public string $menuPriceInput    = '';
-    public string $portionsInput     = '';
-    public string $menuCategoryInput = '';
-
-    protected array $rules = [
-        'recipeNameInput' => 'required',
-        'menuPriceInput'  => 'required|numeric',
-        'portionsInput'   => 'required|numeric',
-        'menuCategoryInput' => 'exists:menu_categories,id'
-    ];
-
-    /*
-    |--------------------------------------------------------------------------
     | Edit Item Properties
     |--------------------------------------------------------------------------
     */
@@ -46,7 +28,7 @@ class RecipeShow extends LivewireBaseComponent
     public string $editCleanedInput  = '';
     public string $editCookedInput   = '';
 
-    protected array $itemRules = [
+    protected array $rules = [
         'editUnitInput'     => 'required',
         'editQuantityInput' => 'required|numeric',
         'editCleanedInput'  => 'boolean',
@@ -56,16 +38,11 @@ class RecipeShow extends LivewireBaseComponent
     public function mount(Recipe $recipe): void
     {
         $this->recipe->load('items.ingredient.asPurchased');
-        $this->recipeNameInput = $recipe->name;
-        $this->menuPriceInput  = $recipe->getPriceAsString(false);
-        $this->portionsInput   = $recipe->portions;
-        $this->menuCategoryInput = $recipe->menuCategory->id;
     }
 
     public function updated($property): void
     {
-        $rules = collect($this->rules)->merge($this->itemRules)->toArray();
-        $this->validateOnly($property, $rules);
+        $this->validateOnly($property, $this->rules);
     }
 
     /*
@@ -74,37 +51,15 @@ class RecipeShow extends LivewireBaseComponent
     |--------------------------------------------------------------------------
     */
 
-    public function updateRecipe(): void
-    {
-        //Todo: This will need to be refactored when more currency symbols are supported.
-        $strOfPrice = Str::of($this->menuPriceInput);
-        if ($strOfPrice->startsWith('$')) {
-            $this->menuPriceInput = $strOfPrice->after('$');
-        }
-
-        $this->validate();
-
-        $this->recipe->update([
-            'name'     => $this->recipeNameInput,
-            'price'    => money($this->menuPriceInput),
-            'portions' => $this->portionsInput,
-            'menu_category_id' => $this->menuCategoryInput,
-        ]);
-
-        $this->editArea = '';
-        $this->alertWithToast($this->recipe->name . ' updated.');
-        $this->recipe->refresh();
-    }
-
     public function updateItem(): void
     {
-        $this->validate($this->itemRules);
+        $this->validate();
 
         $this->editingRecipeItem->update([
             'quantity' => $this->editQuantityInput,
             'unit'     => findMeasurementUnitEnum($this->editUnitInput),
-            'cooked'   => (bool)$this->editCookedInput,
-            'cleaned'  => (bool)$this->editCleanedInput
+            'cooked'   => (bool) $this->editCookedInput,
+            'cleaned'  => (bool) $this->editCleanedInput
         ]);
 
         $this->editUnitInput     = '';
@@ -138,18 +93,12 @@ class RecipeShow extends LivewireBaseComponent
     public function showEditItem(RecipeItem $item): void
     {
         $this->editingRecipeItem = $item->load('ingredient');
-//        dd($item);
         $this->editUnitInput     = $item->unit->value;
         $this->editQuantityInput = (string)$item->quantity;
         $this->editCleanedInput  = $item->cleaned ? '1' : '';
         $this->editCookedInput   = $item->cooked ? '1' : '';
 
         $this->editArea = 'editItem';
-    }
-
-    public function showEditRecipe(): void
-    {
-        $this->editArea = 'recipe';
     }
 
     public function hideEditArea(): void

@@ -22,14 +22,7 @@
 
     <div class="row mt-4 mb-5">
         <div class="col-12">
-            @if($editArea == 'recipe')
-                <x-card title="Editing Recipe" wire:key="editRecipe">
-                    <form wire:submit.prevent="updateRecipe">
-                        <x-form.group.recipe />
-                        <x-ls.submit-button targets="updateRecipe" />
-                    </form>
-                </x-card>
-            @elseif($editArea == 'addIngredient')
+            @if($editArea == 'addIngredient')
                 <livewire:sub-component.add-ingredient :recipe="$recipe" />
             @elseif($editArea == 'editItem')
                 <x-card title="Edit {{ $editingRecipeItem->ingredient->name }}" wire:key="editItem">
@@ -48,4 +41,6 @@
             @endif
         </div>
     </div>
+
+    <livewire:recipe-update :recipe="$recipe"/>
 </div>

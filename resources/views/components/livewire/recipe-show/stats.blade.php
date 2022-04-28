@@ -67,4 +67,4 @@
     </tbody>
 </table>
 
-<x-button.block wire:click="$set('editArea', 'recipe')" text="Edit" style-type="warning" :show-spinner="false"/>
+<x-button.block wire:click="$emit('showModal', 'updateRecipeModal')" text="Edit" style-type="warning" :show-spinner="false"/>

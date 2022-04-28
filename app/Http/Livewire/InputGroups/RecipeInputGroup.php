@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\InputGroups;
 
+use App\Models\MenuCategory;
+
 trait RecipeInputGroup
 {
     public string $recipeNameInput = '';
@@ -20,5 +22,13 @@ trait RecipeInputGroup
             'portionsInput'     => 'required|numeric',
             'menuCategoryInput' => 'exists:menu_categories,id'
         ];
+    }
+
+    public function resetInputs(): void
+    {
+        $this->recipeNameInput = '';
+        $this->menuPriceInput = '';
+        $this->portionsInput = '';
+        $this->menuCategoryInput = MenuCategory::first()->id ?? '0';
     }
 }
