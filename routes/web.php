@@ -35,3 +35,5 @@ Route::get('ingredients', IngredientIndex::class)->name('ingredient.index');
 Route::get('ingredient/{ingredient}', IngredientShow::class)->name('ingredient.show');
 
 Route::get('menu-categories', MenuCategoryIndex::class)->name('menu-category.index');
+
+Route::get('testing', \App\Http\Livewire\Testing::class);

@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Ingredient;
+use App\Models\Recipe;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class Testing extends LivewireBaseComponent

@@ -46,9 +46,9 @@ class AsPurchased extends BaseModel
         return $this->belongsTo(Ingredient::class);
     }
 
-    public function getPriceAsString(): string
+    public function getPriceAsString($withDollarSign = true): string
     {
-        return moneyToString($this->price);
+        return moneyToString($this->price, $withDollarSign);
     }
 
     public function getConvertableUnit(): ConvertableUnit
