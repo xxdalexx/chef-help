@@ -43,6 +43,7 @@ class RecipeCreate extends LivewireBaseComponent
             'price'    => money($this->menuPriceInput),
             'portions' => $this->portionsInput,
             'menu_category_id' => $this->menuCategoryInput,
+            'costing_goal' => $this->costingGoalInput
         ]);
 
         return redirect()->route('recipe.show', $recipe);

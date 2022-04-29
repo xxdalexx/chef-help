@@ -14,13 +14,16 @@ trait RecipeInputGroup
 
     public string $menuCategoryInput = '';
 
+    public string $costingGoalInput = '';
+
     public function rules(): array
     {
         return [
             'recipeNameInput'   => 'required',
             'menuPriceInput'    => 'required|numeric',
             'portionsInput'     => 'required|numeric',
-            'menuCategoryInput' => 'exists:menu_categories,id'
+            'menuCategoryInput' => 'exists:menu_categories,id',
+            'costingGoalInput'  => 'nullable|numeric'
         ];
     }
 
@@ -30,5 +33,6 @@ trait RecipeInputGroup
         $this->menuPriceInput = '';
         $this->portionsInput = '';
         $this->menuCategoryInput = MenuCategory::first()->id ?? '0';
+        $this->costingGoalInput = '';
     }
 }

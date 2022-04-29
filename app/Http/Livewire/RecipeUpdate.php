@@ -22,6 +22,9 @@ class RecipeUpdate extends LivewireBaseComponent
         $this->menuPriceInput = $this->recipe->getPriceAsString();
         $this->portionsInput = $this->recipe->portions;
         $this->menuCategoryInput = $this->recipe->menu_category_id;
+        $this->costingGoalInput = $this->recipe->costing_goal->isGreaterThan(0)
+            ? $this->recipe->costing_goal
+            : '';
     }
 
     public function update(): void
@@ -34,11 +37,16 @@ class RecipeUpdate extends LivewireBaseComponent
 
         $this->validate();
 
+        if (empty($this->costingGoalInput)) {
+            $this->costingGoalInput = $this->recipe->costing_goal;
+        }
+
         $this->recipe->update([
             'name'     => $this->recipeNameInput,
             'price'    => money($this->menuPriceInput),
             'portions' => $this->portionsInput,
             'menu_category_id' => $this->menuCategoryInput,
+            'costing_goal' => $this->costingGoalInput
         ]);
 
         $this->alertWithToast($this->recipe->name . ' updated.');

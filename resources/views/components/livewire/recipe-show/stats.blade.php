@@ -35,10 +35,20 @@
                 @if(empty($recipe->menuCategory))
                     Not Assigned
                 @else
-                    {{ $recipe->menuCategory->name }}
+                    {{ $recipe->menuCategory->name }} ({{ $recipe->menuCategory->costing_goal }}%)
                 @endif
             </td>
         </tr>
+        @if($recipe->costing_goal->isGreaterThan(0))
+        <tr>
+            <td>
+                Costing Goal Override
+            </td>
+            <td class="text-end">
+                {{ $recipe->costing_goal }}%
+            </td>
+        </tr>
+        @endif
         <tr>
             <td>
                 Menu Price

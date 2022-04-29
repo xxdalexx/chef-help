@@ -138,9 +138,11 @@ namespace App\Models{
  * @property string $name
  * @property \Brick\Math\BigDecimal $portions
  * @property \Brick\Money\Money $price
+ * @property \Brick\Math\BigDecimal $costing_goal
  * @property int|null $menu_category_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Support\Collection $ingredients
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $items
  * @property-read int|null $items_count
  * @property-read \App\Models\MenuCategory|null $menuCategory
@@ -149,6 +151,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe query()
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe search($searchString)
+ * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereCostingGoal($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Recipe whereMenuCategoryId($value)

@@ -19,7 +19,8 @@ class Recipe extends BaseModel
 
     protected $casts = [
         'price' => MoneyCast::class,
-        'portions' => BigDecimalCast::class
+        'portions' => BigDecimalCast::class,
+        'costing_goal' => BigDecimalCast::class
     ];
 
     public Collection $ingredientList;
@@ -161,7 +162,11 @@ class Recipe extends BaseModel
     public function getCostingPercentageDifferenceFromGoal(): BigDecimal
     {
         $current = $this->getPortionCostPercentage()->multipliedBy(100);
-        $goal = $this->menuCategory->costing_goal;
+
+        $goal = $this->costing_goal->isGreaterThan(0)
+            ? $this->costing_goal
+            : $this->menuCategory->costing_goal;
+
         return $current->minus($goal)->toScale(1, RoundingMode::HALF_UP);
     }
 

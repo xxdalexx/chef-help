@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('portions');
             $table->string('price');
+            $table->string('costing_goal')->default('0');
             $table->foreignIdFor(MenuCategory::class)->nullable()->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
