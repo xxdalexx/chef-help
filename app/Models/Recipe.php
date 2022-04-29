@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Recipe extends BaseModel
 {
@@ -20,6 +21,8 @@ class Recipe extends BaseModel
         'price' => MoneyCast::class,
         'portions' => BigDecimalCast::class
     ];
+
+    public Collection $ingredientList;
 
     /*
     |--------------------------------------------------------------------------
@@ -35,6 +38,20 @@ class Recipe extends BaseModel
     public function items(): HasMany
     {
         return $this->hasMany(RecipeItem::class);
+    }
+
+    //Fake a has many through relationship. RecipeItem contains foreign keys for both Recipe and Ingredient
+    public function getIngredientsAttribute(): Collection
+    {
+        if (! empty($this->ingredientList)) return $this->ingredientList;
+
+        if (! $this->relationLoaded('items.ingredient.asPurchased') ) {
+            $this->load('items.ingredient.asPurchased');
+        }
+
+        return $this->ingredientList = $this->items->map(function ($item) {
+            return $item->ingredient;
+        });
     }
 
     /*

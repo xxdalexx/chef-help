@@ -17,7 +17,10 @@ test('casts and relationships', function () {
 
     expect($recipe->price)->toBeMoney();
     expect($recipe->items)->toBeCollection();
+    expect($recipe->items->first())->toBeInstanceOf(RecipeItem::class);
     expect($recipe->menuCategory)->toBeInstanceOf(MenuCategory::class);
+    expect($recipe->ingredients)->toBeCollection();
+    expect($recipe->ingredients->first())->toBeInstanceOf(Ingredient::class);
 
 });
 
