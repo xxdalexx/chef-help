@@ -22,6 +22,7 @@ it('validates input for updating a recipe item', function ($parameter, $value = 
     ['editQuantityInput'],
 ]);
 
+
 it('can update a recipe item', function () {
 
     Livewire::test(RecipeShow::class, ['recipe' => Recipe::factory()->create(), 'editingRecipeItem' => $item = RecipeItem::factory()->create()])
@@ -34,8 +35,9 @@ it('can update a recipe item', function () {
 
     $recipeItem = RecipeItem::first();
 
-    expect($recipeItem->unit->value)->toBe('gram');
-    expect((string) $recipeItem->quantity)->toBe('100');
-    expect($recipeItem->cooked)->toBe(! $item->cooked);
-    expect($recipeItem->cleaned)->toBe(! $item->cleaned);
+    expect( $recipeItem->unit->value )->toBe( 'gram' );
+    expect( (string) $recipeItem->quantity )->toBe( '100' );
+    expect( $recipeItem->cooked )->not->toBe( $item->cooked );
+    expect( $recipeItem->cleaned )->not->toBe( $item->cleaned );
+
 });

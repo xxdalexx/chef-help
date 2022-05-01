@@ -16,21 +16,23 @@ test('relationships and casts', function () {
 
     $item = RecipeItem::factory()->create();
 
-    expect($item->ingredient)->toBeInstanceOf(Ingredient::class);
-    expect($item->recipe)->toBeInstanceOf(Recipe::class);
-    expect($item->unit)->toBeInstanceOf(MeasurementEnum::class);
+    expect( $item->ingredient )->toBeInstanceOf( Ingredient::class );
+    expect( $item->recipe )->toBeInstanceOf( Recipe::class );
+    expect( $item->unit )->toBeInstanceOf( MeasurementEnum::class );
 
 });
 
-//TODO: figure out a better way to get ids.
+
+//Should figure out a better way to get ids.
 it('has a calculated cost', function ($idOffset, $expectedCost) {
     $this->seed(LobsterDishSeeder::class);
     $id = RecipeItem::first()->id + $idOffset;
 
+    /** @var RecipeItem $item */
     $item = RecipeItem::with('ingredient.asPurchased')->find($id);
 
-    expect($item->getCost())->toBeMoney();
-    expect($item->getCostAsString())->toBe($expectedCost);
+    expect( $item->getCost() )->toBeMoney();
+    expect( $item->getCostAsString() )->toBe( $expectedCost );
 
 })->with([
     //Refresh database doesn't reset auto incrementing ids.
@@ -47,7 +49,8 @@ it('returns 0.00 money object when cost cannot be calculated', function () {
     $ingredient = Ingredient::factory()->create();
     $item = RecipeItem::factory()->for($recipe)->for($ingredient)->create();
 
-    expect($item->getCostAsString())->toBe('$0.00');
+    expect( $item->getCostAsString() )->toBe( '$0.00' );
+
 });
 
 
@@ -60,7 +63,8 @@ it('knows that it cannot calculate cost when ingredient is missing AP record', f
         ), 'items'
     )->create();
 
-    expect(RecipeItem::first()->canCalculateCost())->toBeFalse();
+    expect( RecipeItem::first()->canCalculateCost() )->toBeFalse();
+
 });
 
 
@@ -74,20 +78,12 @@ it('can tell the reasoning for not calculating cost', function () {
     )->create();
 
     $item = RecipeItem::first();
-    expect(
-        $item->canNotCalculateCostReason()
-    )->toBe(
-        'No As Purchased Data'
-    );
+    expect( $item->canNotCalculateCostReason() )->toBe( 'No As Purchased Data' );
 
     AsPurchased::factory()->for($item->ingredient)->create(['unit' => UsVolume::floz]);
     $item->refresh();
 
-    expect(
-        $item->canNotCalculateCostReason()
-    )->toBe(
-        'No Weight <-> Volume Conversion'
-    );
+    expect( $item->canNotCalculateCostReason() )->toBe( 'No Weight <-> Volume Conversion' );
 
 });
 
@@ -96,10 +92,11 @@ it('knows that it cannot calculate cost when there is a weight volume mismatch',
 
     //Create Recipe, Item, and an Ingredient with no AP Record.
     $recipe = Recipe::factory()->create();
-    $ingredient = Ingredient::factory()->has(AsPurchased::factory(['unit' => UsWeight::oz]))->create();
+    $ingredient = Ingredient::factory()->has( AsPurchased::factory(['unit' => UsWeight::oz]) )->create();
     $item = RecipeItem::factory()->for($recipe)->for($ingredient)->create(['unit' => UsVolume::floz]);
 
-    expect($item->canCalculateCost())->toBeFalse();
+    expect( $item->canCalculateCost() )->toBeFalse();
+
 });
 
 
@@ -110,7 +107,7 @@ it('calculates a cost with a US Metric conversion', function ($idOffset, $expect
 
     $item = RecipeItem::find($id);
 
-    expect($item->getCostAsString())->toBe($expectedCost);
+    expect( $item->getCostAsString() )->toBe( $expectedCost );
 
 })->with([
     [0, '$4.74'],  //AP: Metric Volume, RI: US Volume
@@ -126,14 +123,20 @@ test('get cost caching through attribute accessor', function () {
     $item = RecipeItem::first();
     testTime()->addMinutes(5);
 
-    expect(Cache::has($item->costCacheKey()))->toBeFalse();
+    expect(
+        Cache::has( $item->costCacheKey() )
+    )->toBeFalse();
     $originalCost = $item->cost;
-    expect(Cache::has($item->costCacheKey()))->toBeTrue();
+
+    expect(
+        Cache::has( $item->costCacheKey() )
+    )->toBeTrue();
     $originalKey = $item->costCacheKey();
 
     $item->update(['quantity' => 100]);
-    expect($item->cost)->not->toBe($originalCost);
-    expect($item->costCacheKey())->not->toBe($originalKey);
+
+    expect( $item->cost )->not->toBe( $originalCost );
+    expect( $item->costCacheKey() )->not->toBe( $originalKey );
 
 });
 
@@ -145,12 +148,12 @@ test('cost cache is updated when the ap price is updated', function () {
     /** @var RecipeItem $item */
     $item         = RecipeItem::with('ingredient.asPurchased')->first();
     $originalCost = $item->getCostAsString();
-    $originalKey = $item->costCacheKey();
+    $originalKey  = $item->costCacheKey();
 
     $ap = $item->ingredient->asPurchased;
     $ap->update(['price' => money(13)]);
     $item->refresh();
 
-    expect($item->costCacheKey())->not->toBe($originalKey);
-    expect($item->getCostAsString())->not->toBe($originalCost);
+    expect( $item->costCacheKey() )->not->toBe( $originalKey );
+    expect( $item->getCostAsString() )->not->toBe( $originalCost );
 });

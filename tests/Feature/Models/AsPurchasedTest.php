@@ -1,5 +1,6 @@
 <?php
 
+use App\CustomCollections\AsPurchasedCollection;
 use App\Measurements\MeasurementEnum;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
@@ -12,20 +13,19 @@ test('relations and casts', function () {
 
     $ap = AsPurchased::factory()->create();
 
-    expect($ap->ingredient)->toBeInstanceOf(Ingredient::class);
-    expect($ap->unit)->toBeInstanceOf(MeasurementEnum::class);
-    expect($ap->price)->toBeMoney();
+    expect( $ap->ingredient )->toBeInstanceOf( Ingredient::class );
+    expect( $ap->unit )->toBeInstanceOf( MeasurementEnum::class );
+    expect( $ap->price )->toBeMoney();
 
 });
 
 
-test('custom collection', function () {
+test('custom collection AsPurchasedCollection', function () {
 
     AsPurchased::factory()->count(2)->create();
-
     $collection = AsPurchased::all();
 
-    expect($collection)->toBeInstanceOf(\App\CustomCollections\AsPurchasedCollection::class);
+    expect( $collection )->toBeInstanceOf(AsPurchasedCollection::class);
 
 });
 
@@ -34,31 +34,29 @@ it('has a convertable unit value object', function () {
 
     $ap = AsPurchased::factory()->create();
 
-    expect($ap->getConvertableUnit())->toBeInstanceOf(ConvertableUnit::class);
+    expect( $ap->getConvertableUnit() )->toBeInstanceOf( ConvertableUnit::class );
 
 });
+
 
 it('gives a price per base unit', function () {
 
     $this->seed(LobsterDishSeeder::class);
     $ap = AsPurchased::first();
 
-    $costPerUnit = moneyToString($ap->getCostPerBaseUnit());
-
-    expect($costPerUnit)->toBe('$0.75');
+    expect( $ap->getCostPerBaseUnitAsString() )->toBe( '$0.75' );
 
 });
 
 
 it('can have a quantity that is not a whole number', function () {
 
-    $recipe = Recipe::factory()->create();
-    $ap = AsPurchased::factory()->for(Ingredient::factory())->create([
+    Recipe::factory()->create();
+    $ap = AsPurchased::factory()->for( Ingredient::factory() )->create([
         'quantity' => 1.5,
         'unit' => UsWeight::oz,
         'price' => 1.5
-    ]);
-    $ap->refresh();
+    ])->refresh();
 
-    expect(moneyToString($ap->getCostPerBaseUnit()))->toBe('$1.00');
+    expect( $ap->getCostPerBaseUnitAsString() )->toBe( '$1.00' );
 });

@@ -19,19 +19,9 @@ it('can update a recipe without the costing goal', function () {
 
     $recipe = Recipe::first();
 
-    expect(
-        (string) $recipe->portions
-    )->toBe('5.5');
-
-    expect(
-        $recipe->getPriceAsString()
-    )->toBe('$12.34');
-
-    expect(
-        $recipe->menuCategory->id
-    )->toBe(
-        $newCategory->id
-    );
+    expect( (string) $recipe->portions )->toBe( '5.5' );
+    expect( $recipe->getPriceAsString() )->toBe( '$12.34' );
+    expect( $recipe->menuCategory->id )->toBe( $newCategory->id );
 
 });
 
@@ -52,12 +42,10 @@ it('can update a recipe with the costing goal', function () {
     $recipe = Recipe::first();
 
     expect( (string) $recipe->portions )->toBe( '5.5' );
-
     expect( $recipe->getPriceAsString() )->toBe( '$12.34' );
-
     expect( $recipe->menuCategory->id )->toBe( $newCategory->id );
-
     expect( (string) $recipe->costing_goal )-> toBe( '33' );
+
 });
 
 
@@ -74,11 +62,11 @@ it('validates input for updating a recipe', function ($parameter, $value = '', $
 //  'portionsInput'   => 'required|numeric',
 //  'menuCategoryInput' => 'exists:menu_categories,id'
 //    'costingGoalInput'  => 'nullable|numeric'
-['recipeNameInput'],
-['menuPriceInput'],
-['menuPriceInput', 'not a number', 'numeric'],
-['portionsInput'],
-['portionsInput', 'not a number', 'numeric'],
-['menuCategoryInput', 999, 'exists'],
-['costingGoalInput', 'not a number', 'numeric']
+    ['recipeNameInput'],
+    ['menuPriceInput'],
+    ['menuPriceInput', 'not a number', 'numeric'],
+    ['portionsInput'],
+    ['portionsInput', 'not a number', 'numeric'],
+    ['menuCategoryInput', 999, 'exists'],
+    ['costingGoalInput', 'not a number', 'numeric']
 ]);

@@ -17,14 +17,14 @@ test('casts and relationships', function () {
         ->for(MenuCategory::factory())
         ->create();
 
-    expect($recipe->price)->toBeMoney();
-    expect($recipe->portions)->toBeInstanceOf(BigDecimal::class);
-    expect($recipe->costing_goal)->toBeInstanceOf(BigDecimal::class);
-    expect($recipe->items)->toBeCollection();
-    expect($recipe->items->first())->toBeInstanceOf(RecipeItem::class);
-    expect($recipe->menuCategory)->toBeInstanceOf(MenuCategory::class);
-    expect($recipe->ingredients)->toBeCollection();
-    expect($recipe->ingredients->first())->toBeInstanceOf(Ingredient::class);
+    expect( $recipe->price )->toBeMoney();
+    expect( $recipe->portions )->toBeInstanceOf( BigDecimal::class );
+    expect( $recipe->costing_goal )->toBeInstanceOf( BigDecimal::class );
+    expect( $recipe->items )->toBeCollection();
+    expect( $recipe->items->first() )->toBeInstanceOf( RecipeItem::class );
+    expect( $recipe->menuCategory )->toBeInstanceOf( MenuCategory::class );
+    expect( $recipe->ingredients )->toBeCollection();
+    expect( $recipe->ingredients->first() )->toBeInstanceOf( Ingredient::class );
 
 });
 
@@ -33,10 +33,10 @@ test('Lobster Dish Seeder', function () {
 
     $this->seed(LobsterDishSeeder::class);
 
-    expect(Ingredient::count())->toBe(4);
-    expect(AsPurchased::count())->toBe(4);
-    expect(Recipe::count())->toBe(1);
-    expect(RecipeItem::count())->toBe(4);
+    expect( Ingredient::count() )->toBe(4);
+    expect( AsPurchased::count() )->toBe(4);
+    expect( Recipe::count() )->toBe(1);
+    expect( RecipeItem::count() )->toBe(4);
 
 });
 
@@ -44,10 +44,10 @@ test('Lobster Dish Seeder', function () {
 it('gives a total cost', function () {
 
     $this->seed(LobsterDishSeeder::class);
-
+    /** @var Recipe $recipe */
     $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
-    expect($recipe->getTotalCostAsString())->toBe('$10.61');
+    expect( $recipe->getTotalCostAsString() )->toBe( '$10.61' );
 
 });
 
@@ -55,10 +55,10 @@ it('gives a total cost', function () {
 it('gives a cost per portion', function () {
 
     $this->seed(LobsterDishSeeder::class);
-
+    /** @var Recipe $recipe */
     $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
-    expect($recipe->getCostPerPortionAsString())->toBe('$5.31');
+    expect( $recipe->getCostPerPortionAsString() )->toBe( '$5.31' );
 
 });
 
@@ -66,10 +66,10 @@ it('gives a cost per portion', function () {
 it('give portion cost percentage', function () {
 
     $this->seed(LobsterDishSeeder::class);
-
+    /** @var Recipe $recipe */
     $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
-    expect($recipe->getPortionCostPercentageAsString())->toBe('29.5%');
+    expect( $recipe->getPortionCostPercentageAsString() )->toBe( '29.5%' );
 
 });
 
@@ -77,10 +77,10 @@ it('give portion cost percentage', function () {
 it('knows if the cost is inaccurate', function () {
 
     $this->seed(RandomRecipeSeeder::class);
-
+    /** @var Recipe $recipe */
     $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
-    expect($recipe->hasInaccurateCost())->toBeTrue();
+    expect( $recipe->hasInaccurateCost() )->toBeTrue();
 
 });
 
@@ -88,10 +88,10 @@ it('knows if the cost is inaccurate', function () {
 it('knows if the cost is accurate', function () {
 
     $this->seed(LobsterDishSeeder::class);
-
+    /** @var Recipe $recipe */
     $recipe = Recipe::with('items.ingredient.asPurchased')->first();
 
-    expect($recipe->hasInaccurateCost())->toBeFalse();
+    expect( $recipe->hasInaccurateCost() )->toBeFalse();
 });
 
 
@@ -117,9 +117,9 @@ it('knows what the mathematical difference is between the cost percent and goal'
     ]);
     $recipe->refresh();
 
-    expect($recipe->getCostPerPortionAsString())->toBe('$1.00');
-    expect($recipe->getPortionCostPercentageAsString())->toBe('100%');
-    expect($recipe->getCostingPercentageDifferenceFromGoalAsString())->toBe('50.0');
+    expect( $recipe->getCostPerPortionAsString() )->toBe( '$1.00' );
+    expect( $recipe->getPortionCostPercentageAsString() )->toBe( '100%' );
+    expect( $recipe->getCostingPercentageDifferenceFromGoalAsString() )->toBe( '50.0' );
 
 });
 
@@ -147,9 +147,9 @@ it('can override the menu category costing goal', function () {
     ]);
     $recipe->refresh();
 
-    expect($recipe->getCostPerPortionAsString())->toBe('$1.00');
-    expect($recipe->getPortionCostPercentageAsString())->toBe('100%');
-    expect($recipe->getCostingPercentageDifferenceFromGoalAsString())->not->toBe('50.0'); //Redundant, but for clarity compared to test above.
-    expect($recipe->getCostingPercentageDifferenceFromGoalAsString())->toBe('0.0');
+    expect( $recipe->getCostPerPortionAsString() )->toBe( '$1.00' );
+    expect( $recipe->getPortionCostPercentageAsString() )->toBe( '100%' );
+    expect( $recipe->getCostingPercentageDifferenceFromGoalAsString() )->not->toBe( '50.0' ); //Redundant, but for clarity compared to test above.
+    expect( $recipe->getCostingPercentageDifferenceFromGoalAsString() )->toBe( '0.0' );
 
 });

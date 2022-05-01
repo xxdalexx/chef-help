@@ -66,6 +66,11 @@ class AsPurchased extends BaseModel
             ->dividedBy($this->quantity, RoundingMode::HALF_UP);
     }
 
+    public function getCostPerBaseUnitAsString(): string
+    {
+        return moneyToString( $this->getCostPerBaseUnit() );
+    }
+
     public function getBaseUnit(): MeasurementEnum
     {
         return $this->unit::getBaseUnit();

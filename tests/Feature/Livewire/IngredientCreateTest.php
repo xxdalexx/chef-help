@@ -14,7 +14,7 @@ it('can create a new ingredient', function () {
         ->call('create')
         ->assertRedirect();
 
-    expect(Ingredient::count())->toBe(1);
+    expect( Ingredient::count() )->toBe(1);
 
 });
 
@@ -32,9 +32,9 @@ it('can create a new ingredient with an asPurchased record', function () {
         ->call('create')
         ->assertRedirect();
 
-    expect(Ingredient::count())->toBe(1);
+    expect( Ingredient::count() )->toBe(1);
     $ingredient = Ingredient::first();
-    expect($ingredient->asPurchased)->not->toBeNull();
+    expect( $ingredient->asPurchased )->not->toBeNull();
 
 });
 

@@ -9,9 +9,13 @@ use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 
 it('returns a UsWeight enum case from a string', function ($from, $expected) {
-    $type = get_class($expected);
+
+    /** @var MeasurementEnum $type */
+    $type     = get_class($expected);
     $returned = $type::fromString($from);
+
     expect($returned === $expected)->toBeTrue();
+
 })->with([
     ['oz', UsWeight::oz],
     ['Ounce', UsWeight::oz],
@@ -34,8 +38,11 @@ it('returns a UsWeight enum case from a string', function ($from, $expected) {
     ['ml', MetricVolume::ml]
 ]);
 
+
 it('returns a factor used for unit conversions', function ($enum, $factor) {
-    expect((string) $enum->conversionFactor())->toBe($factor);
+
+    expect( (string) $enum->conversionFactor() )->toBe( $factor );
+
 })->with([
     [UsWeight::oz, '1'],
     [UsWeight::lb, '16'],
@@ -51,10 +58,14 @@ it('returns a factor used for unit conversions', function ($enum, $factor) {
     [MetricVolume::liter, '1']
 ]);
 
+
 test('it can be casted to in a model', function ($value, $expected) {
+
     $cast = new MeasurementEnumCast();
     $casted = $cast->get(new AsPurchased(), 'unit', $value, []);
-    expect($casted)->toBe($expected);
+
+    expect( $casted )->toBe( $expected );
+
 })->with([
     ['floz', UsVolume::floz],
     ['oz', UsWeight::oz],
@@ -62,10 +73,14 @@ test('it can be casted to in a model', function ($value, $expected) {
     ['liter', MetricVolume::liter]
 ]);
 
+
 test('it can be casted from in a model', function ($value, $expected) {
+
     $cast = new MeasurementEnumCast();
     $casted = $cast->set(new AsPurchased(), 'unit', $value, []);
-    expect($casted)->toBe($expected);
+
+    expect( $casted )->toBe( $expected );
+
 })->with([
     [UsVolume::floz, 'floz'],
     [UsWeight::oz, 'oz'],
@@ -73,9 +88,10 @@ test('it can be casted from in a model', function ($value, $expected) {
     [MetricVolume::ml, 'ml']
 ]);
 
+
 test('it returns a type', function (MeasurementEnum $unit, $expected) {
 
-    expect($unit->getType())->toBe($expected);
+    expect( $unit->getType() )->toBe( $expected );
 
 })->with([
     [UsWeight::oz, 'weight'],
@@ -84,9 +100,10 @@ test('it returns a type', function (MeasurementEnum $unit, $expected) {
     [MetricVolume::ml, 'volume']
 ]);
 
+
 test('it returns a system', function (MeasurementEnum $unit, $expected) {
 
-    expect($unit->getSystem())->toBe($expected);
+    expect( $unit->getSystem() )->toBe ($expected );
 
 })->with([
     [UsWeight::oz, 'us'],

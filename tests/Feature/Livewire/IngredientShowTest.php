@@ -18,13 +18,13 @@ it('validates inputs for editing ingredient', function ($parameter, $value = '',
 //    'nameInput'         => 'required',
 //    'cleanedYieldInput' => 'required|numeric|between:1,100',
 //    'cookedYieldInput'  => 'required|numeric|between:1,100',
-['nameInput'],
-['cleanedYieldInput'],
-['cleanedYieldInput', 'not a number', 'numeric'],
-['cleanedYieldInput', '999', 'between'],
-['cookedYieldInput'],
-['cookedYieldInput', 'not a number', 'numeric'],
-['cookedYieldInput', '999', 'between'],
+    ['nameInput'],
+    ['cleanedYieldInput'],
+    ['cleanedYieldInput', 'not a number', 'numeric'],
+    ['cleanedYieldInput', '999', 'between'],
+    ['cookedYieldInput'],
+    ['cookedYieldInput', 'not a number', 'numeric'],
+    ['cookedYieldInput', '999', 'between'],
 ]);
 
 
@@ -39,11 +39,11 @@ it('validates inputs for adding ap record', function ($parameter, $value = '', $
 //    'apQuantityInput' => 'required|numeric',
 //    'apUnitInput'     => 'required',
 //    'apPriceInput'    => 'required|numeric',
-['apQuantityInput'],
-['apQuantityInput', 'not a number', 'numeric'],
-['apUnitInput'],
-['apPriceInput'],
-['apPriceInput', 'not a number', 'numeric'],
+    ['apQuantityInput'],
+    ['apQuantityInput', 'not a number', 'numeric'],
+    ['apUnitInput'],
+    ['apPriceInput'],
+    ['apPriceInput', 'not a number', 'numeric'],
 ]);
 
 
@@ -60,15 +60,16 @@ it('updates an ingredient record', function () {
 
     $ingredient->refresh();
 
-    expect($ingredient->name)->toBe($updatedName);
-    expect((string)$ingredient->cooked_yield)->toBe($updatedCookedYield);
-    expect((string)$ingredient->cleaned_yield)->toBe($updatedCleanedYield);
+    expect( $ingredient->name )->toBe( $updatedName );
+    expect( (string) $ingredient->cooked_yield )->toBe( $updatedCookedYield );
+    expect( (string) $ingredient->cleaned_yield )->toBe( $updatedCleanedYield );
+
 });
 
 
 it('creates an ap record', function () {
-    $ingredient = Ingredient::factory()->has(AsPurchased::factory())->create();
-    expect(AsPurchased::count())->toBeOne();
+
+    $ingredient = Ingredient::factory()->has( AsPurchased::factory() )->create();
     testTime()->addDay();
 
     Livewire::test(IngredientShow::class, ['ingredient' => $ingredient])
@@ -78,13 +79,14 @@ it('creates an ap record', function () {
         ->call('addAsPurchased')
         ->assertHasNoErrors();
     $ingredient->refresh();
-
     $newAP = AsPurchased::latest()->first();
-    expect(AsPurchased::count())->toBe(2);
-    expect($ingredient->asPurchasedHistory->count())->toBeOne();
-    expect((string)$newAP->quantity)->toBe('1');
-    expect($newAP->unit)->toBe(UsWeight::oz);
-    expect(moneyToString($newAP->price))->toBe('$1.25');
+
+    expect( AsPurchased::count() )->toBe(2);
+    expect( $ingredient->asPurchasedHistory->count() )->toBeOne();
+    expect( (string) $newAP->quantity )->toBe('1');
+    expect( $newAP->unit )->toBe( UsWeight::oz );
+    expect( $newAP->getPriceAsString() )->toBe( '$1.25' );
+
 });
 
 
@@ -97,8 +99,8 @@ it('adds a location to an ingredient', function () {
         ->call('addLocation');
 
     $ingredient->refresh();
-    expect($ingredient->locations->count())->toBeOne();
-    expect($ingredient->locations->first()->is($location))->toBeTrue();
+    expect( $ingredient->locations->count() )->toBeOne();
+    expect( $ingredient->locations->first()->is($location) )->toBeTrue();
 
 });
 
@@ -111,6 +113,6 @@ it('removes a location from an ingredient', function () {
     Livewire::test(IngredientShow::class, ['ingredient' => $ingredient])
         ->call('removeLocation', $location->id);
 
-    expect($ingredient->locations()->count())->toBe(0);
+    expect( $ingredient->locations()->count() )->toBe(0);
 
 });

@@ -16,15 +16,10 @@ it('can create a new recipe without the optional costing goal', function () {
         ->assertRedirect();
 
     expect( Recipe::count() )->toBe(1);
-
     $recipe = Recipe::first();
-
     expect( $recipe->name )->toBe('string');
-
     expect( $recipe->getPriceAsString() )->toBe( '$10.50' );
-
     expect( $recipe->portions->isEqualTo(1) )->toBeTrue();
-
     expect( $recipe->menuCategory->id )->toBe( $menuCategoryId );
 
 });
@@ -47,14 +42,10 @@ it('can create a new recipe with the optional costing goal', function () {
     $recipe = Recipe::first();
 
     expect( $recipe->name )->toBe('string');
-
     expect( $recipe->getPriceAsString() )->toBe( '$10.50' );
-
     expect( $recipe->portions->isEqualTo(1) )->toBeTrue();
-
     expect( $recipe->menuCategory->id )->toBe( $menuCategoryId );
-
-    expect((string) $recipe->costing_goal )->toBe( '33' );
+    expect( (string) $recipe->costing_goal )->toBe( '33' );
 
 });
 

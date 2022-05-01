@@ -2,6 +2,7 @@
 
 use App\Http\Livewire\MenuCategoryIndex;
 use App\Models\MenuCategory;
+use App\Models\Recipe;
 
 it('validates input', function ($parameter, $value = '', $violation = 'required') {
 
@@ -29,10 +30,10 @@ it('creates a new MenuCategory', function () {
         ->assertSet('nameInput', '')
         ->assertSet('costingGoalInput', '');
 
-    expect(MenuCategory::count())->toBeOne();
+    expect( MenuCategory::count() )->toBeOne();
     $category = MenuCategory::first();
-    expect($category->name)->toBe('string');
-    expect($category->getCostingGoalAsString())->toBe('30');
+    expect( $category->name )->toBe( 'string' );
+    expect( $category->getCostingGoalAsString() )->toBe( '30' );
 
 });
 
@@ -51,10 +52,11 @@ it('edits an existing MenuCategory', function () {
         ->assertSet('costingGoalInput', '')
         ->assertSet('menuCategoryEditing', '');
 
-    expect(MenuCategory::count())->toBeOne();
+    expect( MenuCategory::count() )->toBeOne();
     $category = MenuCategory::first();
-    expect($category->name)->toBe('string');
-    expect($category->getCostingGoalAsString())->toBe('30');
+    expect( $category->name )->toBe( 'string' );
+    expect( $category->getCostingGoalAsString() )->toBe( '30' );
+
 });
 
 
@@ -66,27 +68,29 @@ it('deletes a menu category', function () {
         ->call('deleteMenuCategory', $menuCategory->id)
         ->assertEmitted('alertWithToast');
 
-    expect(MenuCategory::count())->toBe(1);
+    expect( MenuCategory::count() )->toBe(1);
 
 });
+
 
 it('moves recipes to another category before deleting', function () {
 
     $originallyEmpty = MenuCategory::factory()->create();
-    $originallyFull = MenuCategory::factory()->has(\App\Models\Recipe::factory()->count(3))->create();
+    $originallyFull = MenuCategory::factory()->has( Recipe::factory()->count(3) )->create();
 
     $livewire = Livewire::test(MenuCategoryIndex::class)
         ->call('deleteMenuCategory', $originallyFull)
         ->assertEmitted('showModal');
 
-    expect($originallyFull->recipes->count())->toBe(3);
-    expect(MenuCategory::count())->toBe(2);
+    expect( $originallyFull->recipes->count() )->toBe(3);
+    expect( MenuCategory::count() )->toBe(2);
 
     $livewire->set('wantingToDelete', $originallyFull->id)
         ->set('categoryIdToMoveTo', $originallyEmpty->id)
         ->call('moveAllToCategory')
         ->assertEmitted('alertWithToast');
 
-    expect(MenuCategory::count())->toBeOne();
-    expect($originallyEmpty->recipes->count())->toBe(3);
+    expect( MenuCategory::count() )->toBeOne();
+    expect( $originallyEmpty->recipes->count() )->toBe(3);
+
 });
