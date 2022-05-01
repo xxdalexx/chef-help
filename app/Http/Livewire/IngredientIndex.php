@@ -10,7 +10,7 @@ use Livewire\WithPagination;
 
 class IngredientIndex extends LivewireBaseComponent
 {
-    use WithPagination, WithSearch, WithLiveValidation;
+    use WithPagination, WithSearch;
 
     public bool $showCreateForm = false;
 
