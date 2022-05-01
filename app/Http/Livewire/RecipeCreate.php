@@ -38,9 +38,9 @@ class RecipeCreate extends LivewireBaseComponent
 
         $this->validate();
 
-        $recipe = Recipe::create([
+        $recipe = Recipe::createWithoutCasting([
             'name'     => $this->recipeNameInput,
-            'price'    => money($this->menuPriceInput),
+            'price'    => $this->menuPriceInput,
             'portions' => $this->portionsInput,
             'menu_category_id' => $this->menuCategoryInput,
             'costing_goal' => $this->costingGoalInput

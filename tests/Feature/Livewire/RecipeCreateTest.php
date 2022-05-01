@@ -55,6 +55,7 @@ it('can create a new recipe with the optional costing goal', function () {
     expect( $recipe->menuCategory->id )->toBe( $menuCategoryId );
 
     expect((string) $recipe->costing_goal )->toBe( '33' );
+
 });
 
 

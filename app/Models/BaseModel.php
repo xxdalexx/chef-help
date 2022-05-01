@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Dev\CanDisableCastingOnModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 class BaseModel extends Model
 {
+    use CanDisableCastingOnModel;
+
     protected $guarded = [];
 
     public function dumpInfo($dump = true): array

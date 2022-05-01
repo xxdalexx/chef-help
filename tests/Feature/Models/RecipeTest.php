@@ -100,7 +100,7 @@ it('knows what the mathematical difference is between the cost percent and goal'
     $menuCategory = MenuCategory::factory()->create(['costing_goal' => 50]);
     $recipe = Recipe::factory()->for($menuCategory)->create([
         'portions' => 1,
-        'price' => money('1.00')
+        'price' => '1.00'
     ]);
     $ingredient = Ingredient::factory()->create([
         'cleaned_yield' => 100,
@@ -130,7 +130,7 @@ it('can override the menu category costing goal', function () {
     $recipe = Recipe::factory()->for($menuCategory)->create([
         'costing_goal' => 100,
         'portions' => 1,
-        'price' => money('1.00')
+        'price' => '1.00'
     ]);
     $ingredient = Ingredient::factory()->create([
         'cleaned_yield' => 100,
