@@ -41,10 +41,22 @@ class AsPurchased extends BaseModel
         return new AsPurchasedCollection($models);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function ingredient(): BelongsTo
     {
         return $this->belongsTo(Ingredient::class);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
 
     public function getPriceAsString($withDollarSign = true): string
     {
@@ -54,10 +66,26 @@ class AsPurchased extends BaseModel
     public function getConvertableUnit(): ConvertableUnit
     {
         if (empty ($this->convertableUnit)) {
-            return new ConvertableUnit($this->unit, $this->quantity);
+            return $this->convertableUnit = new ConvertableUnit($this->unit, $this->quantity);
         }
         return $this->convertableUnit;
     }
+
+    public function getCostPerBaseUnitAsString(): string
+    {
+        return moneyToString( $this->getCostPerBaseUnit() );
+    }
+
+    public function getVariancePercentageAsString(): string
+    {
+        return (string) (float) (string) $this->getVariancePercentage()->multipliedBy(100)->minus(100);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Business
+    |--------------------------------------------------------------------------
+    */
 
     public function getCostPerBaseUnit(): Money
     {
@@ -66,27 +94,19 @@ class AsPurchased extends BaseModel
             ->dividedBy($this->quantity, RoundingMode::HALF_UP);
     }
 
-    public function getCostPerBaseUnitAsString(): string
-    {
-        return moneyToString( $this->getCostPerBaseUnit() );
-    }
-
     public function getBaseUnit(): MeasurementEnum
     {
         return $this->unit::getBaseUnit();
     }
 
-    public function getVariancePercentage()
+    public function getVariancePercentage(): BigDecimal
     {
         if (! $this->previousCostPerBaseUnit) return BigDecimal::of(0);
+
         $previous = $this->previousCostPerBaseUnit->getAmount();
         $current = $this->getCostPerBaseUnit()->getAmount();
-        return $current->dividedBy($previous, 4, RoundingMode::HALF_UP);
-    }
 
-    public function getVariancePercentageAsString(): string
-    {
-        return (string) (float) (string) $this->getVariancePercentage()->multipliedBy(100)->minus(100);
+        return $current->dividedBy($previous, 4, RoundingMode::HALF_UP);
     }
 
 }

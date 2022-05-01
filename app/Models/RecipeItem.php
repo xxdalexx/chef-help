@@ -66,7 +66,7 @@ class RecipeItem extends BaseModel
     public function getIngredientNameAttribute(): string
     {
         //Lazy loading issues with livewire?
-        if (! $this->relationLoaded('ingredient')) {
+        if (! $this->relationLoaded('ingredient') ) {
             $this->load('ingredient.asPurchased');
         }
 
@@ -93,7 +93,7 @@ class RecipeItem extends BaseModel
     public function canNotCalculateCostReason(): string
     {
         // Ingredient Missing As Purchased Record
-        if (!$this->ingredient->asPurchased) {
+        if (! $this->ingredient->asPurchased) {
             return 'No As Purchased Data';
         }
 
@@ -114,7 +114,7 @@ class RecipeItem extends BaseModel
     public function canCalculateCost(): bool
     {
         // Ingredient Missing As Purchased Record
-        if (!$this->ingredient->asPurchased) return false;
+        if (! $this->ingredient->asPurchased) return false;
 
         // Weight/Volume Check
         if ($this->unit->getType() != $this->ingredient->asPurchased->unit->getType()) {
@@ -126,7 +126,7 @@ class RecipeItem extends BaseModel
 
     public function getCost(): Money
     {
-        if (!$this->canCalculateCost()) return money(0);
+        if (! $this->canCalculateCost() ) return money(0);
 
         //$20 per liter, or $20 per 33.81413 floz
         $costPerApBaseUnit = $this->ingredient->asPurchased->getCostPerBaseUnit();

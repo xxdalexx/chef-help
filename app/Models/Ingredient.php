@@ -71,12 +71,12 @@ class Ingredient extends BaseModel
 
     public function cleanedYieldDecimal(): BigDecimal
     {
-        return BigDecimal::of($this->cleaned_yield)->exactlyDividedBy(100);
+        return $this->cleaned_yield->exactlyDividedBy(100);
     }
 
     public function cookedYieldDecimal(): BigDecimal
     {
-        return BigDecimal::of($this->cooked_yield)->exactlyDividedBy(100);
+        return $this->cooked_yield->exactlyDividedBy(100);
     }
 
     /*
