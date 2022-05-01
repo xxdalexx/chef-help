@@ -77,11 +77,13 @@ trait CanDisableCastingOnModel
     public function updateWithoutCasting(array $attributes = [], array $options = [])
     {
         static::disableCasts();
+
         if (! $this->exists) {
             return false;
         }
 
         $return = $this->fill($attributes)->save($options);
+
         static::reEnableCasts();
 
         return $return;

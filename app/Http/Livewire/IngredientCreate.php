@@ -33,10 +33,10 @@ class IngredientCreate extends Component
 
     protected function createAsPurchasedForIngredient(Ingredient $ingredient)
     {
-        AsPurchased::create([
+        AsPurchased::createWithoutCasting([
             'quantity' => $this->apQuantityInput,
             'unit' => findMeasurementUnitEnum($this->apUnitInput),
-            'price' => money($this->apPriceInput),
+            'price' => $this->apPriceInput,
             'ingredient_id' => $ingredient->id
         ]);
     }

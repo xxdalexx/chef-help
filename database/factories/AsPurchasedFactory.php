@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Dev\Factory\DisableCastingInFactory;
 use App\Models\Ingredient;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AsPurchasedFactory extends Factory
 {
+    use DisableCastingInFactory;
+
     /**
      * Define the model's default state.
      *
@@ -22,8 +25,8 @@ class AsPurchasedFactory extends Factory
         return [
             'ingredient_id' => Ingredient::factory(),
             'quantity' => $this->faker->numberBetween(1,16),
-            'unit' => $this->fakeUnit(),
-            'price' => $this->fakePrice()
+            'unit' => $this->fakeUnit()->value,
+            'price' => $this->faker->randomFloat(2,1,20),
         ];
     }
 }

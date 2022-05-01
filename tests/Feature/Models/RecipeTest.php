@@ -109,7 +109,7 @@ it('knows what the mathematical difference is between the cost percent and goal'
     AsPurchased::factory()->for($ingredient)->create([
         'unit' => UsWeight::oz,
         'quantity' => 1,
-        'price' => money('1.00')
+        'price' => '1.00'
     ]);
     RecipeItem::factory()->for($recipe)->for($ingredient)->create([
         'quantity' => 1,
@@ -139,7 +139,7 @@ it('can override the menu category costing goal', function () {
     AsPurchased::factory()->for($ingredient)->create([
         'unit' => UsWeight::oz,
         'quantity' => 1,
-        'price' => money('1.00')
+        'price' => '1.00'
     ]);
     RecipeItem::factory()->for($recipe)->for($ingredient)->create([
         'quantity' => 1,

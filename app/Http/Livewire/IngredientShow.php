@@ -95,8 +95,8 @@ class IngredientShow extends LivewireBaseComponent
     {
         $this->validate($this->rulesForAp);
 
-        AsPurchased::create([
-            'price' => money($this->apPriceInput),
+        AsPurchased::createWithoutCasting([
+            'price' => $this->apPriceInput,
             'unit' => findMeasurementUnitEnum($this->apUnitInput),
             'quantity' => $this->apQuantityInput,
             'ingredient_id' => $this->ingredient->id

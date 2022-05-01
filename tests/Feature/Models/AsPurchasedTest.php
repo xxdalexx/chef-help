@@ -56,7 +56,7 @@ it('can have a quantity that is not a whole number', function () {
     $ap = AsPurchased::factory()->for(Ingredient::factory())->create([
         'quantity' => 1.5,
         'unit' => UsWeight::oz,
-        'price' => money(1.5)
+        'price' => 1.5
     ]);
     $ap->refresh();
 
