@@ -20,7 +20,7 @@ class RecipeIndex extends LivewireBaseComponent
 
     public function render()
     {
-        $recipeQuery = Recipe::search($this->searchString)->with(['items.ingredient.asPurchased', 'menuCategory']);
+        $recipeQuery = Recipe::search($this->searchString)->with(['items.ingredient.asPurchased', 'items.ingredient.crossConversions', 'menuCategory']);
 
         if (! empty($this->menuCategoryFilter)) {
             $recipeQuery->whereHas('menuCategory', function ($query) {

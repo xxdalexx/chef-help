@@ -29,7 +29,7 @@
                     <form wire:submit.prevent="updateItem">
                         <div class="row">
                             <x-form.text-input name="editQuantityInput" label-name="Quantity" cols="5"/>
-                            <x-form.select-units wire:model="editUnitInput" cols="5"/>
+                            <x-form.select-units wire:model="editUnitInput" cols="5" wire:key="editRecipeItem"/>
                             <div class="col-md-2">
                                 <x-form.toggle-switch wire:model="editCleanedInput" label-name="Cleaned" />
                                 <x-form.toggle-switch wire:model="editCookedInput" label-name="Cooked" />

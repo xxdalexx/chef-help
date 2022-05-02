@@ -7,6 +7,7 @@ use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
+use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use App\Models\MenuCategory;
 use App\Models\Recipe;
@@ -68,6 +69,14 @@ class RandomRecipeSeeder extends Seeder
             'quantity'      => 4,
             'unit'          => MetricWeight::kg,
             'price'         => money(26)
+        ]);
+
+        CrossConversion::create([
+            'ingredient_id' => $flour->id,
+            'quantity_one' => 128,
+            'unit_one' => MetricWeight::gram,
+            'quantity_two' => 1,
+            'unit_two' => UsVolume::cup
         ]);
 
         $noAPIngredient = Ingredient::factory()->create([

@@ -16,5 +16,4 @@
             turpis nunc eget.
         </p>
     </div>
-    <livewire:testing />
 </x-layout>

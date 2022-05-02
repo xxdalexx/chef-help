@@ -56,10 +56,10 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $ingredient_id
- * @property string $quantity_one
- * @property string $unit_one
- * @property string $quantity_two
- * @property string $unit_two
+ * @property \Brick\Math\BigDecimal $quantity_one
+ * @property \App\Measurements\MeasurementEnum $unit_one
+ * @property \Brick\Math\BigDecimal $quantity_two
+ * @property \App\Measurements\MeasurementEnum $unit_two
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Ingredient $ingredient

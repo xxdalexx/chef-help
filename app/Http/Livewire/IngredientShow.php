@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Http\Livewire\Plugins\Refreshable;
 use App\Models\AsPurchased;
+use App\Models\CrossConversion;
 use App\Models\Ingredient;
 
 class IngredientShow extends LivewireBaseComponent
@@ -37,7 +38,7 @@ class IngredientShow extends LivewireBaseComponent
     */
 
     public string $apQuantityInput = '';
-    public string $apUnitInput     = '';
+    public string $apUnitInput     = 'oz';
     public string $apPriceInput    = '';
 
     protected array $rulesForAp = [
@@ -119,6 +120,13 @@ class IngredientShow extends LivewireBaseComponent
     {
         $this->ingredient->locations()->detach($id);
         $this->alertWithToast('Location Removed.');
+        $this->ingredient->refresh();
+    }
+
+    public function removeCrossConversion(CrossConversion $crossConversion): void
+    {
+        $crossConversion->delete();
+        $this->alertWithToast('Removed.');
         $this->ingredient->refresh();
     }
 

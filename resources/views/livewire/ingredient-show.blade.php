@@ -132,5 +132,27 @@
         </div>
     </div>
 
+    <div class="row" wire:key="cross-measurements">
+        <div class="col">
+            <x-card card-class="mt-2" title="Measurement System Conversions">
+                <ul class="list-group">
+                    @forelse($ingredient->crossConversions as $conversion)
+                        <li class="list-group-item d-flex justify-content-between">
+                            {{ $conversion->getFirstMeasurementAsString()  }} = {{ $conversion->getSecondMeasurementAsString() }}
+                            <span>
+                                <i wire:click="removeCrossConversion({{ $conversion->id }})" class="bi bi-trash text-danger cursor-pointer"></i>
+                            </span>
+                        </li>
+                    @empty
+                        <li class="list-group-item">No Conversions Set</li>
+                    @endforelse
+                </ul>
+                <x-button.block text="Add" wire:click="$emit('showModal', 'crossConversionCreateModal')" />
+            </x-card>
+        </div>
+    </div>
+
     <livewire:sub-component.locations-management-modal/>
+    <livewire:cross-conversion-create :ingredient="$ingredient"/>
+
 </div>

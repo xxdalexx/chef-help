@@ -35,11 +35,6 @@ class RecipeShow extends LivewireBaseComponent
         'editCookedInput'   => 'boolean'
     ];
 
-    public function mount(Recipe $recipe): void
-    {
-        $this->recipe->load('items.ingredient.asPurchased');
-    }
-
     public function updated($property): void
     {
         $this->validateOnly($property, $this->rules);
@@ -114,6 +109,7 @@ class RecipeShow extends LivewireBaseComponent
 
     public function render()
     {
+        $this->recipe->load(['items.ingredient.asPurchased', 'items.ingredient.crossConversions']);
         return view('livewire.recipe-show');
     }
 }

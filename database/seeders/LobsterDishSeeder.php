@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
+use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use App\Models\Location;
 use App\Models\MenuCategory;
@@ -40,6 +41,14 @@ class LobsterDishSeeder extends Seeder
             'quantity'      => '1',
             'unit'          => UsVolume::quart,
             'price'         => money('6.42'),
+        ]);
+
+        CrossConversion::create([
+            'ingredient_id' => $cream->id,
+            'quantity_one' => 1,
+            'unit_one' => UsVolume::cup,
+            'quantity_two' => '8.15',
+            'unit_two' => UsWeight::oz
         ]);
 
         $oil = Ingredient::create([
