@@ -52,6 +52,35 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\CrossConversion
+ *
+ * @property int $id
+ * @property int $ingredient_id
+ * @property string $quantity_one
+ * @property string $unit_one
+ * @property string $quantity_two
+ * @property string $unit_two
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Ingredient $ingredient
+ * @method static \Database\Factories\CrossConversionFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereIngredientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereQuantityOne($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereQuantityTwo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereUnitOne($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereUnitTwo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CrossConversion whereUpdatedAt($value)
+ */
+	class CrossConversion extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Ingredient
  *
  * @property int $id
@@ -65,6 +94,8 @@ namespace App\Models{
  * @property-read int|null $as_purchased_all_count
  * @property-read \App\CustomCollections\AsPurchasedCollection|\App\Models\AsPurchased[] $asPurchasedHistory
  * @property-read int|null $as_purchased_history_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\CrossConversion[] $crossConversions
+ * @property-read int|null $cross_conversions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Location[] $locations
  * @property-read int|null $locations_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $recipeItems
@@ -142,7 +173,8 @@ namespace App\Models{
  * @property int|null $menu_category_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Support\Collection $ingredients
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Ingredient[] $ingredients
+ * @property-read int|null $ingredients_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $items
  * @property-read int|null $items_count
  * @property-read \App\Models\MenuCategory|null $menuCategory

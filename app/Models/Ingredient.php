@@ -63,6 +63,11 @@ class Ingredient extends BaseModel
         return $this->belongsToMany(Location::class);
     }
 
+    public function crossConversions(): HasMany
+    {
+        return $this->hasMany(CrossConversion::class);
+    }
+
     /*
     |--------------------------------------------------------------------------
     | Accessors

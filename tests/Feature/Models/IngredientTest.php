@@ -2,6 +2,7 @@
 
 use App\CustomCollections\AsPurchasedCollection;
 use App\Models\AsPurchased;
+use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use App\Models\Location;
 use App\Models\RecipeItem;
@@ -13,6 +14,7 @@ test('relationships and casts', function () {
         ->has( AsPurchased::factory() )
         ->has( RecipeItem::factory()->count(3) )
         ->has( Location::factory()->count(2) )
+        ->has( CrossConversion::factory() )
         ->create()->refresh();
 
     expect( $ingredient->asPurchased )->toBeInstanceOf( AsPurchased::class );
@@ -20,6 +22,8 @@ test('relationships and casts', function () {
     expect( $ingredient->recipeItems->first() )->toBeInstanceOf( RecipeItem::class );
     expect( $ingredient->locations )->toBeCollection();
     expect( $ingredient->locations->first() )->toBeInstanceOf( Location::class );
+    expect( $ingredient->crossConversions )->toBeCollection();
+    expect( $ingredient->crossConversions->first() )->toBeInstanceOf( CrossConversion::class );
 
 });
 
