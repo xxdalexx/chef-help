@@ -10,6 +10,7 @@ use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
@@ -41,18 +42,9 @@ class Recipe extends BaseModel
         return $this->hasMany(RecipeItem::class);
     }
 
-    //Fake a has many through relationship. RecipeItem contains foreign keys for both Recipe and Ingredient
-    public function getIngredientsAttribute(): Collection
+    public function ingredients(): BelongsToMany
     {
-        if (! empty($this->ingredientList)) return $this->ingredientList;
-
-        if (! $this->relationLoaded('items.ingredient.asPurchased') ) {
-            $this->load('items.ingredient.asPurchased');
-        }
-
-        return $this->ingredientList = $this->items->map(function ($item) {
-            return $item->ingredient;
-        });
+        return $this->belongsToMany(Ingredient::class, 'recipe_items');
     }
 
     /*

@@ -14,7 +14,7 @@ test('casts and relationships', function () {
 
     $recipe = Recipe::factory()
         ->has(RecipeItem::factory()->count(3), 'items')
-        ->for(MenuCategory::factory())
+        ->for( MenuCategory::factory() )
         ->create();
 
     expect( $recipe->price )->toBeMoney();
