@@ -15,7 +15,7 @@ class RecipeShow extends LivewireBaseComponent
 
     public ?RecipeItem $editingRecipeItem;
 
-    public string $editArea = 'addIngredient';
+    public string $editArea = '';
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +34,8 @@ class RecipeShow extends LivewireBaseComponent
         'editCleanedInput'  => 'boolean',
         'editCookedInput'   => 'boolean'
     ];
+
+    protected $listeners = ['hideEditArea'];
 
     public function updated($property): void
     {

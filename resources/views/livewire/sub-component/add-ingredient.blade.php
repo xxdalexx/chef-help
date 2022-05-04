@@ -1,5 +1,5 @@
 <div>
-    <x-card title="Add Ingredient">
+    <x-card title="Add Ingredient" close-click="$emit('hideEditArea')">
 
         <div class="row">
             <div class="d-grid col-6">
