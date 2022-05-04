@@ -141,14 +141,14 @@ class RecipeItem extends BaseModel
         $costPerApBaseUnit = $this->ingredient->asPurchased->getCostPerBaseUnit();
         $apBaseUnit = $this->ingredient->asPurchased->getBaseUnit();
 
-        // SYSTEMS ARE THE SAME, FIRST NESTED IF STATEMENT SKIPPED/RUNS FALSE
+        // SYSTEMS ARE THE SAME, FIRST NESTED IF STATEMENT SKIPPED/EVALUATES FALSE
         // Paper Math, with a conversion of 128 grams = 1 cup, this is where we would convert
         // $0.0065/gram -> $0.832/128 gram -> $0.832/1 Cup -> $0.104/floz
         // So we need to manually override and convert the ap from grams to floz before it does the system check.
         // $costPerApBaseUnit = .104
         // $apBaseUnit = UsVolume::floz
 
-        // SYSTEMS ARE DIFFERENT, FIRST NESTED IF RUNS TRUE
+        // SYSTEMS ARE DIFFERENT, FIRST NESTED IF EVALUATES TRUE
         // What's going to happen if we do our conversion with US Weight instead of Metric Weight?
         // Using a conversion of 4.5oz = 1 cup, now the paper conversion is:
         // $0.0065/gram -> $0.184272/oz -> $0.829224/4.5oz -> $0.829224/cup -> $0.104/floz

@@ -14,7 +14,9 @@
                     <button {{ $attributes->wire('click') }}
                             type="button"
                             class="btn btn-primary"
-                            data-bs-dismiss="modal"
+                            @if(! $errors->any())
+                                data-bs-dismiss="modal"
+                            @endif
                     >
                         {{ $actionButtonText }}
                     </button>

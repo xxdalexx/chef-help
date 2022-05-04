@@ -19,7 +19,7 @@ class RecipeUpdate extends LivewireBaseComponent
     public function mount(): void
     {
         $this->recipeNameInput = $this->recipe->name;
-        $this->menuPriceInput = $this->recipe->getPriceAsString();
+        $this->menuPriceInput = $this->recipe->getPriceAsString(false);
         $this->portionsInput = $this->recipe->portions;
         $this->menuCategoryInput = $this->recipe->menu_category_id;
         $this->costingGoalInput = $this->recipe->costing_goal->isGreaterThan(0)
