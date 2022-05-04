@@ -105,4 +105,10 @@ class Ingredient extends BaseModel
         return $this->inverseLocations()->pluck('id')->toArray();
     }
 
+    public function canConvertVolumeAndWeight(): bool
+    {
+        return $this->crossConversions->isNotEmpty() &&
+            $this->crossConversions->first()->canConvertWeightAndVolume();
+    }
+
 }

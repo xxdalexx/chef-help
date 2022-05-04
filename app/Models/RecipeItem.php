@@ -122,13 +122,8 @@ class RecipeItem extends BaseModel
         if (! $this->ingredient->asPurchased) return false;
 
         // Weight/Volume Check
-        // Yuck FIX/REFACTOR!
         if ( $this->crossConversionNeeded() ) {
-            if ( $this->ingredient->crossConversions->first() ) {
-                if ( $this->ingredient->crossConversions->first()->canConvertWeightAndVolume() ) {
-                    return true;
-                } else {return false;}
-            } else {return false;}
+            return $this->ingredient->canConvertVolumeAndWeight();
         }
 
         return true;

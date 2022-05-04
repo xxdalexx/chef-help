@@ -91,7 +91,7 @@ it('can tell the reasoning for not calculating cost', function () {
 });
 
 
-it('knows that it cannot calculate cost when there is a weight volume mismatch without a crossconversion', function () {
+it('knows that it cannot calculate cost when there is a weight volume mismatch without a CrossConversion', function () {
 
     //Create Recipe, Item, and an Ingredient with no CrossConversion Record.
     $recipe = Recipe::factory()->create();
@@ -122,6 +122,7 @@ it('can calculate cost with a CrossConversion where the weight systems of AP and
     expect( $recipeItem->getCostAsString() )->toBe( '$1.67' );
 
 });
+
 
 it('can calculate cost with a CrossConversion where the weight system of AP is metric and cross', function () {
 

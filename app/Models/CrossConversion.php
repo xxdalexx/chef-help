@@ -28,6 +28,12 @@ class CrossConversion extends BaseModel
         return $this->belongsTo(Ingredient::class);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Accessors
+    |--------------------------------------------------------------------------
+    */
+
     public function getFirstMeasurementAsString(): string
     {
         return (string) $this->quantity_one . ' ' . $this->unit_one->value;
@@ -37,6 +43,12 @@ class CrossConversion extends BaseModel
     {
         return (string) $this->quantity_two . ' ' . $this->unit_two->value;
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Business
+    |--------------------------------------------------------------------------
+    */
 
     public function canConvertWeightAndVolume(): bool
     {
@@ -60,7 +72,7 @@ class CrossConversion extends BaseModel
         return $volume->dividedBy($weight, 8, RoundingMode::HALF_UP);
     }
 
-    public function volumeToWeightFactor()
+    public function volumeToWeightFactor(): BigDecimal
     {
         $weight = $this->getFactorFor('weight');
         $volume = $this->getFactorFor('volume');
@@ -68,7 +80,7 @@ class CrossConversion extends BaseModel
         return $weight->dividedBy($volume, 8, RoundingMode::HALF_UP);
     }
 
-    public function baseUnitOf($type): MeasurementEnum
+    public function baseUnitOf(string $type): MeasurementEnum
     {
         if ($this->unit_one->getType() == $type) {
             return $this->unit_one::getBaseUnit();
