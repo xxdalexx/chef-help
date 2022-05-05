@@ -5,6 +5,7 @@ use App\Models\AsPurchased;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use App\Models\Location;
+use App\Models\Recipe;
 use App\Models\RecipeItem;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -24,6 +25,8 @@ test('relationships and casts', function () {
     expect( $ingredient->locations->first() )->toBeInstanceOf( Location::class );
     expect( $ingredient->crossConversions )->toBeCollection();
     expect( $ingredient->crossConversions->first() )->toBeInstanceOf( CrossConversion::class );
+    expect( $ingredient->recipes )->toBeCollection();
+    expect( $ingredient->recipes->first() )->toBeInstanceOf( Recipe::class );
 
 });
 

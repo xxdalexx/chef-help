@@ -63,6 +63,11 @@ class Ingredient extends BaseModel
         return $this->belongsToMany(Location::class);
     }
 
+    public function recipes(): BelongsToMany
+    {
+        return $this->belongsToMany(Recipe::class, 'recipe_items');
+    }
+
     public function crossConversions(): HasMany
     {
         return $this->hasMany(CrossConversion::class);

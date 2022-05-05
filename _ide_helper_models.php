@@ -100,6 +100,8 @@ namespace App\Models{
  * @property-read int|null $locations_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\RecipeItem[] $recipeItems
  * @property-read int|null $recipe_items_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Recipe[] $recipes
+ * @property-read int|null $recipes_count
  * @method static \Database\Factories\IngredientFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ingredient newQuery()

@@ -42,8 +42,17 @@
             </x-card>
         </div>
         <div class="col-md-4">
-            <x-card title="Edit">
-                Replace
+            <x-card title="Recipes Used In">
+                <ul class="list-group">
+                    @foreach($ingredient->recipes as $recipe)
+                        <a href="{{ $recipe->showLink() }}"
+                           class="list-group-item list-group-item-action d-flex justify-content-between"
+                        >
+                            {{ $recipe->name }}
+                            <i class="bi bi-box-arrow-up-right"></i>
+                        </a>
+                    @endforeach
+                </ul>
             </x-card>
         </div>
     </div>
