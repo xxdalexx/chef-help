@@ -38,12 +38,16 @@ class RecipeCreate extends LivewireBaseComponent
 
         $this->validate();
 
+        $costingGoal = empty($this->costingGoalInput)
+            ? 0
+            : $this->costingGoalInput;
+
         $recipe = Recipe::createWithoutCasting([
             'name'     => $this->recipeNameInput,
             'price'    => $this->menuPriceInput,
             'portions' => $this->portionsInput,
             'menu_category_id' => $this->menuCategoryInput,
-            'costing_goal' => $this->costingGoalInput
+            'costing_goal' => $costingGoal
         ]);
 
         return redirect()->route('recipe.show', $recipe);
