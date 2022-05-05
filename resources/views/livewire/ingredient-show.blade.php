@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <div class="row" wire:key="as-purchased">
+    <div class="row mt-3" wire:key="as-purchased">
         <div class="col-md-4">
             <x-card card-class="mt-2" title="Update As Purchased Pricing">
                 <form wire:submit.prevent="addAsPurchased">
@@ -102,39 +102,42 @@
                 @endif
             </x-card>
         </div>
-
     </div>
 
-    <div class="row" wire:key="inventory-locations">
-        <div class="col-md-8">
-            <x-card card-class="mt-2" title="Inventory Locations">
-                <ul class="list-group">
-                    @forelse($ingredient->locations as $location)
-                        <li class="list-group-item d-flex justify-content-between">
-                            {{ $location->name }}
-                            <span>
-                                <i wire:click="removeLocation({{ $location->id }})" class="bi bi-trash text-danger cursor-pointer"></i>
-                            </span>
-                        </li>
-                    @empty
-                        <li class="list-group-item">No Locations Set</li>
-                    @endforelse
-                </ul>
-            </x-card>
+    <div class="row mt-3" wire:key="inventory-locations">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col">
+                    <x-card card-class="mt-2" title="Inventory Locations">
+                        <ul class="list-group">
+                            @forelse($ingredient->locations as $location)
+                                <li class="list-group-item d-flex justify-content-between">
+                                    {{ $location->name }}
+                                    <span>
+                                    <i wire:click="removeLocation({{ $location->id }})" class="bi bi-trash text-danger cursor-pointer"></i>
+                                </span>
+                                </li>
+                            @empty
+                                <li class="list-group-item">No Locations Set</li>
+                            @endforelse
+                        </ul>
+                    </x-card>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <x-card card-class="mt-2" title="Add Location" edit-click="$emit('showModal', 'locationsModal')">
+                        <form wire:submit.prevent="addLocation">
+                            <x-form.select-location wire:model="locationInput" :ingredient="$ingredient" />
+                            <x-ls.submit-button targets="addLocation"/>
+                        </form>
+                    </x-card>
+                </div>
+            </div>
         </div>
-        <div class="col-md-4">
-            <x-card card-class="mt-2" title="Add Location" edit-click="$emit('showModal', 'locationsModal')">
-                <form wire:submit.prevent="addLocation">
-                    <x-form.select-location wire:model="locationInput" :ingredient="$ingredient" />
-                    <x-ls.submit-button targets="addLocation"/>
-                </form>
-            </x-card>
-        </div>
-    </div>
 
-    <div class="row" wire:key="cross-measurements">
-        <div class="col">
-            <x-card card-class="mt-2" title="Measurement System Conversions">
+        <div class="col-md-6">
+            <x-card card-class="mt-2" title="Measurement System Conversions" add-click="$emit('showModal', 'crossConversionCreateModal')">
                 <ul class="list-group">
                     @forelse($ingredient->crossConversions as $conversion)
                         <li class="list-group-item d-flex justify-content-between">
@@ -147,10 +150,10 @@
                         <li class="list-group-item">No Conversions Set</li>
                     @endforelse
                 </ul>
-                <x-button.block text="Add" wire:click="$emit('showModal', 'crossConversionCreateModal')" />
             </x-card>
         </div>
     </div>
+
 
     <livewire:sub-component.locations-management-modal/>
     <livewire:cross-conversion-create :ingredient="$ingredient"/>

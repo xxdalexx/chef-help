@@ -7,6 +7,10 @@
         @if($attributes->has('close-click'))
             <i wire:click="{{ $attributes->get('close-click') }}" class="bi bi-x-lg cursor-pointer"></i>
         @endif
+        @if($attributes->has('add-click'))
+            <i wire:click="{{ $attributes->get('add-click') }}" class="bi bi-plus-lg cursor-pointer"></i>
+        @endif
+
     </h5>
     <div class="card-body">
         {{ $slot }}
