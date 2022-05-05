@@ -9,7 +9,7 @@
 
     <div class="row" wire:key="details">
         <div class="col-md-8">
-            <x-card title="Details">
+            <x-card title="Details" edit-click="$emit('showModal', 'ingredientUpdateModal')">
                 <x-table>
                     <tr>
                         <td>Cleaned Yield:</td>
@@ -43,12 +43,7 @@
         </div>
         <div class="col-md-4">
             <x-card title="Edit">
-                <form wire:submit.prevent="editIngredient">
-                    <x-form.text-input name="nameInput" label-name="Name"/>
-                    <x-form.text-input name="cleanedYieldInput" label-name="Cleaned Yield %"/>
-                    <x-form.text-input name="cookedYieldInput" label-name="Cooked Yield %"/>
-                    <x-ls.submit-button targets="editIngredient"/>
-                </form>
+                Replace
             </x-card>
         </div>
     </div>
@@ -157,5 +152,6 @@
 
     <livewire:sub-component.locations-management-modal/>
     <livewire:cross-conversion-create :ingredient="$ingredient"/>
+    <livewire:ingredient-update :ingredient="$ingredient"/>
 
 </div>

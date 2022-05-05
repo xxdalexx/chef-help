@@ -18,24 +18,6 @@ class IngredientShow extends LivewireBaseComponent
 
     /*
     |--------------------------------------------------------------------------
-    | Edit Parameters
-    |--------------------------------------------------------------------------
-    */
-
-    public string $nameInput         = '';
-
-    public string $cleanedYieldInput = '';
-
-    public string $cookedYieldInput  = '';
-
-    protected array $rulesForEdit = [
-        'nameInput'         => 'required',
-        'cleanedYieldInput' => 'required|numeric|between:1,100',
-        'cookedYieldInput'  => 'required|numeric|between:1,100',
-    ];
-
-    /*
-    |--------------------------------------------------------------------------
     | As Purchased Parameters
     |--------------------------------------------------------------------------
     */
@@ -80,15 +62,6 @@ class IngredientShow extends LivewireBaseComponent
         }
 
         $this->locationInput = $this->ingredient->inverseLocationIds()[0] ?? '';
-
-        $this->setEditProperties();
-    }
-
-    protected function setEditProperties(): void
-    {
-        $this->nameInput = $this->ingredient->name;
-        $this->cleanedYieldInput = $this->ingredient->cleaned_yield;
-        $this->cookedYieldInput = $this->ingredient->cooked_yield;
     }
 
     public function editIngredient(): void
