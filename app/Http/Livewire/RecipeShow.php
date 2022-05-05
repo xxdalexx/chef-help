@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Http\Livewire\Plugins\Refreshable;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
+use App\Rules\MeasurementEnumExists;
 use Illuminate\Support\Str;
 
 class RecipeShow extends LivewireBaseComponent
@@ -28,18 +29,21 @@ class RecipeShow extends LivewireBaseComponent
     public string $editCleanedInput  = '';
     public string $editCookedInput   = '';
 
-    protected array $rules = [
-        'editUnitInput'     => 'required',
-        'editQuantityInput' => 'required|numeric',
-        'editCleanedInput'  => 'boolean',
-        'editCookedInput'   => 'boolean'
-    ];
+    protected function rules(): array
+    {
+        return [
+            'editUnitInput'     => ['required', new MeasurementEnumExists],
+            'editQuantityInput' => 'required|numeric',
+            'editCleanedInput'  => 'boolean',
+            'editCookedInput'   => 'boolean'
+        ];
+    }
 
     protected $listeners = ['hideEditArea'];
 
     public function updated($property): void
     {
-        $this->validateOnly($property, $this->rules);
+        $this->validateOnly($property, $this->rules());
     }
 
     /*

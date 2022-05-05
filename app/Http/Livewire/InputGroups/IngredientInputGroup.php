@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\InputGroups;
 
+use App\Rules\MeasurementEnumExists;
 use Illuminate\Validation\Rule;
 
 trait IngredientInputGroup
@@ -26,7 +27,7 @@ trait IngredientInputGroup
             'cookedInput'     => 'required|numeric|between:1,100',
 
             'apQuantityInput' => ['numeric', Rule::requiredIf($this->createAsPurchased)],
-            'apUnitInput'     => [Rule::requiredIf($this->createAsPurchased)],
+            'apUnitInput'     => [Rule::requiredIf($this->createAsPurchased), new MeasurementEnumExists],
             'apPriceInput'    => ['numeric', Rule::requiredIf($this->createAsPurchased)],
         ];
     }

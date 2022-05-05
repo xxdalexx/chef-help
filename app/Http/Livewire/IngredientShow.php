@@ -6,6 +6,7 @@ use App\Http\Livewire\Plugins\Refreshable;
 use App\Models\AsPurchased;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
+use App\Rules\MeasurementEnumExists;
 
 class IngredientShow extends LivewireBaseComponent
 {
@@ -22,7 +23,9 @@ class IngredientShow extends LivewireBaseComponent
     */
 
     public string $nameInput         = '';
+
     public string $cleanedYieldInput = '';
+
     public string $cookedYieldInput  = '';
 
     protected array $rulesForEdit = [
@@ -38,14 +41,19 @@ class IngredientShow extends LivewireBaseComponent
     */
 
     public string $apQuantityInput = '';
+
     public string $apUnitInput     = 'oz';
+
     public string $apPriceInput    = '';
 
-    protected array $rulesForAp = [
-        'apQuantityInput' => 'required|numeric',
-        'apUnitInput'     => 'required',
-        'apPriceInput'    => 'required|numeric',
-    ];
+    protected function rulesForAp(): array
+    {
+        return [
+            'apQuantityInput' => 'required|numeric',
+            'apUnitInput'     => ['required', new MeasurementEnumExists],
+            'apPriceInput'    => 'required|numeric',
+        ];
+    }
 
     /*
     |--------------------------------------------------------------------------
@@ -54,6 +62,12 @@ class IngredientShow extends LivewireBaseComponent
     */
 
     public string $locationInput = '';
+
+    /*
+    |--------------------------------------------------------------------------
+    | Business
+    |--------------------------------------------------------------------------
+    */
 
     public function mount(): void
     {
@@ -94,7 +108,7 @@ class IngredientShow extends LivewireBaseComponent
 
     public function addAsPurchased(): void
     {
-        $this->validate($this->rulesForAp);
+        $this->validate($this->rulesForAp());
 
         AsPurchased::createWithoutCasting([
             'price' => $this->apPriceInput,

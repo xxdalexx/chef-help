@@ -40,13 +40,13 @@ function moneyToString(Money $money, bool $withDollarSign = true, $decimalPlaces
 /**
  * Shortcut function for creating a new Money object.
  *
- * @param     $price
- * @param int $decimalPlaces
+ * @param mixed $price
+ * @param int   $decimalPlaces
  *
  * @return Money
  * @throws \Brick\Money\Exception\UnknownCurrencyException
  */
-function money($price, int $decimalPlaces = 8): Money
+function money(mixed $price, int $decimalPlaces = 8): Money
 {
     return Money::of($price, 'USD', new CustomContext($decimalPlaces), RoundingMode::HALF_UP);
 }
@@ -67,7 +67,7 @@ function theme(): string
     return $list->first();
 }
 
-function findMeasurementUnitEnum($value): MeasurementEnum
+function findMeasurementUnitEnum(string $value): MeasurementEnum
 {
     $classes = [
         UsWeight::class,

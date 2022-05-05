@@ -19,6 +19,7 @@ it('validates input for updating a recipe item', function ($parameter, $value = 
 //  'editCleanedInput'      => 'boolean',
 //  'editCookedInput'       => 'boolean'
     ['editUnitInput'],
+    ['editUnitInput', 'not a unit', 'App\Rules\MeasurementEnumExists'],
     ['editQuantityInput'],
 ]);
 

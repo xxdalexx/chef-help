@@ -42,6 +42,7 @@ it('validates inputs for adding ap record', function ($parameter, $value = '', $
     ['apQuantityInput'],
     ['apQuantityInput', 'not a number', 'numeric'],
     ['apUnitInput'],
+    ['apUnitInput', 'not a unit', 'App\Rules\MeasurementEnumExists'],
     ['apPriceInput'],
     ['apPriceInput', 'not a number', 'numeric'],
 ]);

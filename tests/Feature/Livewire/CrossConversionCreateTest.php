@@ -13,15 +13,17 @@ it('validates inputs', function ($parameter, $value = '', $violation = 'required
 
 })->with([
 //    'quantityOneInput' => 'required|numeric',
-//    'unitOneInput' => 'required',
+//    'unitOneInput' => ['required', new MeasurementEnumExists()],
 //    'quantityTwoInput' => 'required|numeric',
-//    'unitTwoInput' => 'required',
+//    'unitTwoInput' => ['required', new MeasurementEnumExists()],
     ['quantityOneInput'],
     ['quantityOneInput', 'not a number', 'numeric'],
     ['unitOneInput'],
+    ['unitOneInput', 'not a unit', 'App\Rules\MeasurementEnumExists'],
     ['quantityTwoInput'],
     ['quantityTwoInput', 'not a number', 'numeric'],
     ['unitTwoInput'],
+    ['unitTwoInput', 'not a unit', 'App\Rules\MeasurementEnumExists'],
 ]);
 
 

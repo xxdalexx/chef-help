@@ -63,5 +63,7 @@ it('validates input', function ($parameter, $value = '', $violation = 'required'
     ['cookedInput', '999', 'between'],
     ['apPriceInput', 'not a number', 'numeric'],
     ['apQuantityInput', 'not a number', 'numeric'],
+    ['apUnitInput'],
+    ['apUnitInput', 'not a unit', 'App\Rules\MeasurementEnumExists']
 ]);
 

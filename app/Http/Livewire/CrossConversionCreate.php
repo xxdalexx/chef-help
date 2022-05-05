@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Http\Livewire\Plugins\Refreshable;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
+use App\Rules\MeasurementEnumExists;
 
 class CrossConversionCreate extends LivewireBaseComponent
 {
@@ -24,9 +25,9 @@ class CrossConversionCreate extends LivewireBaseComponent
     {
         return [
             'quantityOneInput' => 'required|numeric',
-            'unitOneInput' => 'required',
+            'unitOneInput' => ['required', new MeasurementEnumExists],
             'quantityTwoInput' => 'required|numeric',
-            'unitTwoInput' => 'required',
+            'unitTwoInput' => ['required', new MeasurementEnumExists],
         ];
     }
 
