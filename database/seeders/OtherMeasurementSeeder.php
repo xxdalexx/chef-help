@@ -18,5 +18,9 @@ class OtherMeasurementSeeder extends Seeder
         OtherMeasurement::create([
             'name' => 'each'
         ]);
+
+        OtherMeasurement::create([
+            'name' => 'portion'
+        ]);
     }
 }

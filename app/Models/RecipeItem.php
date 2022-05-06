@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\BigDecimalCast;
 use App\Casts\MeasurementEnumCast;
+use App\Contracts\CostableIngredient;
 use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
@@ -17,7 +18,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Cache;
 
 /**
- * @property MeasurementEnum $unit
+ * @property MeasurementEnum         $unit
+ * @property-read CostableIngredient $ingredient
  */
 class RecipeItem extends BaseModel
 {
@@ -66,7 +68,7 @@ class RecipeItem extends BaseModel
     public function getIngredientNameAttribute(): string
     {
         //Lazy loading issues with livewire?
-        if (! $this->relationLoaded('ingredient') ) {
+        if (!$this->relationLoaded('ingredient')) {
             $this->load('ingredient.asPurchased');
         }
 
@@ -93,12 +95,12 @@ class RecipeItem extends BaseModel
     public function canNotCalculateCostReason(): string
     {
         // Ingredient Missing As Purchased Record
-        if (! $this->ingredient->asPurchased) {
+        if (!$this->ingredient->asPurchased && $this->ingredient_type == Ingredient::class) {
             return 'No As Purchased Data';
         }
 
         // Weight/Volume Check
-        if ($this->unit->getType() != $this->ingredient->asPurchased->unit->getType()) {
+        if ($this->unit->getType() != $this->ingredient->costingUnit()->getType()) {
             return 'No Weight <-> Volume Conversion';
         }
 
@@ -113,14 +115,14 @@ class RecipeItem extends BaseModel
 
     protected function crossConversionNeeded(): bool
     {
-        return $this->unit->getType() != $this->ingredient->asPurchased->unit->getType();
+        return $this->unit->getType() != $this->ingredient->costingUnit()->getType();
     }
 
     public function canCalculateCost(): bool
     {
         if ($this->ingredient_type == Ingredient::class) {
             // Ingredient Missing As Purchased Record
-            if (! $this->ingredient->asPurchased) return false;
+            if (!$this->ingredient->asPurchased) return false;
         }
 
         if ($this->ingredient_type == Recipe::class) {
@@ -128,7 +130,7 @@ class RecipeItem extends BaseModel
         }
 
         // Weight/Volume Check
-        if ( $this->crossConversionNeeded() ) {
+        if ($this->crossConversionNeeded()) {
             return $this->ingredient->canConvertVolumeAndWeight();
         }
 
@@ -137,15 +139,15 @@ class RecipeItem extends BaseModel
 
     public function getCost(): Money
     {
-        if (! $this->canCalculateCost() ) return money(0);
+        if (!$this->canCalculateCost()) return money(0);
 
         // Example to follow
         // Using Flour from RandomRecipeSeeder
         // With a conversion of 128 grams = 1 cup
 
         // $26/4kg or $6.50/kg or $0.0065/gram
-        $costPerApBaseUnit = $this->ingredient->asPurchased->getCostPerBaseUnit();
-        $apBaseUnit = $this->ingredient->asPurchased->getBaseUnit();
+        $costPerApBaseUnit = $this->ingredient->getCostPerCostingBaseUnit();
+        $apBaseUnit        = $this->ingredient->getCostingBaseUnit();
 
         // SYSTEMS ARE THE SAME, FIRST NESTED IF STATEMENT SKIPPED/EVALUATES FALSE
         // Paper Math, with a conversion of 128 grams = 1 cup, this is where we would convert
@@ -164,14 +166,13 @@ class RecipeItem extends BaseModel
         // Using "shrimp" test with a conversion of 1 lb = 10 each, conversion is $10/lb -> $1/each
 
         if ( $this->crossConversionNeeded() ) {
-            /** @var CrossConversion $conversion */
-            $conversion        = $this->ingredient->crossConversions->first();
+            $conversion           = $this->ingredient->getCrossConversion();
             $convertingToUnitType = $this->unit->getType();
 
             // Are the systems different between CrossConversion unit and the AP unit
             if ($apBaseUnit->getSystem() != $conversion->baseUnitOf( $apBaseUnit->getType() )->getSystem()) {
                 // Using above example (second paragraph), we're at $0.0065/gram and need to change it to $0.184272/oz
-                $systemConversion = match ($apBaseUnit) {
+                $systemConversion  = match ($apBaseUnit) {
                     MetricVolume::liter => '33.81413',  // 1 Liter = 33.81413 floz
                     UsVolume::floz => '0.02957344',     // 1 floz = 0.02957344 L
                     MetricWeight::gram => '0.03527396', // 1 gram = 0.03527396 oz
@@ -182,11 +183,11 @@ class RecipeItem extends BaseModel
             }
 
             //Third Scenario Hits Here
-            if ($this->unit->getType() == 'other' && $conversion->containsOther()) {
+            if ( $this->unit->getType() == 'other' && $conversion->containsOther() ) {
                 //$10/lb -> ?/oz -> $10/lb -> $10/10each
                 //$costPerBaseUnit = $1
                 $costPerApBaseUnit = $costPerApBaseUnit->multipliedBy( $conversion->getNotOtherUnit()->conversionFactor() )
-                    ->dividedBy( $conversion->getOtherQuantity(), RoundingMode::HALF_UP );
+                    ->dividedBy($conversion->getOtherQuantity(), RoundingMode::HALF_UP);
 
                 $apBaseUnit = $conversion->getOtherUnit();
             }
@@ -194,7 +195,7 @@ class RecipeItem extends BaseModel
             $factor = match ($convertingToUnitType) {
                 'volume' => $conversion->weightToVolumeFactor(),
                 'weight' => $conversion->volumeToWeightFactor(),
-                'other'  => 1
+                'other' => 1
             };
 
             $costPerApBaseUnit = $costPerApBaseUnit->dividedBy($factor, RoundingMode::HALF_UP);
@@ -202,7 +203,7 @@ class RecipeItem extends BaseModel
         }
 
         //Until a Misc System is created, we can assume only US<->Metric will hit here.
-        if ( $this->unit->getSystem() != $apBaseUnit->getSystem() ) {
+        if ($this->unit->getSystem() != $apBaseUnit->getSystem()) {
 
             $conversion = match ($apBaseUnit) {
                 MetricVolume::liter => '33.81413',  // 1 Liter = 33.81413 floz

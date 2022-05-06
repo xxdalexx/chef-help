@@ -3,14 +3,17 @@
 namespace App\Models;
 
 use App\Casts\BigDecimalCast;
+use App\Contracts\CostableIngredient;
+use App\Measurements\MeasurementEnum;
 use Brick\Math\BigDecimal;
+use Brick\Money\Money;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Validation\Rule;
 
-class Ingredient extends BaseModel
+class Ingredient extends BaseModel implements CostableIngredient
 {
     use HasFactory;
 
@@ -79,15 +82,7 @@ class Ingredient extends BaseModel
     |--------------------------------------------------------------------------
     */
 
-    public function cleanedYieldDecimal(): BigDecimal
-    {
-        return $this->cleaned_yield->exactlyDividedBy(100);
-    }
 
-    public function cookedYieldDecimal(): BigDecimal
-    {
-        return $this->cooked_yield->exactlyDividedBy(100);
-    }
 
     /*
     |--------------------------------------------------------------------------
@@ -110,10 +105,46 @@ class Ingredient extends BaseModel
         return $this->inverseLocations()->pluck('id')->toArray();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | CostableIngredient Methods
+    |--------------------------------------------------------------------------
+    */
+
     public function canConvertVolumeAndWeight(): bool
     {
         return $this->crossConversions->isNotEmpty() &&
             $this->crossConversions->first()->canConvertTypes();
+    }
+
+    public function costingUnit(): MeasurementEnum
+    {
+        return $this->asPurchased->unit;
+    }
+
+    public function getCostPerCostingBaseUnit(): Money
+    {
+        return $this->asPurchased->getCostPerBaseUnit();
+    }
+
+    public function getCostingBaseUnit(): MeasurementEnum
+    {
+        return $this->asPurchased->getBaseUnit();
+    }
+
+    public function getCrossConversion(): CrossConversion
+    {
+        return $this->crossConversions->first();
+    }
+
+    public function cleanedYieldDecimal(): BigDecimal
+    {
+        return $this->cleaned_yield->exactlyDividedBy(100);
+    }
+
+    public function cookedYieldDecimal(): BigDecimal
+    {
+        return $this->cooked_yield->exactlyDividedBy(100);
     }
 
 }

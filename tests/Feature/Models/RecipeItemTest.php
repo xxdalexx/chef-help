@@ -12,6 +12,7 @@ use App\Models\OtherMeasurement;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
+use Database\Seeders\OtherMeasurementSeeder;
 use Database\Seeders\RandomRecipeSeeder;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -231,7 +232,7 @@ it('calculates cost with CrossConversion and system conversion all around', func
 
 it('calculates cost with CrossConversion using OtherMeasurement in RecipeItem', function () {
 
-    $this->seed(\Database\Seeders\OtherMeasurementSeeder::class);
+    $this->seed(OtherMeasurementSeeder::class);
     $eachMeasurement = new stdClass();
     $eachMeasurement->value = 'each';
     $shrimp = Ingredient::factory()->create([
@@ -265,7 +266,7 @@ it('calculates cost with CrossConversion using OtherMeasurement in RecipeItem', 
 
 it('calculates cost with CrossConversion using OtherMeasurement in AsPurchased', function () {
 
-    $this->seed(\Database\Seeders\OtherMeasurementSeeder::class);
+    $this->seed(OtherMeasurementSeeder::class);
     $eachMeasurement = new stdClass();
     $eachMeasurement->value = 'each';
     $shrimp = Ingredient::factory()->create([
@@ -353,5 +354,28 @@ test('cost cache is updated when the ap price is updated', function () {
 
     expect( $item->costCacheKey() )->not->toBe( $originalKey );
     expect( $item->getCostAsString() )->not->toBe( $originalCost );
+
+});
+
+
+it('can have a recipe as an ingredient', function () {
+
+    $this->seed(OtherMeasurementSeeder::class);
+    $portionUnit = new stdClass();
+    $portionUnit->value = 'portion';
+    $recipe = Recipe::factory()->create();
+    $recipeForIngredient = Recipe::factory()->create();
+    $recipeItem = RecipeItem::create([
+        'ingredient_id' => $recipeForIngredient->id,
+        'ingredient_type' => Recipe::class,
+        'quantity' => 1,
+        'unit' => $portionUnit,
+        'recipe_id' => $recipe->id,
+        'cooked' => false,
+        'cleaned' => false
+    ]);
+    $recipeItem->refresh();
+
+    expect($recipeItem->getCost())->toBeMoney();
 
 });

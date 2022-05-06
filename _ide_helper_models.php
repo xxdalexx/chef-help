@@ -167,9 +167,18 @@ namespace App\Models{
 /**
  * App\Models\OtherMeasurement
  *
+ * @property int $id
+ * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $value
  * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement query()
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereUpdatedAt($value)
  */
 	class OtherMeasurement extends \Eloquent implements \App\Measurements\MeasurementEnum {}
 }
@@ -216,6 +225,7 @@ namespace App\Models{
  * @property MeasurementEnum $unit
  * @property int $id
  * @property int $recipe_id
+ * @property string $ingredient_type
  * @property int $ingredient_id
  * @property bool $cleaned
  * @property bool $cooked
@@ -225,7 +235,7 @@ namespace App\Models{
  * @property-read string $cost
  * @property-read string $ingredient_name
  * @property-read string $measurement
- * @property-read \App\Models\Ingredient $ingredient
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $ingredient
  * @property-read \App\Models\Recipe $recipe
  * @method static \Database\Factories\RecipeItemFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem newModelQuery()
@@ -236,6 +246,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereIngredientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereIngredientType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereQuantity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereRecipeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|RecipeItem whereUnit($value)

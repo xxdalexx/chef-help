@@ -4,6 +4,10 @@ namespace App\Models;
 
 use App\Casts\BigDecimalCast;
 use App\Casts\MoneyCast;
+use App\Contracts\CostableIngredient;
+use App\Measurements\MeasurementEnum;
+use App\Measurements\UsVolume;
+use App\Measurements\UsWeight;
 use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
@@ -14,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
 
-class Recipe extends BaseModel
+class Recipe extends BaseModel implements CostableIngredient
 {
     use HasFactory;
 
@@ -168,4 +172,52 @@ class Recipe extends BaseModel
             ->dividedBy($this->menuCategory->costing_goal, RoundingMode::HALF_UP)
             ->multipliedBy('100');
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | CostableIngredient Methods
+    |--------------------------------------------------------------------------
+    */
+
+    public function canConvertVolumeAndWeight(): bool
+    {
+        return true;
+    }
+
+    public function costingUnit(): MeasurementEnum
+    {
+        return UsWeight::oz;
+    }
+
+    public function getCostPerCostingBaseUnit(): Money
+    {
+        return money(0);
+    }
+
+    public function getCostingBaseUnit(): MeasurementEnum
+    {
+        return UsWeight::oz;
+    }
+
+    public function getCrossConversion(): CrossConversion
+    {
+        return CrossConversion::make([
+            'quantity_one' => 1,
+            'unit_one' => UsWeight::oz,
+            'quantity_two' => 1,
+            'unit_two' => UsVolume::floz
+        ]);
+    }
+
+    public function cleanedYieldDecimal(): BigDecimal
+    {
+        return BigDecimal::of(1);
+    }
+
+    public function cookedYieldDecimal(): BigDecimal
+    {
+        return BigDecimal::of(1);
+    }
+
+
 }
