@@ -11,6 +11,7 @@ use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
+use App\Models\OtherMeasurement;
 use Brick\Math\RoundingMode;
 use Brick\Money\Context\CustomContext;
 use Brick\Money\Money;
@@ -80,6 +81,13 @@ function findMeasurementUnitEnum(string $value): MeasurementEnum
         $possible = $class::fromString($value);
         if ($possible) return $possible;
     }
+
+    $other = OtherMeasurement::fromString($value);
+
+    if (! empty($other) ) {
+        return $other;
+    }
+
 
     throw new Exception("Failed to match '$value' to MeasurementEnum");
 }

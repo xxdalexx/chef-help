@@ -50,7 +50,7 @@ class CrossConversion extends BaseModel
     |--------------------------------------------------------------------------
     */
 
-    public function canConvertWeightAndVolume(): bool
+    public function canConvertTypes(): bool
     {
         // Check for if the user put in two volumes or two weights.
         return $this->unit_one->getType() != $this->unit_two->getType();
@@ -86,6 +86,40 @@ class CrossConversion extends BaseModel
             return $this->unit_one::getBaseUnit();
         }
         return $this->unit_two::getBaseUnit();
+    }
+
+    public function containsOther(): bool
+    {
+        return
+            $this->unit_one->getType() == 'other' ||
+            $this->unit_two->getType() == 'other';
+    }
+
+    public function getOtherUnit(): MeasurementEnum
+    {
+        throw_if(! $this->containsOther() , \Exception::class);
+        if ($this->unit_one->getType() == 'other') {
+            return $this->unit_one;
+        }
+        return $this->unit_two;
+    }
+
+    public function getNotOtherUnit(): MeasurementEnum
+    {
+        throw_if(! $this->containsOther() , \Exception::class);
+        if ($this->unit_one->getType() != 'other') {
+            return $this->unit_one;
+        }
+        return $this->unit_two;
+    }
+
+    public function getOtherQuantity(): BigDecimal
+    {
+        throw_if(! $this->containsOther() , \Exception::class);
+        if ($this->unit_one->getType() == 'other') {
+            return $this->quantity_one;
+        }
+        return $this->quantity_two;
     }
 
 }

@@ -30,7 +30,7 @@ it('knows that one item is weight and another is volume', function () {
         'unit_two' => UsVolume::cup
     ]);
 
-    expect( $conversion->canConvertWeightAndVolume() )->toBeTrue();
+    expect( $conversion->canConvertTypes() )->toBeTrue();
 
     $conversionTwo = CrossConversion::factory()->create([
         'quantity_one' => 128,
@@ -39,7 +39,39 @@ it('knows that one item is weight and another is volume', function () {
         'unit_two' => UsWeight::oz
     ]);
 
-    expect( $conversionTwo->canConvertWeightAndVolume() )->toBeFalse();
+    expect( $conversionTwo->canConvertTypes() )->toBeFalse();
+
+});
+
+
+it('knows if one of the units is other', function () {
+
+    $this->seed(\Database\Seeders\OtherMeasurementSeeder::class);
+
+    $each = new stdClass();
+    $each->value = 'each';
+
+    //set one is other
+    $conversion = CrossConversion::factory()->create([
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => UsWeight::lb
+    ]);
+    $conversion->refresh();
+
+    expect($conversion->containsOther())->toBeTrue();
+
+    //set two is other
+    $conversionTwo = CrossConversion::factory()->create([
+        'quantity_one' => 1,
+        'unit_one' => UsWeight::lb,
+        'quantity_two' => 10,
+        'unit_two' => $each
+    ]);
+    $conversionTwo->refresh();
+
+    expect($conversionTwo->containsOther())->toBeTrue();
 
 });
 

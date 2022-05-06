@@ -154,6 +154,9 @@ class RecipeItem extends BaseModel
         // $0.0065/gram -> $0.184272/oz -> $0.829224/4.5oz -> $0.829224/cup -> $0.104/floz
         // Still need the same override/conversion as before, but now we need to account for the extra step.
 
+        // WHEN THE CONVERSION USES OTHERMEASURMENT MODEL INSTEAD OF HARDCODED ENUM
+        // Using "shrimp" test with a conversion of 1 lb = 10 each, conversion is $10/lb -> $1/each
+
         if ( $this->crossConversionNeeded() ) {
             /** @var CrossConversion $conversion */
             $conversion        = $this->ingredient->crossConversions->first();
@@ -172,9 +175,20 @@ class RecipeItem extends BaseModel
                 $costPerApBaseUnit = $costPerApBaseUnit->dividedBy($systemConversion, RoundingMode::HALF_UP);
             }
 
+            //Third Scenario Hits Here
+            if ($this->unit->getType() == 'other' && $conversion->containsOther()) {
+                //$10/lb -> ?/oz -> $10/lb -> $10/10each
+                //$costPerBaseUnit = $1
+                $costPerApBaseUnit = $costPerApBaseUnit->multipliedBy( $conversion->getNotOtherUnit()->conversionFactor() )
+                    ->dividedBy( $conversion->getOtherQuantity(), RoundingMode::HALF_UP );
+
+                $apBaseUnit = $conversion->getOtherUnit();
+            }
+
             $factor = match ($convertingToUnitType) {
                 'volume' => $conversion->weightToVolumeFactor(),
-                'weight' => $conversion->volumeToWeightFactor()
+                'weight' => $conversion->volumeToWeightFactor(),
+                'other'  => 1
             };
 
             $costPerApBaseUnit = $costPerApBaseUnit->dividedBy($factor, RoundingMode::HALF_UP);

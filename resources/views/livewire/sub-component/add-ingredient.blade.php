@@ -18,7 +18,7 @@
             <div class="row" wire:key="existing">
 
                 <div class="form-floating col-md-6" wire:key="select-ingredient">
-                    <select wire:click="test" wire:model="ingredientInput" class="form-select" id="ingredient">
+                    <select wire:click="$emit('showModal', 'addIngredientModal')" wire:model="ingredientInput" class="form-select" id="ingredient">
                         <option value="{{ $ingredientInput }}">{{ $this->getSelectedIngredientName() }}</option>
                     </select>
                     <label for="ingredient" class="ms-2">Ingredient</label>
@@ -49,9 +49,9 @@
                     As Purchased
                 </p>
                 <div class="row">
+                    <x-form.price-input name="apPriceInput" label-name="Price" />
                     <x-form.text-input name="apQuantityInput" label-name="Quantity" />
                     <x-form.select-units wire:model="apUnitInput" />
-                    <x-form.price-input name="apPriceInput" label-name="Price" />
                 </div>
 
                 <hr>
@@ -73,7 +73,7 @@
         </form>
     </x-card>
 
-    <x-modal wire:click="test" title="Ingredient Search" id="modal" close-button-text="Cancel" noActionButton>
+    <x-modal wire:click="test" title="Ingredient Search" id="addIngredientModal" close-button-text="Cancel" noActionButton>
         <div class="row">
             <div class="col">
                 <div class="form-floating mb-3" wire:key="">

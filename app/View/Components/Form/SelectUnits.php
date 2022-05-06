@@ -6,6 +6,7 @@ use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
+use App\Models\OtherMeasurement;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 use Illuminate\View\ComponentAttributeBag;
@@ -26,7 +27,8 @@ class SelectUnits extends Component
         return collect(UsWeight::cases())
             ->merge(UsVolume::cases())
             ->merge(MetricWeight::cases())
-            ->merge(MetricVolume::cases());
+            ->merge(MetricVolume::cases())
+            ->merge(OtherMeasurement::all());
     }
 
     public function livewireAttributes(): ComponentAttributeBag

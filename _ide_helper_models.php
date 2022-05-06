@@ -165,6 +165,17 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\OtherMeasurement
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement query()
+ */
+	class OtherMeasurement extends \Eloquent implements \App\Measurements\MeasurementEnum {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Recipe
  *
  * @property int $id

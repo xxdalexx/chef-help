@@ -8,6 +8,7 @@ use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
+use App\Models\OtherMeasurement;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
@@ -91,7 +92,7 @@ it('can tell the reasoning for not calculating cost', function () {
 });
 
 
-it('knows that it cannot calculate cost when there is a weight volume mismatch without a CrossConversion', function () {
+it('knows that it cannot calculate cost when there is a type mismatch without a CrossConversion', function () {
 
     //Create Recipe, Item, and an Ingredient with no CrossConversion Record.
     $recipe = Recipe::factory()->create();
@@ -104,7 +105,7 @@ it('knows that it cannot calculate cost when there is a weight volume mismatch w
 });
 
 
-it('can calculate cost with a CrossConversion where the weight systems of AP and CrossConversion match', function () {
+it('calculates cost with a CrossConversion where the weight systems of AP and CrossConversion match', function () {
 
     $this->seed(RandomRecipeSeeder::class);
     // We take flour as purchased at $26/kg, using a cross type conversion that 128 grams = 1 cup
@@ -124,7 +125,7 @@ it('can calculate cost with a CrossConversion where the weight systems of AP and
 });
 
 
-it('can calculate cost with a CrossConversion where the weight system of AP is metric and cross', function () {
+it('calculates cost with a CrossConversion where the weight system of AP is metric and cross', function () {
 
     // We take flour as purchased at $26/kg, using a cross type conversion that 4.5oz = 1 cup
     // and find that 2 cups in a recipe would cost $1.67
@@ -224,6 +225,74 @@ it('calculates cost with CrossConversion and system conversion all around', func
 
     expect( $recipeItem->canCalculateCost() )->toBeTrue();
     expect( $recipeItem->getCostAsString() )->toBe( '$3.51' );
+
+});
+
+
+it('calculates cost with CrossConversion using OtherMeasurement in RecipeItem', function () {
+
+    $this->seed(\Database\Seeders\OtherMeasurementSeeder::class);
+    $eachMeasurement = new stdClass();
+    $eachMeasurement->value = 'each';
+    $shrimp = Ingredient::factory()->create([
+        'name' => 'Shrimp',
+    ]);
+    AsPurchased::factory()->for($shrimp)->create([
+        'price' => 10,
+        'quantity' => 1,
+        'unit' => 'lb'
+    ]);
+    $recipe = Recipe::factory()->create();
+    RecipeItem::factory()->for($shrimp)->for($recipe)->create([
+        'unit' => $eachMeasurement,
+        'quantity' => 1,
+        'cleaned' => false,
+        'cooked' => false
+    ]);
+    CrossConversion::factory()->for($shrimp)->create([
+        'quantity_one' => 1,
+        'unit_one' => UsWeight::lb,
+        'quantity_two' => 10,
+        'unit_two' => $eachMeasurement
+    ]);
+    /** @var RecipeItem $recipe */
+    $recipe = RecipeItem::with(['ingredient.asPurchased', 'ingredient.crossConversions'])->first();
+
+    expect($recipe->getCostAsString())->toBe('$1.00');
+
+});
+
+
+it('calculates cost with CrossConversion using OtherMeasurement in AsPurchased', function () {
+
+    $this->seed(\Database\Seeders\OtherMeasurementSeeder::class);
+    $eachMeasurement = new stdClass();
+    $eachMeasurement->value = 'each';
+    $shrimp = Ingredient::factory()->create([
+        'name' => 'Shrimp',
+    ]);
+    AsPurchased::factory()->for($shrimp)->create([
+        'price' => 32,
+        'quantity' => 16,
+        'unit' => 'each'
+    ]);
+    $recipe = Recipe::factory()->create();
+    RecipeItem::factory()->for($shrimp)->for($recipe)->create([
+        'quantity' => 1,
+        'unit' => UsWeight::oz,
+        'cleaned' => false,
+        'cooked' => false
+    ]);
+    CrossConversion::factory()->for($shrimp)->create([
+        'quantity_one' => 16,
+        'unit_one' => $eachMeasurement,
+        'quantity_two' => 1,
+        'unit_two' => UsWeight::lb,
+    ]);
+    /** @var RecipeItem $recipe */
+    $recipe = RecipeItem::with(['ingredient.asPurchased', 'ingredient.crossConversions'])->first();
+
+    expect($recipe->getCostAsString())->toBe('$2.00');
 
 });
 

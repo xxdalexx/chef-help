@@ -113,7 +113,7 @@ class Ingredient extends BaseModel
     public function canConvertVolumeAndWeight(): bool
     {
         return $this->crossConversions->isNotEmpty() &&
-            $this->crossConversions->first()->canConvertWeightAndVolume();
+            $this->crossConversions->first()->canConvertTypes();
     }
 
 }
