@@ -25,9 +25,9 @@ class CrossConversionCreate extends LivewireBaseComponent
     {
         return [
             'quantityOneInput' => 'required|numeric',
-            'unitOneInput' => ['required', new MeasurementEnumExists],
+            'unitOneInput'     => ['required', new MeasurementEnumExists],
             'quantityTwoInput' => 'required|numeric',
-            'unitTwoInput' => ['required', new MeasurementEnumExists],
+            'unitTwoInput'     => ['required', new MeasurementEnumExists],
         ];
     }
 
@@ -36,11 +36,12 @@ class CrossConversionCreate extends LivewireBaseComponent
         $this->validate();
 
         CrossConversion::createWithoutCasting([
-            'ingredient_id' => $this->ingredient->id,
-            'quantity_one' => $this->quantityOneInput,
-            'unit_one' => $this->unitOneInput,
-            'quantity_two' => $this->quantityTwoInput,
-            'unit_two' => $this->unitTwoInput
+            'ingredient_id'   => $this->ingredient->id,
+            'ingredient_type' => Ingredient::class,
+            'quantity_one'    => $this->quantityOneInput,
+            'unit_one'        => $this->unitOneInput,
+            'quantity_two'    => $this->quantityTwoInput,
+            'unit_two'        => $this->unitTwoInput
         ]);
 
         $this->ingredient->refresh();
@@ -52,9 +53,9 @@ class CrossConversionCreate extends LivewireBaseComponent
     public function resetInputs(): void
     {
         $this->quantityOneInput = '';
-        $this->unitOneInput = '';
+        $this->unitOneInput     = '';
         $this->quantityTwoInput = '';
-        $this->unitTwoInput = '';
+        $this->unitTwoInput     = '';
     }
 
     public function render()

@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('cross_conversions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Ingredient::class)->constrained()->cascadeOnDelete();
+            $table->morphs('ingredient');
             $table->string('quantity_one');
             $table->string('unit_one');
             $table->string('quantity_two');

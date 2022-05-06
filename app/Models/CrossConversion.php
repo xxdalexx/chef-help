@@ -25,7 +25,7 @@ class CrossConversion extends BaseModel
 
     public function ingredient(): BelongsTo
     {
-        return $this->belongsTo(Ingredient::class);
+        return $this->morphTo('ingredient');
     }
 
     /*

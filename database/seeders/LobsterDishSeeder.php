@@ -44,11 +44,12 @@ class LobsterDishSeeder extends Seeder
         ]);
 
         CrossConversion::create([
-            'ingredient_id' => $cream->id,
-            'quantity_one'  => 1,
-            'unit_one'      => UsVolume::cup,
-            'quantity_two'  => '8.15',
-            'unit_two'      => UsWeight::oz
+            'ingredient_id'   => $cream->id,
+            'ingredient_type' => Ingredient::class,
+            'quantity_one'    => 1,
+            'unit_one'        => UsVolume::cup,
+            'quantity_two'    => '8.15',
+            'unit_two'        => UsWeight::oz
         ]);
 
         $oil = Ingredient::create([
@@ -102,33 +103,33 @@ class LobsterDishSeeder extends Seeder
         ]);
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $cream->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $cream->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => true,
-            'unit'          => UsVolume::cup,
-            'quantity'      => 1,
+            'cleaned'         => false,
+            'cooked'          => true,
+            'unit'            => UsVolume::cup,
+            'quantity'        => 1,
         ]);
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $oil->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $oil->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => false,
-            'unit'          => UsVolume::tbsp,
-            'quantity'      => 1,
+            'cleaned'         => false,
+            'cooked'          => false,
+            'unit'            => UsVolume::tbsp,
+            'quantity'        => 1,
         ]);
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $vin->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $vin->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => false,
-            'unit'          => UsVolume::tsp,
-            'quantity'      => 1,
+            'cleaned'         => false,
+            'cooked'          => false,
+            'unit'            => UsVolume::tsp,
+            'quantity'        => 1,
         ]);
 
 

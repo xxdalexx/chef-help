@@ -18,11 +18,12 @@ class CrossConversionFactory extends Factory
     public function definition()
     {
         return [
-            'ingredient_id' => Ingredient::factory(),
-            'quantity_one' => $this->faker->numberBetween(1,3),
-            'quantity_two' => $this->faker->numberBetween(1,3),
-            'unit_one' => $this->fakeUnit(),
-            'unit_two' => $this->fakeUnit()
+            'ingredient_id'   => Ingredient::factory(),
+            'ingredient_type' => Ingredient::class,
+            'quantity_one'    => $this->faker->numberBetween(1, 3),
+            'quantity_two'    => $this->faker->numberBetween(1, 3),
+            'unit_one'        => $this->fakeUnit(),
+            'unit_two'        => $this->fakeUnit()
         ];
     }
 }

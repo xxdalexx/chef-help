@@ -20,7 +20,7 @@ class RandomRecipeSeeder extends Seeder
     public function run()
     {
         $wine = Ingredient::create([
-            'name' => 'Wine',
+            'name'          => 'Wine',
             'cleaned_yield' => 100,
             'cooked_yield'  => 100,
         ]);
@@ -33,7 +33,7 @@ class RandomRecipeSeeder extends Seeder
         ]);
 
         $iceCream = Ingredient::create([
-            'name' => 'Ice Cream',
+            'name'          => 'Ice Cream',
             'cleaned_yield' => 100,
             'cooked_yield'  => 100,
         ]);
@@ -46,7 +46,7 @@ class RandomRecipeSeeder extends Seeder
         ]);
 
         $meat = Ingredient::create([
-            'name' => 'Meat',
+            'name'          => 'Meat',
             'cleaned_yield' => 100,
             'cooked_yield'  => 100,
         ]);
@@ -59,7 +59,7 @@ class RandomRecipeSeeder extends Seeder
         ]);
 
         $flour = Ingredient::create([
-            'name' => 'Flour',
+            'name'          => 'Flour',
             'cleaned_yield' => 100,
             'cooked_yield'  => 100,
         ]);
@@ -72,11 +72,12 @@ class RandomRecipeSeeder extends Seeder
         ]);
 
         CrossConversion::create([
-            'ingredient_id' => $flour->id,
-            'quantity_one' => 128,
-            'unit_one' => MetricWeight::gram,
-            'quantity_two' => 1,
-            'unit_two' => UsVolume::cup
+            'ingredient_id'   => $flour->id,
+            'ingredient_type' => Ingredient::class,
+            'quantity_one'    => 128,
+            'unit_one'        => MetricWeight::gram,
+            'quantity_two'    => 1,
+            'unit_two'        => UsVolume::cup
         ]);
 
         $noAPIngredient = Ingredient::factory()->create([
@@ -92,59 +93,57 @@ class RandomRecipeSeeder extends Seeder
         ]);
 
 
-
         $appsCategory = MenuCategory::create([
-            'name' => 'Appetizers',
+            'name'         => 'Appetizers',
             'costing_goal' => 18
         ]);
 
         $recipe = Recipe::create([
-            'name'     => 'Random Items',
-            'portions' => 1,
-            'price'    => money('10'),
+            'name'             => 'Random Items',
+            'portions'         => 1,
+            'price'            => money('10'),
             'menu_category_id' => $appsCategory->id
         ]);
 
 
-
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $wine->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $wine->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => false,
-            'unit'          => UsVolume::cup,
-            'quantity'      => 1,
+            'cleaned'         => false,
+            'cooked'          => false,
+            'unit'            => UsVolume::cup,
+            'quantity'        => 1,
         ]);
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $iceCream->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $iceCream->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => false,
-            'unit'          => MetricVolume::liter,
-            'quantity'      => 1,
+            'cleaned'         => false,
+            'cooked'          => false,
+            'unit'            => MetricVolume::liter,
+            'quantity'        => 1,
         ]);
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $meat->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $meat->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => false,
-            'unit'          => MetricWeight::gram,
-            'quantity'      => 500,
+            'cleaned'         => false,
+            'cooked'          => false,
+            'unit'            => MetricWeight::gram,
+            'quantity'        => 500,
         ]);
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $flour->id,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $flour->id,
             'ingredient_type' => Ingredient::class,
-            'cleaned'       => false,
-            'cooked'        => false,
-            'unit'          => UsWeight::lb,
-            'quantity'      => 5,
+            'cleaned'         => false,
+            'cooked'          => false,
+            'unit'            => UsWeight::lb,
+            'quantity'        => 5,
         ]);
 
         RecipeItem::factory()->for($recipe)->for($noAPIngredient)->create();
