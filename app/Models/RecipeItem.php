@@ -49,7 +49,7 @@ class RecipeItem extends BaseModel
 
     public function ingredient(): BelongsTo
     {
-        return $this->belongsTo(Ingredient::class);
+        return $this->morphTo('ingredient');
     }
 
     public function recipe(): BelongsTo
@@ -118,8 +118,14 @@ class RecipeItem extends BaseModel
 
     public function canCalculateCost(): bool
     {
-        // Ingredient Missing As Purchased Record
-        if (! $this->ingredient->asPurchased) return false;
+        if ($this->ingredient_type == Ingredient::class) {
+            // Ingredient Missing As Purchased Record
+            if (! $this->ingredient->asPurchased) return false;
+        }
+
+        if ($this->ingredient_type == Recipe::class) {
+            // Recipe Checks
+        }
 
         // Weight/Volume Check
         if ( $this->crossConversionNeeded() ) {

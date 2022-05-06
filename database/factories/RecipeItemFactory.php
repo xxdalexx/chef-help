@@ -22,6 +22,7 @@ class RecipeItemFactory extends Factory
         return [
             'recipe_id'     => Recipe::factory(),
             'ingredient_id' => Ingredient::factory(),
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => $this->faker->boolean(),
             'cooked'        => $this->faker->boolean(),
             'unit'          => $this->fakeUnit(),

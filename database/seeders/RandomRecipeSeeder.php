@@ -110,6 +110,7 @@ class RandomRecipeSeeder extends Seeder
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $wine->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => UsVolume::cup,
@@ -119,6 +120,7 @@ class RandomRecipeSeeder extends Seeder
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $iceCream->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => MetricVolume::liter,
@@ -128,6 +130,7 @@ class RandomRecipeSeeder extends Seeder
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $meat->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => MetricWeight::gram,
@@ -137,6 +140,7 @@ class RandomRecipeSeeder extends Seeder
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $flour->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => UsWeight::lb,

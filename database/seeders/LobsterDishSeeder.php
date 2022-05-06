@@ -45,10 +45,10 @@ class LobsterDishSeeder extends Seeder
 
         CrossConversion::create([
             'ingredient_id' => $cream->id,
-            'quantity_one' => 1,
-            'unit_one' => UsVolume::cup,
-            'quantity_two' => '8.15',
-            'unit_two' => UsWeight::oz
+            'quantity_one'  => 1,
+            'unit_one'      => UsVolume::cup,
+            'quantity_two'  => '8.15',
+            'unit_two'      => UsWeight::oz
         ]);
 
         $oil = Ingredient::create([
@@ -92,17 +92,19 @@ class LobsterDishSeeder extends Seeder
 
 
         RecipeItem::create([
-            'recipe_id'     => $recipe->id,
-            'ingredient_id' => $lobster->id,
-            'cleaned'       => true,
-            'cooked'        => false,
-            'unit'          => UsWeight::oz,
-            'quantity'      => 8,
+            'recipe_id'       => $recipe->id,
+            'ingredient_id'   => $lobster->id,
+            'ingredient_type' => Ingredient::class,
+            'cleaned'         => true,
+            'cooked'          => false,
+            'unit'            => UsWeight::oz,
+            'quantity'        => 8,
         ]);
 
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $cream->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => true,
             'unit'          => UsVolume::cup,
@@ -112,6 +114,7 @@ class LobsterDishSeeder extends Seeder
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $oil->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => UsVolume::tbsp,
@@ -121,6 +124,7 @@ class LobsterDishSeeder extends Seeder
         RecipeItem::create([
             'recipe_id'     => $recipe->id,
             'ingredient_id' => $vin->id,
+            'ingredient_type' => Ingredient::class,
             'cleaned'       => false,
             'cooked'        => false,
             'unit'          => UsVolume::tsp,

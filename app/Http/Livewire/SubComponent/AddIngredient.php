@@ -43,12 +43,12 @@ class AddIngredient extends LivewireBaseComponent
     |--------------------------------------------------------------------------
     */
 
-    public string $nameInput          = '';
+    public string $nameInput         = '';
     public string $cleanedYieldInput = '100';
     public string $cookedYieldInput  = '100';
-    public string $apQuantityInput    = '1';
-    public string $apUnitInput        = 'oz';
-    public string $apPriceInput       = '';
+    public string $apQuantityInput   = '1';
+    public string $apUnitInput       = 'oz';
+    public string $apPriceInput      = '';
 
     protected array $rulesForNew = [
         'unitInput'         => 'required',
@@ -56,12 +56,12 @@ class AddIngredient extends LivewireBaseComponent
         'cleanedInput'      => 'boolean',
         'cookedInput'       => 'boolean',
         //
-        'nameInput'          => 'required',
+        'nameInput'         => 'required',
         'cleanedYieldInput' => 'required|numeric|between:1,100',
         'cookedYieldInput'  => 'required|numeric|between:1,100',
-        'apQuantityInput'    => 'required|numeric',
-        'apUnitInput'        => 'required',
-        'apPriceInput'       => 'required|numeric',
+        'apQuantityInput'   => 'required|numeric',
+        'apUnitInput'       => 'required',
+        'apPriceInput'      => 'required|numeric',
     ];
 
     public function updated($property)
@@ -88,11 +88,12 @@ class AddIngredient extends LivewireBaseComponent
         $this->validate();
 
         $recipeItem = RecipeItem::make([
-            'ingredient_id' => $this->ingredientInput,
-            'quantity'      => $this->unitQuantityInput,
-            'unit'          => findMeasurementUnitEnum($this->unitInput),
-            'cooked'        => (bool)$this->cookedInput,
-            'cleaned'       => (bool)$this->cleanedInput
+            'ingredient_id'   => $this->ingredientInput,
+            'ingredient_type' => Ingredient::class,
+            'quantity'        => $this->unitQuantityInput,
+            'unit'            => findMeasurementUnitEnum($this->unitInput),
+            'cooked'          => (bool)$this->cookedInput,
+            'cleaned'         => (bool)$this->cleanedInput
         ]);
 
         $this->recipe->items()->save($recipeItem);
@@ -103,26 +104,27 @@ class AddIngredient extends LivewireBaseComponent
         $this->validate($this->rulesForNew);
 
         $ingredient = Ingredient::create([
-            'name' => $this->nameInput,
+            'name'          => $this->nameInput,
             'cleaned_yield' => $this->cleanedYieldInput,
-            'cooked_yield' => $this->cookedYieldInput
+            'cooked_yield'  => $this->cookedYieldInput
         ]);
 
         $ingredient->asPurchased()->save(
             AsPurchased::make([
                 'quantity' => $this->apQuantityInput,
-                'unit' => findMeasurementUnitEnum($this->apUnitInput),
-                'price' => money($this->apPriceInput)
+                'unit'     => findMeasurementUnitEnum($this->apUnitInput),
+                'price'    => money($this->apPriceInput)
             ])
         );
 
         $this->recipe->items()->save(
             RecipeItem::make([
-                'quantity' => $this->unitQuantityInput,
-                'unit' => findMeasurementUnitEnum($this->unitInput),
-                'cleaned' => (bool) $this->cleanedInput,
-                'cooked' => (bool) $this->cookedInput,
-                'ingredient_id' => $ingredient->id
+                'quantity'      => $this->unitQuantityInput,
+                'unit'          => findMeasurementUnitEnum($this->unitInput),
+                'cleaned'       => (bool)$this->cleanedInput,
+                'cooked'        => (bool)$this->cookedInput,
+                'ingredient_id' => $ingredient->id,
+                'ingredient_type' => Ingredient::class
             ])
         );
     }

@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('recipe_items', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Recipe::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(Ingredient::class)->constrained()->cascadeOnDelete();
+            $table->morphs('ingredient');
             $table->boolean('cleaned');
             $table->boolean('cooked');
             $table->string('unit');
