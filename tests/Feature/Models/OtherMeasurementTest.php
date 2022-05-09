@@ -1,14 +1,14 @@
 <?php
 
-use App\Models\OtherMeasurement;
+use App\Models\EachMeasurement;
 use Database\Seeders\OtherMeasurementSeeder;
 
 beforeEach()->seed(OtherMeasurementSeeder::class);
 
 it('returns a model instance for OtherMeasurement', function () {
 
-    $fromString = OtherMeasurement::fromString('each');
-    $expected = OtherMeasurement::whereName('each')->first();
+    $fromString = EachMeasurement::fromString('each');
+    $expected = EachMeasurement::whereName('each')->first();
 
     expect($fromString->is($expected))->toBeTrue();
 
@@ -25,7 +25,7 @@ it('shows in select component', function () {
 
 it('has a value', function () {
 
-    $each = OtherMeasurement::first();
+    $each = EachMeasurement::first();
     expect($each->value)->toBe('each');
 
 });
@@ -34,7 +34,7 @@ it('has a value', function () {
 it('can be found using helper method', function () {
 
     $result = findMeasurementUnitEnum('each');
-    expect($result)->toBeInstanceOf(OtherMeasurement::class);
+    expect($result)->toBeInstanceOf(EachMeasurement::class);
     expect($result->value)->toBe('each');
 
 });

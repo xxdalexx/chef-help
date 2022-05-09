@@ -172,13 +172,13 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read string $value
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement query()
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|OtherMeasurement whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EachMeasurement whereUpdatedAt($value)
  */
 	class OtherMeasurement extends \Eloquent implements \App\Measurements\MeasurementEnum {}
 }

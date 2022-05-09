@@ -60,7 +60,7 @@ it('knows if one of the units is other', function () {
     ]);
     $conversion->refresh();
 
-    expect($conversion->containsOther())->toBeTrue();
+    expect($conversion->containsEach())->toBeTrue();
 
     //set two is other
     $conversionTwo = CrossConversion::factory()->create([
@@ -71,7 +71,7 @@ it('knows if one of the units is other', function () {
     ]);
     $conversionTwo->refresh();
 
-    expect($conversionTwo->containsOther())->toBeTrue();
+    expect($conversionTwo->containsEach())->toBeTrue();
 
 });
 

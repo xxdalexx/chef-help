@@ -7,7 +7,7 @@ use Brick\Math\BigDecimal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OtherMeasurement extends Model implements MeasurementEnum
+class EachMeasurement extends Model implements MeasurementEnum
 {
     use HasFactory;
 
@@ -35,12 +35,12 @@ class OtherMeasurement extends Model implements MeasurementEnum
 
     public function getType(): string
     {
-        return 'other';
+        return 'each';
     }
 
     public function getSystem(): string
     {
-        return 'custom';
+        return 'other';
     }
 
     /*

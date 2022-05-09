@@ -88,35 +88,35 @@ class CrossConversion extends BaseModel
         return $this->unit_two::getBaseUnit();
     }
 
-    public function containsOther(): bool
+    public function containsEach(): bool
     {
         return
-            $this->unit_one->getType() == 'other' ||
-            $this->unit_two->getType() == 'other';
+            $this->unit_one->getType() == 'each' ||
+            $this->unit_two->getType() == 'each';
     }
 
-    public function getOtherUnit(): MeasurementEnum
+    public function getEachUnit(): MeasurementEnum
     {
-        throw_if(! $this->containsOther() , \Exception::class);
-        if ($this->unit_one->getType() == 'other') {
+        throw_if(! $this->containsEach() , \Exception::class);
+        if ($this->unit_one->getType() == 'each') {
             return $this->unit_one;
         }
         return $this->unit_two;
     }
 
-    public function getNotOtherUnit(): MeasurementEnum
+    public function getNotEachUnit(): MeasurementEnum
     {
-        throw_if(! $this->containsOther() , \Exception::class);
-        if ($this->unit_one->getType() != 'other') {
+        throw_if(! $this->containsEach() , \Exception::class);
+        if ($this->unit_one->getType() != 'each') {
             return $this->unit_one;
         }
         return $this->unit_two;
     }
 
-    public function getOtherQuantity(): BigDecimal
+    public function getEachQuantity(): BigDecimal
     {
-        throw_if(! $this->containsOther() , \Exception::class);
-        if ($this->unit_one->getType() == 'other') {
+        throw_if(! $this->containsEach() , \Exception::class);
+        if ($this->unit_one->getType() == 'each') {
             return $this->quantity_one;
         }
         return $this->quantity_two;

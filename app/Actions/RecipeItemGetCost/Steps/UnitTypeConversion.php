@@ -31,7 +31,7 @@ class UnitTypeConversion
         // $0.0065/gram -> $0.184272/oz -> $0.829224/4.5oz -> $0.829224/cup -> $0.104/floz
         // Still need the same override/conversion as before, but now we need to account for the extra step.
 
-        // WHEN THE CONVERSION USES OTHERMEASURMENT MODEL INSTEAD OF HARDCODED ENUM, SECOND IF EVALUATES TRUE
+        // WHEN THE CONVERSION USES EachMeasurement MODEL INSTEAD OF HARDCODED ENUM, SECOND IF EVALUATES TRUE
         // Using "shrimp" test with a conversion of 1 lb = 10 each, conversion is $10/lb -> $1/each
 
 
@@ -52,19 +52,19 @@ class UnitTypeConversion
         }
 
         //Third Scenario Hits Here
-        if ($recipeItem->unit->getType() == 'other' && $conversion->containsOther()) {
+        if ($recipeItem->unit->getType() == 'each' && $conversion->containsEach()) {
             //$10/lb -> ?/oz -> $10/lb -> $10/10each
             //$costPerBaseUnit = $1
-            $data->workingCost = $data->workingCost->multipliedBy($conversion->getNotOtherUnit()->conversionFactor())
-                ->dividedBy($conversion->getOtherQuantity(), RoundingMode::HALF_UP);
+            $data->workingCost = $data->workingCost->multipliedBy($conversion->getNotEachUnit()->conversionFactor())
+                ->dividedBy($conversion->getEachQuantity(), RoundingMode::HALF_UP);
 
-            $data->currentUnit = $conversion->getOtherUnit();
+            $data->currentUnit = $conversion->getEachUnit();
         }
 
         $factor = match ($convertingToUnitType) {
             'volume' => $conversion->weightToVolumeFactor(),
             'weight' => $conversion->volumeToWeightFactor(),
-            'other' => 1
+            'each' => 1
         };
 
         $data->workingCost = $data->workingCost->dividedBy($factor, RoundingMode::HALF_UP);

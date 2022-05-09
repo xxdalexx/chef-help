@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\OtherMeasurement;
+use App\Models\EachMeasurement;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,11 +15,11 @@ class OtherMeasurementSeeder extends Seeder
      */
     public function run()
     {
-        OtherMeasurement::create([
+        EachMeasurement::create([
             'name' => 'each'
         ]);
 
-        OtherMeasurement::create([
+        EachMeasurement::create([
             'name' => 'portion'
         ]);
     }

@@ -8,7 +8,7 @@ use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
-use App\Models\OtherMeasurement;
+use App\Models\EachMeasurement;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;

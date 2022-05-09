@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('other_measurements', function (Blueprint $table) {
+        Schema::create('each_measurements', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('other_measurements');
+        Schema::dropIfExists('each_measurements');
     }
 };
