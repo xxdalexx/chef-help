@@ -46,7 +46,7 @@ it('knows that one item is weight and another is volume', function () {
 
 it('knows if one of the units is other', function () {
 
-    $this->seed(\Database\Seeders\OtherMeasurementSeeder::class);
+    $this->seed(\Database\Seeders\EachMeasurementSeeder::class);
 
     $each = new stdClass();
     $each->value = 'each';

@@ -6,7 +6,7 @@ use App\Models\EachMeasurement;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class OtherMeasurementSeeder extends Seeder
+class EachMeasurementSeeder extends Seeder
 {
     /**
      * Run the database seeds.

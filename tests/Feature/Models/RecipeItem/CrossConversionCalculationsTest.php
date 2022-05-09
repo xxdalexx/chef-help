@@ -10,7 +10,7 @@ use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
-use Database\Seeders\OtherMeasurementSeeder;
+use Database\Seeders\EachMeasurementSeeder;
 use Database\Seeders\RandomRecipeSeeder;
 
 it('calculates cost with a CrossConversion where the weight systems of AP and CrossConversion match', function () {
@@ -139,7 +139,7 @@ it('calculates cost with CrossConversion and system conversion all around', func
 
 it('calculates cost with CrossConversion using OtherMeasurement in RecipeItem', function () {
 
-    $this->seed(OtherMeasurementSeeder::class);
+    $this->seed(EachMeasurementSeeder::class);
     $eachMeasurement = new stdClass();
     $eachMeasurement->value = 'each';
     $shrimp = Ingredient::factory()->create([
@@ -173,7 +173,7 @@ it('calculates cost with CrossConversion using OtherMeasurement in RecipeItem', 
 
 it('calculates cost with CrossConversion using OtherMeasurement in AsPurchased', function () {
 
-    $this->seed(OtherMeasurementSeeder::class);
+    $this->seed(EachMeasurementSeeder::class);
     $eachMeasurement = new stdClass();
     $eachMeasurement->value = 'each';
     $shrimp = Ingredient::factory()->create([

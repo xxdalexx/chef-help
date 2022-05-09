@@ -5,11 +5,11 @@ use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
-use Database\Seeders\OtherMeasurementSeeder;
+use Database\Seeders\EachMeasurementSeeder;
 
 it('can have a recipe as an ingredient', function () {
 
-    $this->seed(OtherMeasurementSeeder::class);
+    $this->seed(EachMeasurementSeeder::class);
     $portionUnit = new stdClass();
     $portionUnit->value = 'portion';
     $recipe = Recipe::factory()->create();
@@ -34,7 +34,7 @@ test('any recipe can be used with portion as unit', function () {
 
     $portionUnit = new stdClass();
     $portionUnit->value = 'portion';
-    $this->seed([OtherMeasurementSeeder::class, LobsterDishSeeder::class]);
+    $this->seed([EachMeasurementSeeder::class, LobsterDishSeeder::class]);
     $lobster = Ingredient::first(); // $12/lb
 
     $recipeAsIngredient = Recipe::factory()->create(['portions' => 1]);

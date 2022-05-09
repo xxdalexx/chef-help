@@ -138,11 +138,13 @@ class RecipeItem extends BaseModel
         return true;
     }
 
-    public function getCost(): Money
+    public function getCost(RecipeItemGetCostAction $action = null): Money
     {
         if (! $this->canCalculateCost() ) return money(0);
 
-        $action = new RecipeItemGetCostAction($this);
+        if (empty($action)) {
+            $action = new RecipeItemGetCostAction($this);
+        }
         return $action->execute();
     }
 

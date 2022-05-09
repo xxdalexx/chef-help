@@ -1,9 +1,9 @@
 <?php
 
 use App\Models\EachMeasurement;
-use Database\Seeders\OtherMeasurementSeeder;
+use Database\Seeders\EachMeasurementSeeder;
 
-beforeEach()->seed(OtherMeasurementSeeder::class);
+beforeEach()->seed(EachMeasurementSeeder::class);
 
 it('returns a model instance for OtherMeasurement', function () {
 

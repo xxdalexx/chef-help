@@ -1,5 +1,6 @@
 <?php
 
+use App\Actions\RecipeItemGetCost\Steps\BothUseEachTypeAsUnit;
 use App\Measurements\MeasurementEnum;
 use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
@@ -12,7 +13,7 @@ use App\Models\EachMeasurement;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
 use Database\Seeders\LobsterDishSeeder;
-use Database\Seeders\OtherMeasurementSeeder;
+use Database\Seeders\EachMeasurementSeeder;
 use Database\Seeders\RandomRecipeSeeder;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -168,7 +169,7 @@ test('cost cache is updated when the ap price is updated', function () {
 
 it('can have a recipe as an ingredient', function () {
 
-    $this->seed(OtherMeasurementSeeder::class);
+    $this->seed(EachMeasurementSeeder::class);
     $portionUnit = new stdClass();
     $portionUnit->value = 'portion';
     $recipe = Recipe::factory()->create();
@@ -185,5 +186,37 @@ it('can have a recipe as an ingredient', function () {
     $recipeItem->refresh();
 
     expect($recipeItem->getCost())->toBeMoney();
+
+});
+
+
+test('action returns early when both units are each', function () {
+
+    $this->seed(EachMeasurementSeeder::class);
+    $eachMeasurement = new stdClass();
+    $eachMeasurement->value = 'each';
+    $recipe = Recipe::factory()->create();
+    $ingredient = Ingredient::factory()->has(
+        AsPurchased::factory([
+            'quantity' => 1,
+            'unit' => 'each',
+            'price' => '5.99'
+        ])
+    )->create();
+    $recipeItem = RecipeItem::factory()->for($recipe)->for($ingredient)->create([
+        'quantity' => 2,
+        'unit' => $eachMeasurement,
+        'cooked' => false,
+        'cleaned' => false
+    ]);
+    $recipeItem->refresh();
+    $action = new App\Actions\RecipeItemGetCost\RecipeItemGetCostAction($recipeItem);
+    $action->setSteps([
+        BothUseEachTypeAsUnit::class
+    ]);
+
+    expect(
+        moneyToString( $recipeItem->getCost($action) )
+    )->toBe('$11.98');
 
 });

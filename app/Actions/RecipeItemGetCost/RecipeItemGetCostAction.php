@@ -2,6 +2,7 @@
 
 namespace App\Actions\RecipeItemGetCost;
 
+use App\Actions\RecipeItemGetCost\Steps\BothUseEachTypeAsUnit;
 use App\Actions\RecipeItemGetCost\Steps\UnitTypeConversion;
 use App\Actions\RecipeItemGetCost\Steps\UnitSystemConversion;
 use App\Actions\RecipeItemGetCost\Steps\CalculateCookedAndCleaned;
@@ -16,6 +17,7 @@ class RecipeItemGetCostAction
 {
     protected array $steps = [
         UsingRecipeAsIngredientAndRecipeItemUnitIsPortion::class, // Early Return
+        BothUseEachTypeAsUnit::class, // Early Return
         UnitTypeConversion::class,
         UnitSystemConversion::class,
         ConvertToRecipeItemUnitAndQuantity::class,
@@ -36,5 +38,11 @@ class RecipeItemGetCostAction
             ->send($this->struct)
             ->through($this->steps)
             ->thenReturn();
+    }
+
+    public function setSteps(array $steps): self
+    {
+        $this->steps = $steps;
+        return $this;
     }
 }
