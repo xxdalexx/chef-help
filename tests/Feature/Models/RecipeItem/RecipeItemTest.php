@@ -41,10 +41,10 @@ it('has a calculated cost', function ($idOffset, $expectedCost) {
 
 })->with([
     //Refresh database doesn't reset auto incrementing ids.
-    [0, '$7.50'],  //Lobster
-    [1, '$1.61'],  //Heavy Cream
-    [2, '$0.50'], //Sesame Seed Oil
-    [3, '$1.00']  //Imported Aged White Balsamic Vinegar
+    [0, '$7.50'],  // Lobster
+    [1, '$1.61'],  // Heavy Cream
+    [2, '$0.50'],  // Sesame Seed Oil
+    [3, '$1.00']   // Imported Aged White Balsamic Vinegar
 ]);
 
 
