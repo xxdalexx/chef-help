@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Cache;
 
 /**
  * @property MeasurementEnum         $unit
- * @property-read CostableIngredient $ingredient
+ * @property-read CostableIngredient|Ingredient|Recipe $ingredient
  */
 class RecipeItem extends BaseModel
 {
@@ -140,6 +140,11 @@ class RecipeItem extends BaseModel
     public function getCost(): Money
     {
         if (!$this->canCalculateCost()) return money(0);
+
+        //Early Out when a Recipe is used as an ingredient and the unit is portions
+        if ( $this->ingredient_type == Recipe::class && $this->unit->value == 'portion' ) {
+            return $this->ingredient->getCostPerPortion()->multipliedBy( $this->quantity );
+        }
 
         // Example to follow
         // Using Flour from RandomRecipeSeeder

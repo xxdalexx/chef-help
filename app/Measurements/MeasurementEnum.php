@@ -4,6 +4,9 @@ namespace App\Measurements;
 
 use Brick\Math\BigDecimal;
 
+/**
+ * @property-read string $value
+ */
 interface MeasurementEnum
 {
     public function conversionFactor(): BigDecimal;
