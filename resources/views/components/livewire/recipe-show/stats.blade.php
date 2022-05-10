@@ -5,7 +5,7 @@
     <tbody>
         <tr>
             <td>
-                Total Cost:
+                Total Cost
             </td>
             <td class="text-end">
                 {{ $recipe->getTotalCostAsString() }}
@@ -21,7 +21,7 @@
         </tr>
         <tr>
             <td>
-                Cost Per Portion:
+                Cost Per Portion
             </td>
             <td class="text-end">
                 {{ $recipe->getCostPerPortionAsString() }}
@@ -29,7 +29,7 @@
         </tr>
         <tr>
             <td>
-                Menu Category:
+                Menu Category
             </td>
             <td class="text-end">
                 @if(empty($recipe->menuCategory))
@@ -61,14 +61,16 @@
                 @endif
             </td>
         </tr>
+        @if($recipe->hasCostingGoal())
         <tr>
             <td>
-                Minimum Price That Meets Goal:
+                Minimum Price That Meets Goal
             </td>
             <td class="text-end">
                 {{ $recipe->getMinPriceForCostingGoalAsString() }}
             </td>
         </tr>
+        @endif
         @if($recipe->canCalculateMenuCostPercentage())
         <tr>
             <td>

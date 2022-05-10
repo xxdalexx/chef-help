@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             EachMeasurementSeeder::class,
             LobsterDishSeeder::class,
-            RandomRecipeSeeder::class
+            RandomRecipeSeeder::class,
+            MarinaraSeeder::class,
         ]);
     }
 }

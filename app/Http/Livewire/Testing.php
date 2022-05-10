@@ -17,6 +17,13 @@ class Testing extends LivewireBaseComponent
 
     public function render()
     {
-        return view('livewire.testing');
+        Recipe::preventLazyLoading(false);
+        $recipe = Recipe::with(['items.ingredient.asPurchased', 'menuCategory'])->find(3);
+
+        foreach ($recipe->ingredients as $ingredient) {
+            $ingredient->varName = '$' . Str::of($ingredient->name)->camel();
+        }
+
+        return view('livewire.testing')->withRecipe($recipe);
     }
 }
