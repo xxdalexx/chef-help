@@ -15,12 +15,22 @@ class EachMeasurementSeeder extends Seeder
      */
     public function run()
     {
-        EachMeasurement::create([
-            'name' => 'each'
-        ]);
+        $items = [
+            'each',
+            'box',
+            'bunch',
+            'bundle',
+            'case',
+            'head',
+            'pack',
+            'portion',
+            'sprig',
+        ];
 
-        EachMeasurement::create([
-            'name' => 'portion'
-        ]);
+        foreach ($items as $name) {
+            EachMeasurement::create([
+                'name' => $name
+            ]);
+        }
     }
 }

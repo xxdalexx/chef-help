@@ -119,11 +119,11 @@ class AddIngredient extends LivewireBaseComponent
 
         $this->recipe->items()->save(
             RecipeItem::make([
-                'quantity'      => $this->unitQuantityInput,
-                'unit'          => findMeasurementUnitEnum($this->unitInput),
-                'cleaned'       => (bool)$this->cleanedInput,
-                'cooked'        => (bool)$this->cookedInput,
-                'ingredient_id' => $ingredient->id,
+                'quantity'        => $this->unitQuantityInput,
+                'unit'            => findMeasurementUnitEnum($this->unitInput),
+                'cleaned'         => (bool)$this->cleanedInput,
+                'cooked'          => (bool)$this->cookedInput,
+                'ingredient_id'   => $ingredient->id,
                 'ingredient_type' => Ingredient::class
             ])
         );
@@ -131,17 +131,17 @@ class AddIngredient extends LivewireBaseComponent
 
     protected function resetInputs()
     {
-        $this->ingredientInput    = '';
-        $this->unitQuantityInput  = '';
-        $this->unitInput          = 'oz';
-        $this->cookedInput        = '';
-        $this->cleanedInput       = '';
-        $this->nameInput          = '';
-        $this->cleanedForNewInput = '100';
-        $this->cookedForNewInput  = '100';
-        $this->apQuantityInput    = '1';
-        $this->apUnitInput        = 'oz';
-        $this->apPriceInput       = '';
+        $this->ingredientInput   = '';
+        $this->unitQuantityInput = '';
+        $this->unitInput         = 'oz';
+        $this->cookedInput       = '';
+        $this->cleanedInput      = '';
+        $this->nameInput         = '';
+        $this->cleanedYieldInput = '100';
+        $this->cookedYieldInput  = '100';
+        $this->apQuantityInput   = '1';
+        $this->apUnitInput       = 'oz';
+        $this->apPriceInput      = '';
     }
 
     public function render()

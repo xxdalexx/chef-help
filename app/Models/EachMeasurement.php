@@ -5,9 +5,8 @@ namespace App\Models;
 use App\Measurements\MeasurementEnum;
 use Brick\Math\BigDecimal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class EachMeasurement extends Model implements MeasurementEnum
+class EachMeasurement extends BaseModel implements MeasurementEnum
 {
     use HasFactory;
 
