@@ -20,6 +20,7 @@ class BigDecimalCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes): BigDecimal
     {
+        $value ??= '0';
         return BigDecimal::of($value);
     }
 

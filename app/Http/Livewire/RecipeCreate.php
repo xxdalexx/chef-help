@@ -42,11 +42,15 @@ class RecipeCreate extends LivewireBaseComponent
             ? 0
             : $this->costingGoalInput;
 
+        $menuCategory = empty($this->menuCategoryInput)
+            ? null
+            : $this->menuCategoryInput;
+
         $recipe = Recipe::createWithoutCasting([
             'name'     => $this->recipeNameInput,
             'price'    => $this->menuPriceInput,
             'portions' => $this->portionsInput,
-            'menu_category_id' => $this->menuCategoryInput,
+            'menu_category_id' => $menuCategory,
             'costing_goal' => $costingGoal
         ]);
 

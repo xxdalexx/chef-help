@@ -47,8 +47,11 @@ function moneyToString(Money $money, bool $withDollarSign = true, $decimalPlaces
  * @return Money
  * @throws \Brick\Money\Exception\UnknownCurrencyException
  */
-function money(mixed $price, int $decimalPlaces = 8): Money
+function money(mixed $price = '0', int $decimalPlaces = 8): Money
 {
+    if (empty($price)) {
+        $price = '0';
+    }
     return Money::of($price, 'USD', new CustomContext($decimalPlaces), RoundingMode::HALF_UP);
 }
 
@@ -66,6 +69,11 @@ function theme(): string
     }
 
     return $list->first();
+}
+
+function notEmpty(mixed $var): bool
+{
+    return ! empty($var);
 }
 
 function findMeasurementUnitEnum(string $value): MeasurementEnum

@@ -151,5 +151,23 @@ it('can override the menu category costing goal', function () {
     expect( $recipe->getPortionCostPercentageAsString() )->toBe( '100%' );
     expect( $recipe->getCostingPercentageDifferenceFromGoalAsString() )->not->toBe( '50.0' ); //Redundant, but for clarity compared to test above.
     expect( $recipe->getCostingPercentageDifferenceFromGoalAsString() )->toBe( '0.0' );
+    expect( $recipe->getMinPriceForCostingGoalAsString() )->toBe( '$1.00' );
+
+});
+
+
+test('Edge Case: price and menu category null or non existent', function () {
+
+    $recipe = Recipe::create([
+        'name' => 'testing',
+        'portions' => 1,
+        'price' => money(''),
+    ]);
+
+    expect( $recipe->hasCostingGoal() )->toBeFalse();
+    expect( $recipe->hasPrice() )->toBeFalse();
+    expect( $recipe->canCalculateMenuCostPercentage() )->toBeFalse();
+
+    \Pest\Laravel\get($recipe->showLink())->assertOk();
 
 });

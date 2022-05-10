@@ -12,7 +12,7 @@ trait RecipeInputGroup
 
     public string $portionsInput   = '';
 
-    public string $menuCategoryInput = '';
+    public ?string $menuCategoryInput = '';
 
     public string $costingGoalInput = '';
 
@@ -20,9 +20,9 @@ trait RecipeInputGroup
     {
         return [
             'recipeNameInput'   => 'required',
-            'menuPriceInput'    => 'required|numeric',
+            'menuPriceInput'    => 'nullable|numeric',
             'portionsInput'     => 'required|numeric',
-            'menuCategoryInput' => 'exists:menu_categories,id',
+            'menuCategoryInput' => 'nullable|exists:menu_categories,id',
             'costingGoalInput'  => 'nullable|numeric'
         ];
     }

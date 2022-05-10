@@ -54,7 +54,11 @@
                 Menu Price
             </td>
             <td class="text-end">
-                {{ $recipe->getPriceAsString() }}
+                @if($recipe->hasPrice())
+                    {{ $recipe->getPriceAsString() }}
+                @else
+                    Not Set
+                @endif
             </td>
         </tr>
         <tr>
@@ -65,6 +69,7 @@
                 {{ $recipe->getMinPriceForCostingGoalAsString() }}
             </td>
         </tr>
+        @if($recipe->canCalculateMenuCostPercentage())
         <tr>
             <td>
                 Menu Cost Percentage
@@ -74,6 +79,7 @@
                 <x-costing-goal-difference :number="$recipe->getCostingPercentageDifferenceFromGoalAsString()"/>
             </td>
         </tr>
+        @endif
     </tbody>
 </table>
 

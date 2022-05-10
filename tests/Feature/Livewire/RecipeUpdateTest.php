@@ -58,12 +58,11 @@ it('validates input for updating a recipe', function ($parameter, $value = '', $
 
 })->with([
 //  'recipeNameInput' => 'required',
-//  'menuPriceInput'  => 'required|numeric',
+//  'menuPriceInput'  => 'nullable|numeric',
 //  'portionsInput'   => 'required|numeric',
 //  'menuCategoryInput' => 'exists:menu_categories,id'
 //    'costingGoalInput'  => 'nullable|numeric'
     ['recipeNameInput'],
-    ['menuPriceInput'],
     ['menuPriceInput', 'not a number', 'numeric'],
     ['portionsInput'],
     ['portionsInput', 'not a number', 'numeric'],

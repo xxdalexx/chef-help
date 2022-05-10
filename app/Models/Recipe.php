@@ -152,6 +152,10 @@ class Recipe extends BaseModel implements CostableIngredient
         $costPerPortion = $this->getCostPerPortion()->getAmount();
         $price = $this->price->getAmount();
 
+        if ($price->isEqualTo(0)) {
+            return $price; // Return 0
+        }
+
         return $costPerPortion->dividedBy($price, 3,RoundingMode::UP);
     }
 
@@ -159,18 +163,46 @@ class Recipe extends BaseModel implements CostableIngredient
     {
         $current = $this->getPortionCostPercentage()->multipliedBy(100);
 
-        $goal = $this->costing_goal->isGreaterThan(0)
-            ? $this->costing_goal
-            : $this->menuCategory->costing_goal;
+        $goal = $this->getCostingGoal();
 
         return $current->minus($goal)->toScale(1, RoundingMode::HALF_UP);
     }
 
     public function getMinPriceForCostingGoal(): Money
     {
+        if (! $this->hasCostingGoal() ) {
+            return money();
+        }
+
         return $this->getCostPerPortion()
-            ->dividedBy($this->menuCategory->costing_goal, RoundingMode::HALF_UP)
+            ->dividedBy($this->getCostingGoal(), RoundingMode::HALF_UP)
             ->multipliedBy('100');
+    }
+
+    public function getCostingGoal(): BigDecimal
+    {
+        if (! $this->hasCostingGoal()) {
+            return BigDecimal::of(0);
+        }
+
+        return $this->costing_goal->isGreaterThan(0)
+            ? $this->costing_goal
+            : $this->menuCategory->costing_goal;
+    }
+
+    public function hasCostingGoal(): bool
+    {
+        return $this->costing_goal->isGreaterThan(0) || $this->menuCategory?->costing_goal->isGreaterThan(0);
+    }
+
+    public function hasPrice(): bool
+    {
+        return $this->price->isGreaterThan(0);
+    }
+
+    public function canCalculateMenuCostPercentage(): bool
+    {
+        return $this->hasCostingGoal() && $this->hasPrice();
     }
 
     /*

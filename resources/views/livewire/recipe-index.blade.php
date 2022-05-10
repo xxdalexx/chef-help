@@ -24,7 +24,7 @@
                             {{ $recipe->getPriceAsString() }}
                         </td>
                         <td class="text-center">
-                            {{ $recipe->menuCategory->name }}
+                            {{ $recipe->menuCategory?->name }}
                         </td>
                         <td class="text-end">
                             {{ $recipe->getPortionCostPercentageAsString() }}
