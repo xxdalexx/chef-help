@@ -21,10 +21,9 @@ class EachMeasurement extends BaseModel implements MeasurementEnum
         return self::where('name', $unit)->first() ?? false;
     }
 
-    public static function getBaseUnit(): MeasurementEnum
+    public function getBaseUnit(): MeasurementEnum
     {
-        //interface probably needs to be changed to a method instead of static so that $this can be returned here.
-        return self::first();
+        return $this;
     }
 
     public function conversionFactor(): BigDecimal

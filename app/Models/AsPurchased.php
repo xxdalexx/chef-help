@@ -96,7 +96,7 @@ class AsPurchased extends BaseModel
 
     public function getBaseUnit(): MeasurementEnum
     {
-        return $this->unit::getBaseUnit();
+        return $this->unit->getBaseUnit();
     }
 
     public function getVariancePercentage(): BigDecimal

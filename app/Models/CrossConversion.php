@@ -83,9 +83,9 @@ class CrossConversion extends BaseModel
     public function baseUnitOf(string $type): MeasurementEnum
     {
         if ($this->unit_one->getType() == $type) {
-            return $this->unit_one::getBaseUnit();
+            return $this->unit_one->getBaseUnit();
         }
-        return $this->unit_two::getBaseUnit();
+        return $this->unit_two->getBaseUnit();
     }
 
     public function containsEach(): bool

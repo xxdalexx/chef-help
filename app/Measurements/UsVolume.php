@@ -51,7 +51,7 @@ enum UsVolume: string implements MeasurementEnum
         };
     }
 
-    public static function getBaseUnit(): MeasurementEnum
+    public function getBaseUnit(): MeasurementEnum
     {
         return UsVolume::floz;
     }

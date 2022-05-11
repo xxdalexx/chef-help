@@ -13,7 +13,7 @@ interface MeasurementEnum
 
     public static function fromString(string $unit): self|bool;
 
-    public static function getBaseUnit(): self;
+    public function getBaseUnit(): self;
 
     public function getType(): string;
 
