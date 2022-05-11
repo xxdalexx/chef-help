@@ -7,6 +7,7 @@ use App\Measurements\UsWeight;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use Brick\Math\BigDecimal;
+use Database\Seeders\EachMeasurementSeeder;
 
 test('relationships and casts', function () {
 
@@ -23,7 +24,7 @@ test('relationships and casts', function () {
 
 it('knows if one of the units is other', function () {
 
-    $this->seed(\Database\Seeders\EachMeasurementSeeder::class);
+    $this->seed(EachMeasurementSeeder::class);
 
     $each = new stdClass();
     $each->value = 'each';
@@ -70,6 +71,7 @@ it('knows conversion factors for weight and volume', function () {
 
 it('knows its conversion type', function () {
 
+    $this->seed(EachMeasurementSeeder::class);
     $conversion = CrossConversion::factory()->create([
         'quantity_one' => 128,
         'unit_one' => MetricWeight::gram,
@@ -82,9 +84,18 @@ it('knows its conversion type', function () {
         'quantity_one' => 1,
         'unit_one' => UsVolume::cup
     ]);
+    $each = new stdClass;
+    $each->value = 'each';
+    $conversionThree = CrossConversion::factory()->create([
+        'quantity_two' => 128,
+        'unit_two' => MetricWeight::gram,
+        'quantity_one' => 1,
+        'unit_one' => $each
+    ])->refresh();
 
     expect( $conversion->conversionType() )->toBe(['weight', 'volume']);
     expect( $conversionTwo->conversionType() )->toBe(['volume', 'weight']);
+    expect( $conversionThree->conversionType() )->toBe(['each', 'weight']);
 
 });
 

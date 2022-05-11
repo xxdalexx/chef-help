@@ -41,7 +41,7 @@ class UnitTypeConversion
         // Using "shrimp" test with a conversion of 1 lb = 10 each, conversion is $10/lb -> $1/each
 
 
-        $conversion           = $recipeItem->ingredient->getCrossConversion();
+        $conversion           = $recipeItem->getCrossConversion();
         $convertingToUnitType = $recipeItem->unit->getType();
 
         // Are the systems different between CrossConversion unit and the AP unit

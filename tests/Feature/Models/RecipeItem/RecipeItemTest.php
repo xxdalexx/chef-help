@@ -5,6 +5,7 @@ use App\Measurements\MeasurementEnum;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
+use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
@@ -99,6 +100,27 @@ it('knows that it cannot calculate cost when there is a type mismatch without a 
 
     expect( $item->canCalculateCost() )->toBeFalse();
     expect( $item->getCostAsString() )->toBe('$0.00');
+
+});
+
+
+it('knows what the needed CrossConversion is', function () {
+
+    $ingredient = Ingredient::factory()->has(
+        AsPurchased::factory(['unit' => UsVolume::floz])
+    )->create();
+    $conversion = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => UsVolume::floz,
+        'quantity_two' => 1,
+        'unit_two' => UsWeight::lb
+    ]);
+    $recipeItem = RecipeItem::factory()->for($ingredient)->create([
+        'unit' => UsWeight::lb
+    ]);
+
+    expect( $recipeItem->getCrossConversion()->is($conversion) )->toBeTrue();
 
 });
 

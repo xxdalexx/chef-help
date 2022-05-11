@@ -1,12 +1,15 @@
 <?php
 
 use App\CustomCollections\AsPurchasedCollection;
+use App\Measurements\UsVolume;
+use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\CrossConversion;
 use App\Models\Ingredient;
 use App\Models\Location;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
+use Database\Seeders\EachMeasurementSeeder;
 use function Spatie\PestPluginTestTime\testTime;
 
 test('relationships and casts', function () {
@@ -64,5 +67,105 @@ it('returns locations that it does not have a relationship to', function () {
     expect(
         $notAssignedLocations->contains( $ingredient->inverseLocationIds() )
     )->toBeFalse();
+
+});
+
+
+it('returns the requested crossconversion record', function () {
+
+    $this->seed(EachMeasurementSeeder::class);
+    $ingredient = Ingredient::factory()->create();
+
+    $each = new stdClass;
+    $each->value = 'each';
+    $bunch = new stdClass;
+    $bunch->value = 'bunch';
+    $eachWeight = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => UsWeight::lb
+    ]);
+    $eachVolume = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::floz
+    ]);
+    $eachEach = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => $bunch
+    ]);
+    $weightVolume = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => UsWeight::oz,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::floz
+    ]);
+    $ingredient->refresh();
+
+    expect( $ingredient->getCrossConversion(['weight', 'volume'])->is($weightVolume) )->toBeTrue();
+    expect( $ingredient->getCrossConversion(['volume', 'weight'])->is($weightVolume) )->toBeTrue();
+    expect( $ingredient->getCrossConversion(['weight', 'each'])->is($eachWeight) )->toBeTrue();
+    expect( $ingredient->getCrossConversion(['each', 'weight'])->is($eachWeight) )->toBeTrue();
+    expect( $ingredient->getCrossConversion(['volume', 'each'])->is($eachVolume) )->toBeTrue();
+    expect( $ingredient->getCrossConversion(['each', 'volume'])->is($eachVolume) )->toBeTrue();
+    expect( $ingredient->getCrossConversion(['each', 'each'])->is($eachEach) )->toBeTrue();
+
+});
+
+
+it('knows that it has the requested conversion', function () {
+
+    $this->seed(EachMeasurementSeeder::class);
+    $ingredient = Ingredient::factory()->create();
+
+    $each = new stdClass;
+    $each->value = 'each';
+    $bunch = new stdClass;
+    $bunch->value = 'bunch';
+    $eachWeight = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => UsWeight::lb
+    ]);
+    $eachVolume = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::floz
+    ]);
+    $eachEach = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => $bunch
+    ]);
+    $weightVolume = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => UsWeight::oz,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::floz
+    ]);
+    $ingredient->refresh();
+
+    expect( $ingredient->canCrossConvert(['weight', 'volume']) )->toBeTrue();
+    expect( $ingredient->canCrossConvert(['volume', 'weight']) )->toBeTrue();
+    expect( $ingredient->canCrossConvert(['weight', 'each']) )->toBeTrue();
+    expect( $ingredient->canCrossConvert(['each', 'weight']) )->toBeTrue();
+    expect( $ingredient->canCrossConvert(['volume', 'each']) )->toBeTrue();
+    expect( $ingredient->canCrossConvert(['each', 'volume']) )->toBeTrue();
+    expect( $ingredient->canCrossConvert(['each', 'each']) )->toBeTrue();
 
 });

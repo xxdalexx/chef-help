@@ -113,8 +113,12 @@ class Ingredient extends BaseModel implements CostableIngredient
 
     public function canCrossConvert(array $neededConversion): bool
     {
-        // refactor: foreach through crossconversions.
-        return $this->crossConversions->first()?->canConvert($neededConversion) ?? false;
+        foreach ($this->crossConversions as $crossConversion) {
+            if ($crossConversion->canConvert($neededConversion)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public function costingUnit(): MeasurementEnum
@@ -132,9 +136,17 @@ class Ingredient extends BaseModel implements CostableIngredient
         return $this->asPurchased->getBaseUnit();
     }
 
-    public function getCrossConversion(): CrossConversion
+    public function getCrossConversion(array $neededConversion): CrossConversion
     {
-        return $this->crossConversions->first();
+        if (! $this->canCrossConvert($neededConversion) ) {
+            throw new \Exception('getCrossConversion called without checking.');
+        }
+        foreach ($this->crossConversions as $crossConversion) {
+            if ($crossConversion->canConvert($neededConversion)) {
+                return $crossConversion;
+            }
+        }
+        return new CrossConversion(); // refactor: use a null return instead of exception.
     }
 
     public function cleanedYieldDecimal(): BigDecimal

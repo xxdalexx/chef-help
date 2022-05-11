@@ -138,6 +138,13 @@ class RecipeItem extends BaseModel
         return ['none', 'none']; // Garbage that won't match anything.
     }
 
+    public function getCrossConversion(): CrossConversion
+    {
+        return $this->ingredient->getCrossConversion(
+            $this->crossConversionTypeNeeded()
+        );
+    }
+
     public function canCalculateCost(): bool
     {
         if ($this->ingredient_type == Ingredient::class) {

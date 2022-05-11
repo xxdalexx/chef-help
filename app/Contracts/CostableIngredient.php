@@ -17,7 +17,7 @@ interface CostableIngredient
 
     public function getCostingBaseUnit(): MeasurementEnum;
 
-    public function getCrossConversion(): CrossConversion;
+    public function getCrossConversion(array $neededConversion): CrossConversion;
 
     public function cleanedYieldDecimal(): BigDecimal;
 
