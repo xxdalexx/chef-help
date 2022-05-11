@@ -6,6 +6,7 @@ use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
 use App\Models\CrossConversion;
+use App\Models\EachMeasurement;
 use App\Models\Ingredient;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
@@ -202,4 +203,49 @@ it('calculates cost with CrossConversion using OtherMeasurement in AsPurchased',
 
     expect($recipe->getCostAsString())->toBe('$2.00');
 
+});
+
+
+it('calculates cost with CrossConversion with two each types representing different units', function () {
+
+    // Set up an asPurchased by 'bunch', used by 'sprig',
+    // using a conversion of 1 bunch = 20 sprigs.
+    $this->seed(EachMeasurementSeeder::class);
+    $bunchMeasurement = new stdClass();
+    $bunchMeasurement->value = 'bunch';
+    $sprigMeasurement = new stdClass();
+    $sprigMeasurement->value = 'sprig';
+    $ingredient = Ingredient::factory()->create();
+    AsPurchased::factory()->for($ingredient)->create([
+        'quantity' => 1,
+        'unit' => 'bunch',
+        'price' => '10.00'
+    ]);
+    $crossConversion = CrossConversion::factory()->for($ingredient)->create([
+        'quantity_two' => 1,
+        'unit_two' => $bunchMeasurement,
+        'quantity_one' => 20,
+        'unit_one' => $sprigMeasurement
+    ]);
+    $crossConversion->refresh();
+    $recipeItem = RecipeItem::factory()->for($ingredient)->create([
+        'quantity' => 1,
+        'unit' => $sprigMeasurement,
+        'cleaned' => false,
+        'cooked' => false,
+    ]);
+    $recipeItem->refresh();
+
+
+    expect( $recipeItem->crossConversionNeeded() )->toBeTrue();
+    expect( $recipeItem->canCalculateCost() )->toBeTrue();
+    expect( $recipeItem->crossConversionTypeNeeded() )->toBe(['each', 'each']);
+    expect( $crossConversion->conversionType() )->toBe(['each', 'each']);
+    expect( $crossConversion->canConvert( $recipeItem->crossConversionTypeNeeded() ))->toBeTrue();
+    expect( $crossConversion->canConvertEachToEach() )->toBeTrue();
+    expect( $crossConversion->canConvertEachToEach('sprig', 'bunch') )->toBeTrue();
+    expect( $crossConversion->canConvertEachToEach('bunch', 'sprig') )->toBeTrue();
+    expect( $crossConversion->getEachMeasurementUnitQuantityByName('bunch')->isEqualTo(1) )->toBeTrue();
+    expect( $crossConversion->getEachMeasurementUnitQuantityByName('sprig')->isEqualTo(20) )->toBeTrue();
+    expect( $recipeItem->getCostAsString() )->toBe( '$0.50' );
 });

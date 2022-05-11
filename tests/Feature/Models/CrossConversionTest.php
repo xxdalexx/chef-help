@@ -21,29 +21,6 @@ test('relationships and casts', function () {
 });
 
 
-it('knows that one item is weight and another is volume', function () {
-
-    $conversion = CrossConversion::factory()->create([
-        'quantity_one' => 128,
-        'unit_one' => MetricWeight::gram,
-        'quantity_two' => 1,
-        'unit_two' => UsVolume::cup
-    ]);
-
-    expect( $conversion->canConvertTypes() )->toBeTrue();
-
-    $conversionTwo = CrossConversion::factory()->create([
-        'quantity_one' => 128,
-        'unit_one' => MetricWeight::gram,
-        'quantity_two' => 1,
-        'unit_two' => UsWeight::oz
-    ]);
-
-    expect( $conversionTwo->canConvertTypes() )->toBeFalse();
-
-});
-
-
 it('knows if one of the units is other', function () {
 
     $this->seed(\Database\Seeders\EachMeasurementSeeder::class);
@@ -76,7 +53,7 @@ it('knows if one of the units is other', function () {
 });
 
 
-it('knows conversion factors', function () {
+it('knows conversion factors for weight and volume', function () {
 
     $conversion = CrossConversion::factory()->create([
         'quantity_one' => 128,
@@ -87,5 +64,55 @@ it('knows conversion factors', function () {
 
     expect( (float) (string) $conversion->weightToVolumeFactor() )->toBe(.0625);
     expect( (integer) (string) $conversion->volumeToWeightFactor() )->toBe(16);
+
+});
+
+
+it('knows its conversion type', function () {
+
+    $conversion = CrossConversion::factory()->create([
+        'quantity_one' => 128,
+        'unit_one' => MetricWeight::gram,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::cup
+    ]);
+    $conversionTwo = CrossConversion::factory()->create([
+        'quantity_two' => 128,
+        'unit_two' => MetricWeight::gram,
+        'quantity_one' => 1,
+        'unit_one' => UsVolume::cup
+    ]);
+
+    expect( $conversion->conversionType() )->toBe(['weight', 'volume']);
+    expect( $conversionTwo->conversionType() )->toBe(['volume', 'weight']);
+
+});
+
+
+it('knows that it can convert a type', function () {
+
+    $conversion = CrossConversion::factory()->create([
+        'quantity_one' => 128,
+        'unit_one' => MetricWeight::gram,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::cup
+    ]);
+
+    expect( $conversion->canConvert(['weight', 'volume']) )->toBeTrue();
+    expect( $conversion->canConvert(['volume', 'weight']) )->toBeTrue();
+
+});
+
+it('knows it can not convert a type', function () {
+
+    $conversion = CrossConversion::factory()->create([
+        'quantity_one' => 128,
+        'unit_one' => MetricWeight::gram,
+        'quantity_two' => 1,
+        'unit_two' => UsVolume::cup
+    ]);
+
+    expect( $conversion->canConvert(['each', 'volume']) )->toBeFalse();
+    expect( $conversion->canConvert(['each', 'weight']) )->toBeFalse();
 
 });

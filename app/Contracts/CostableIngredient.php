@@ -9,7 +9,7 @@ use Brick\Money\Money;
 
 interface CostableIngredient
 {
-    public function canConvertVolumeAndWeight(): bool;
+    public function canCrossConvert(array $neededConversion): bool;
 
     public function costingUnit(): MeasurementEnum;
 

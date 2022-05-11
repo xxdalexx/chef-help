@@ -211,7 +211,7 @@ class Recipe extends BaseModel implements CostableIngredient
     |--------------------------------------------------------------------------
     */
 
-    public function canConvertVolumeAndWeight(): bool
+    public function canCrossConvert(array $neededConversion): bool
     {
         return true;
     }

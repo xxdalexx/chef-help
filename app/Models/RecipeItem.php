@@ -116,7 +116,26 @@ class RecipeItem extends BaseModel
 
     public function crossConversionNeeded(): bool
     {
-        return $this->unit->getType() != $this->ingredient->costingUnit()->getType();
+        $recipeItemUnit = $this->unit;
+        $ingredientUnit = $this->ingredient->costingUnit();
+        // When they are both EachMeasurement Models, check if the value is the same.
+        if ( $recipeItemUnit instanceof EachMeasurement && $ingredientUnit instanceof EachMeasurement) {
+            return $recipeItemUnit->name != $ingredientUnit->name;
+        }
+
+        // Regular check
+        return $recipeItemUnit->getType() != $ingredientUnit->getType();
+    }
+
+    public function crossConversionTypeNeeded(): array
+    {
+        if ( $this->crossConversionNeeded() ) {
+            return [
+                $this->ingredient->costingUnit()->getType(),
+                $this->unit->getType()
+            ];
+        }
+        return ['none', 'none']; // Garbage that won't match anything.
     }
 
     public function canCalculateCost(): bool
@@ -126,13 +145,13 @@ class RecipeItem extends BaseModel
             if (!$this->ingredient->asPurchased) return false;
         }
 
-        if ($this->ingredient_type == Recipe::class) {
-            // Recipe Checks
-        }
+//        if ($this->ingredient_type == Recipe::class) {
+//            // Recipe Checks
+//        }
 
-        // Weight/Volume Check
+        // Unit Types Matching check
         if ($this->crossConversionNeeded()) {
-            return $this->ingredient->canConvertVolumeAndWeight();
+            return $this->ingredient->canCrossConvert( $this->crossConversionTypeNeeded() );
         }
 
         return true;

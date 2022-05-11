@@ -9,6 +9,7 @@ use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Arr;
 
 class CrossConversion extends BaseModel
 {
@@ -50,11 +51,21 @@ class CrossConversion extends BaseModel
     |--------------------------------------------------------------------------
     */
 
-    public function canConvertTypes(): bool
+    public function conversionType(): array
     {
-        // Check for if the user put in two volumes or two weights.
-        return $this->unit_one->getType() != $this->unit_two->getType();
+        return [$this->unit_one->getType(), $this->unit_two->getType()];
     }
+
+    public function canConvert(array $check): bool
+    {
+        return array_values(Arr::sort($this->conversionType())) == array_values(Arr::sort($check));
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Weight Volume Conversions
+    |--------------------------------------------------------------------------
+    */
 
     public function getFactorFor(string $type): BigDecimal
     {
@@ -88,6 +99,12 @@ class CrossConversion extends BaseModel
         return $this->unit_two->getBaseUnit();
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | EachMeasurement to Weight or Volume Conversions
+    |--------------------------------------------------------------------------
+    */
+
     public function containsEach(): bool
     {
         return
@@ -120,6 +137,39 @@ class CrossConversion extends BaseModel
             return $this->quantity_one;
         }
         return $this->quantity_two;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | EachMeasurement to EachMeasurement conversions
+    |--------------------------------------------------------------------------
+    */
+
+    public function canConvertEachToEach(string $firstUnitName = null, string $secondUnitName = null): bool
+    {
+        if (is_null($firstUnitName) && is_null($secondUnitName)) {
+            return $this->unit_one instanceof EachMeasurement && $this->unit_two instanceof EachMeasurement;
+        }
+
+        if ($this->unit_one->name == $firstUnitName && $this->unit_two->name == $secondUnitName) {
+            return true;
+        }
+
+        if ($this->unit_two->name == $firstUnitName && $this->unit_one->name == $secondUnitName) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getEachMeasurementUnitQuantityByName(string $name): BigDecimal
+    {
+        if ($this->unit_one->name == $name) {
+            return $this->quantity_one;
+        } elseif ($this->unit_two->name == $name) {
+            return $this->quantity_two;
+        }
+        throw new \Exception('Neither unit matches name.');
     }
 
 }

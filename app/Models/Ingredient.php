@@ -111,10 +111,10 @@ class Ingredient extends BaseModel implements CostableIngredient
     |--------------------------------------------------------------------------
     */
 
-    public function canConvertVolumeAndWeight(): bool
+    public function canCrossConvert(array $neededConversion): bool
     {
-        return $this->crossConversions->isNotEmpty() &&
-            $this->crossConversions->first()->canConvertTypes();
+        // refactor: foreach through crossconversions.
+        return $this->crossConversions->first()?->canConvert($neededConversion) ?? false;
     }
 
     public function costingUnit(): MeasurementEnum

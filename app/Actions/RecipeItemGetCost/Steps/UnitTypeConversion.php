@@ -7,6 +7,7 @@ use App\Measurements\MetricVolume;
 use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
+use App\Models\EachMeasurement;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Closure;
@@ -17,6 +18,11 @@ class UnitTypeConversion
     {
         $recipeItem = $data->recipeItem;
         if (!$recipeItem->crossConversionNeeded()) return $next($data);
+
+        // Early out conversion when both units are an EachMeasurement Model with different names.
+        if ($recipeItem->crossConversionTypeNeeded() == [EachMeasurement::class, EachMeasurement::class]) {
+            return $this->bothEachButDifferentValues($data);
+        }
 
         // SYSTEMS ARE THE SAME, FIRST IF STATEMENT SKIPPED/EVALUATES FALSE
         // Paper Math, with a conversion of 128 grams = 1 cup, this is where we would convert
@@ -52,7 +58,7 @@ class UnitTypeConversion
         }
 
         //Third Scenario Hits Here
-        if ($recipeItem->unit->getType() == 'each' && $conversion->containsEach()) {
+        if ($recipeItem->unit->getType() == 'each' && $conversion->containsEach()) { // I think the containsEach is redundant now, need more tests to verify.
             //$10/lb -> ?/oz -> $10/lb -> $10/10each
             //$costPerBaseUnit = $1
             $data->workingCost = $data->workingCost->multipliedBy($conversion->getNotEachUnit()->conversionFactor())
@@ -71,6 +77,22 @@ class UnitTypeConversion
         $data->currentUnit = $conversion->baseUnitOf($convertingToUnitType);
 
         return $next($data);
+    }
+
+    protected function bothEachButDifferentValues(RecipeItemGetCostStruct $data): Money
+    {
+        $recipeItem = $data->recipeItem; // use 1 sprig
+        $crossConversion = $recipeItem->ingredient->getCrossConversion(); // 1 bunch = 20 sprig
+        $cost = $recipeItem->ingredient->getCostPerCostingBaseUnit(); // $10.00
+        $unitName = $recipeItem->ingredient->getCostingBaseUnit()->name; // bunch
+
+        return $cost->multipliedBy(
+            $crossConversion->getEachMeasurementUnitQuantityByName( $unitName ) , 5
+        )->dividedBy(
+            $crossConversion->getEachMeasurementUnitQuantityByName( $recipeItem->unit->name ) , 5
+        )->multipliedBy(
+            $recipeItem->quantity
+        );
     }
 
 }
