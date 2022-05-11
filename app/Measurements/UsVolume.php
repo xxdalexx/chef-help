@@ -8,6 +8,8 @@ use Brick\Math\RoundingMode;
 
 enum UsVolume: string implements MeasurementEnum
 {
+    use IsSameAs;
+
     case tsp = 'tsp';
     case tbsp = 'tbsp';
     case floz = 'floz';

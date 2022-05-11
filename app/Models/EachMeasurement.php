@@ -41,6 +41,15 @@ class EachMeasurement extends BaseModel implements MeasurementEnum
         return 'other';
     }
 
+    public function isSameAs(MeasurementEnum $check): bool
+    {
+        if ($check instanceof BaseModel) {
+            return $this->is($check);
+        }
+        return false;
+    }
+
+
     /*
     |--------------------------------------------------------------------------
     | Accessors

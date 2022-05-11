@@ -1,19 +1,15 @@
 <?php
 
-use App\Actions\RecipeItemGetCost\Steps\BothUseEachTypeAsUnit;
+use App\Actions\RecipeItemGetCost\Steps\BothUnitsAreTheSame;
 use App\Measurements\MeasurementEnum;
-use App\Measurements\MetricVolume;
-use App\Measurements\MetricWeight;
 use App\Measurements\UsVolume;
 use App\Measurements\UsWeight;
 use App\Models\AsPurchased;
-use App\Models\CrossConversion;
 use App\Models\Ingredient;
-use App\Models\EachMeasurement;
 use App\Models\Recipe;
 use App\Models\RecipeItem;
-use Database\Seeders\LobsterDishSeeder;
 use Database\Seeders\EachMeasurementSeeder;
+use Database\Seeders\LobsterDishSeeder;
 use Database\Seeders\RandomRecipeSeeder;
 use function Spatie\PestPluginTestTime\testTime;
 
@@ -190,7 +186,7 @@ it('can have a recipe as an ingredient', function () {
 });
 
 
-test('action returns early when both units are each', function () {
+test('action returns early when both units are the same testing with EachMeasurement Model', function () {
 
     $this->seed(EachMeasurementSeeder::class);
     $eachMeasurement = new stdClass();
@@ -212,7 +208,37 @@ test('action returns early when both units are each', function () {
     $recipeItem->refresh();
     $action = new App\Actions\RecipeItemGetCost\RecipeItemGetCostAction($recipeItem);
     $action->setSteps([
-        BothUseEachTypeAsUnit::class
+        BothUnitsAreTheSame::class
+    ]);
+
+    expect(
+        moneyToString( $recipeItem->getCost($action) )
+    )->toBe('$11.98');
+
+});
+
+
+test('action returns early when both units are the same testing Measurement Enum', function () {
+
+    $this->seed(EachMeasurementSeeder::class);
+    $recipe = Recipe::factory()->create();
+    $ingredient = Ingredient::factory()->has(
+        AsPurchased::factory([
+            'quantity' => 1,
+            'unit' => 'oz',
+            'price' => '5.99'
+        ])
+    )->create();
+    $recipeItem = RecipeItem::factory()->for($recipe)->for($ingredient)->create([
+        'quantity' => 2,
+        'unit' => UsWeight::oz,
+        'cooked' => false,
+        'cleaned' => false
+    ]);
+    $recipeItem->refresh();
+    $action = new App\Actions\RecipeItemGetCost\RecipeItemGetCostAction($recipeItem);
+    $action->setSteps([
+        BothUnitsAreTheSame::class
     ]);
 
     expect(

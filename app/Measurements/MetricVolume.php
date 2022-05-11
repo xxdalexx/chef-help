@@ -6,6 +6,8 @@ use Brick\Math\BigDecimal;
 
 enum MetricVolume: string implements MeasurementEnum
 {
+    use IsSameAs;
+
     case liter = 'liter';
     case ml = 'ml';
 

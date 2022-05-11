@@ -6,6 +6,8 @@ use Brick\Math\BigDecimal;
 
 enum MetricWeight: string implements MeasurementEnum
 {
+    use IsSameAs;
+
     case gram = 'gram';
     case kg = 'kg';
 

@@ -18,4 +18,6 @@ interface MeasurementEnum
     public function getType(): string;
 
     public function getSystem(): string;
+
+    public function isSameAs(MeasurementEnum $check): bool;
 }

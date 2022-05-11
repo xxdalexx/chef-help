@@ -6,6 +6,8 @@ use Brick\Math\BigDecimal;
 
 enum UsWeight: string implements MeasurementEnum
 {
+    use IsSameAs;
+
     case oz = 'oz';
     case lb = 'lb';
     case ton = 'ton';
@@ -47,4 +49,5 @@ enum UsWeight: string implements MeasurementEnum
     {
         return 'us';
     }
+
 }

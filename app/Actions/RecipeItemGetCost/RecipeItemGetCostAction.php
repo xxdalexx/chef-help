@@ -2,7 +2,7 @@
 
 namespace App\Actions\RecipeItemGetCost;
 
-use App\Actions\RecipeItemGetCost\Steps\BothUseEachTypeAsUnit;
+use App\Actions\RecipeItemGetCost\Steps\BothUnitsAreTheSame;
 use App\Actions\RecipeItemGetCost\Steps\UnitTypeConversion;
 use App\Actions\RecipeItemGetCost\Steps\UnitSystemConversion;
 use App\Actions\RecipeItemGetCost\Steps\CalculateCookedAndCleaned;
@@ -17,7 +17,7 @@ class RecipeItemGetCostAction
 {
     protected array $steps = [
         UsingRecipeAsIngredientAndRecipeItemUnitIsPortion::class, // Early Return
-        BothUseEachTypeAsUnit::class, // Early Return
+        BothUnitsAreTheSame::class, // Early Return
         UnitTypeConversion::class,
         UnitSystemConversion::class,
         ConvertToRecipeItemUnitAndQuantity::class,
