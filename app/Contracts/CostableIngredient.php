@@ -9,7 +9,7 @@ use Brick\Money\Money;
 
 interface CostableIngredient
 {
-    public function canCrossConvert(array $neededConversion): bool;
+    public function canCrossConvert(array $neededConversion, array $eachToEachValues = null): bool;
 
     public function costingUnit(): MeasurementEnum;
 
@@ -17,7 +17,7 @@ interface CostableIngredient
 
     public function getCostingBaseUnit(): MeasurementEnum;
 
-    public function getCrossConversion(array $neededConversion): CrossConversion;
+    public function getCrossConversion(array $neededConversion, array $eachToEachValues = null): CrossConversion;
 
     public function cleanedYieldDecimal(): BigDecimal;
 

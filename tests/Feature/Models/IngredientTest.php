@@ -121,6 +121,39 @@ it('returns the requested crossconversion record', function () {
 });
 
 
+it('returns the correct each to each conversion', function () {
+
+    $this->seed(EachMeasurementSeeder::class);
+    $ingredient = Ingredient::factory()->create();
+
+    $each = new stdClass;
+    $each->value = 'each';
+    $bunch = new stdClass;
+    $bunch->value = 'bunch';
+    $case = new stdClass;
+    $case->value = 'case';
+    $eachCase = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => $case
+    ]);
+    $eachBunch = CrossConversion::factory()->create([
+        'ingredient_id' => $ingredient->id,
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' =>$bunch
+    ]);
+    $ingredient->refresh();
+
+    // Making sure the first one doesn't falsely get selected and the second one does.
+    expect( $ingredient->getCrossConversion(['each', 'each'], ['each', 'bunch'])->is($eachBunch) )->toBeTrue();
+
+});
+
+
 it('knows that it has the requested conversion', function () {
 
     $this->seed(EachMeasurementSeeder::class);

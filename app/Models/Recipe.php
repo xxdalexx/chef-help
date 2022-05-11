@@ -211,7 +211,7 @@ class Recipe extends BaseModel implements CostableIngredient
     |--------------------------------------------------------------------------
     */
 
-    public function canCrossConvert(array $neededConversion): bool
+    public function canCrossConvert(array $neededConversion, array $eachToEachValues = null): bool
     {
         return true;
     }
@@ -231,7 +231,7 @@ class Recipe extends BaseModel implements CostableIngredient
         return UsWeight::oz;
     }
 
-    public function getCrossConversion(array $neededConversion): CrossConversion
+    public function getCrossConversion(array $neededConversion, array $eachToEachValues = null): CrossConversion
     {
         return CrossConversion::make([
             'quantity_one' => 1,

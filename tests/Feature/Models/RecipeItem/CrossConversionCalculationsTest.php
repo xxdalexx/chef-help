@@ -233,8 +233,7 @@ it('calculates cost with CrossConversion with two each types representing differ
         'unit' => $sprigMeasurement,
         'cleaned' => false,
         'cooked' => false,
-    ]);
-    $recipeItem->refresh();
+    ])->refresh();
 
 
     expect( $recipeItem->crossConversionNeeded() )->toBeTrue();
@@ -248,4 +247,38 @@ it('calculates cost with CrossConversion with two each types representing differ
     expect( $crossConversion->getEachMeasurementUnitQuantityByName('bunch')->isEqualTo(1) )->toBeTrue();
     expect( $crossConversion->getEachMeasurementUnitQuantityByName('sprig')->isEqualTo(20) )->toBeTrue();
     expect( $recipeItem->getCostAsString() )->toBe( '$0.50' );
+});
+
+
+it('knows it can not calculate cost when only the wrong each to each CrossMeasurement exists', function () {
+
+    // Set up an asPurchased by 'bunch', used by 'sprig',
+    // using a conversion of 1 bunch = 20 sprigs.
+    $this->seed(EachMeasurementSeeder::class);
+    $bunchMeasurement        = new stdClass();
+    $bunchMeasurement->value = 'bunch';
+    $sprigMeasurement        = new stdClass();
+    $sprigMeasurement->value = 'sprig';
+    $ingredient              = Ingredient::factory()->create();
+    AsPurchased::factory()->for($ingredient)->create([
+        'quantity' => 1,
+        'unit'     => 'case',
+        'price'    => '10.00'
+    ]);
+    $crossConversion = CrossConversion::factory()->for($ingredient)->create([
+        'quantity_two' => 1,
+        'unit_two'     => $bunchMeasurement,
+        'quantity_one' => 20,
+        'unit_one'     => $sprigMeasurement
+    ]);
+    $crossConversion->refresh();
+    $recipeItem = RecipeItem::factory()->for($ingredient)->create([
+        'quantity' => 1,
+        'unit'     => $sprigMeasurement,
+        'cleaned'  => false,
+        'cooked'   => false,
+    ])->refresh();
+
+    expect( $recipeItem->canCalculateCost() )->toBeFalse();
+
 });

@@ -35,8 +35,7 @@ it('knows if one of the units is other', function () {
         'unit_one' => $each,
         'quantity_two' => 1,
         'unit_two' => UsWeight::lb
-    ]);
-    $conversion->refresh();
+    ])->refresh();
 
     expect($conversion->containsEach())->toBeTrue();
 
@@ -114,6 +113,7 @@ it('knows that it can convert a type', function () {
 
 });
 
+
 it('knows it can not convert a type', function () {
 
     $conversion = CrossConversion::factory()->create([
@@ -125,5 +125,31 @@ it('knows it can not convert a type', function () {
 
     expect( $conversion->canConvert(['each', 'volume']) )->toBeFalse();
     expect( $conversion->canConvert(['each', 'weight']) )->toBeFalse();
+
+});
+
+
+it('knows that measurement values must match for each to each conversions.', function () {
+
+    $this->seed(EachMeasurementSeeder::class);
+
+    $each = new stdClass;
+    $each->value = 'each';
+    $bunch = new stdClass;
+    $bunch->value = 'bunch';
+
+    //set one is other
+    $conversion = CrossConversion::factory()->create([
+        'quantity_one' => 10,
+        'unit_one' => $each,
+        'quantity_two' => 1,
+        'unit_two' => $bunch
+    ])->refresh();
+
+    expect( $conversion->canConvertEachToEach() )->toBeTrue(); // still needed without parameters?
+    expect( $conversion->canConvertEachToEach('each', 'bunch') )->toBeTrue();
+    expect( $conversion->canConvertEachToEach('bunch', 'each') )->toBeTrue();
+    expect( $conversion->canConvertEachToEach('other', 'each') )->toBeFalse();
+    expect( $conversion->canConvertEachToEach('other', 'bunch') )->toBeFalse();
 
 });

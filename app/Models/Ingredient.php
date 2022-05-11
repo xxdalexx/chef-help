@@ -111,11 +111,21 @@ class Ingredient extends BaseModel implements CostableIngredient
     |--------------------------------------------------------------------------
     */
 
-    public function canCrossConvert(array $neededConversion): bool
+    public function canCrossConvert(array $neededConversion, array $eachToEachValues = null): bool
     {
         foreach ($this->crossConversions as $crossConversion) {
-            if ($crossConversion->canConvert($neededConversion)) {
-                return true;
+            if ($eachToEachValues) {
+
+                if ($crossConversion->canConvertEachToEach(...$eachToEachValues)) {
+                    return true;
+                }
+
+            } else {
+
+                if ($crossConversion->canConvert($neededConversion)) {
+                    return true;
+                }
+
             }
         }
         return false;
@@ -136,16 +146,29 @@ class Ingredient extends BaseModel implements CostableIngredient
         return $this->asPurchased->getBaseUnit();
     }
 
-    public function getCrossConversion(array $neededConversion): CrossConversion
+    public function getCrossConversion(array $neededConversion, array $eachToEachValues = null): CrossConversion
     {
-        if (! $this->canCrossConvert($neededConversion) ) {
+        if (! $this->canCrossConvert($neededConversion, $eachToEachValues) ) {
             throw new \Exception('getCrossConversion called without checking.');
         }
+
         foreach ($this->crossConversions as $crossConversion) {
-            if ($crossConversion->canConvert($neededConversion)) {
-                return $crossConversion;
+            if ($eachToEachValues) {
+
+                if ($crossConversion->canConvertEachToEach(...$eachToEachValues)) {
+                    return $crossConversion;
+                }
+
+            } else {
+
+                if ($crossConversion->canConvert($neededConversion)) {
+                    return $crossConversion;
+                }
+
             }
+
         }
+
         return new CrossConversion(); // refactor: use a null return instead of exception.
     }
 

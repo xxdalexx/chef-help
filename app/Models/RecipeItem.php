@@ -114,12 +114,20 @@ class RecipeItem extends BaseModel
     |--------------------------------------------------------------------------
     */
 
+    protected function neededCrossConversionIsEachToEach(): bool
+    {
+        $recipeItemUnit = $this->unit;
+        $ingredientUnit = $this->ingredient->costingUnit();
+        // When they are both EachMeasurement Models, check if the value is the same.
+        return $recipeItemUnit instanceof EachMeasurement && $ingredientUnit instanceof EachMeasurement;
+    }
+
     public function crossConversionNeeded(): bool
     {
         $recipeItemUnit = $this->unit;
         $ingredientUnit = $this->ingredient->costingUnit();
         // When they are both EachMeasurement Models, check if the value is the same.
-        if ( $recipeItemUnit instanceof EachMeasurement && $ingredientUnit instanceof EachMeasurement) {
+        if ( $this->neededCrossConversionIsEachToEach() ) {
             return $recipeItemUnit->name != $ingredientUnit->name;
         }
 
@@ -158,7 +166,15 @@ class RecipeItem extends BaseModel
 
         // Unit Types Matching check
         if ($this->crossConversionNeeded()) {
-            return $this->ingredient->canCrossConvert( $this->crossConversionTypeNeeded() );
+            $eachToEach = null;
+            if ( $this->neededCrossConversionIsEachToEach() ) {
+                $eachToEach = [$this->unit->name, $this->ingredient->costingUnit()->name];
+            }
+
+            return $this->ingredient->canCrossConvert(
+                $this->crossConversionTypeNeeded(),
+                $eachToEach
+            );
         }
 
         return true;
